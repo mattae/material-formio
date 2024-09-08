@@ -1,0 +1,9 @@
+.editor-enabled {
+    padding: 0;
+}
+.editor-enabled .ck.ck-editor {
+    @apply w-full
+}
+.editor-enabled .mat-mdc-form-field-flex {
+    padding: 0 !important;
+}

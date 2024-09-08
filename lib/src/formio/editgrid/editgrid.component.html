@@ -1,0 +1,77 @@
+@if (component) {
+    <mat-formio-form-field [component]="component" [componentTemplate]="componentTemplate"
+                           [labelTemplate]="labelTemplate">
+    </mat-formio-form-field>
+    <ng-template #componentTemplate let-hasLabel>
+        @if (hasLabel) {
+            <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+        }
+        <mat-card appearance="outlined">
+            <mat-card-content>
+                @if (!instance.builderMode) {
+                    <mat-accordion>
+                        @if (header) {
+                            <mat-expansion-panel disabled="true">
+                                <mat-expansion-panel-header>
+                                    <span #header class="w-full header"></span>
+                                </mat-expansion-panel-header>
+                            </mat-expansion-panel>
+                        }
+                        @for (row of instance.editRows; track trackedBy(row); let i = $index) {
+                            <mat-expansion-panel [expanded]="instance.isOpen(row)">
+                                <mat-expansion-panel-header (click)="editRow(row, i)">
+                                    @if (row.state !== RowStates.NEW) {
+                                        <span #rows class="w-full row1"></span>
+                                    }
+                                </mat-expansion-panel-header>
+                                <formio [form]="instance.component" #forms (change)="validate(i)"
+                                        (formLoad)="formLoaded(row, i)"></formio>
+                                <mat-action-row>
+                                    <div class="flex gap-1 justify-end">
+                                        <button mat-raised-button color="primary" [disabled]="!valid"
+                                                (click)="saveRow(row, i)">{{ instance.t(component.saveRow || 'Save', {_userInput: true}) }}
+                                        </button>
+                                        <button mat-button color="accent"
+                                                (click)="cancelRow(i)">{{ 'CORE.BUTTONS.CANCEL' | transloco }}
+                                        </button>
+                                        <button
+                                                class="w-8 h-8 min-h-8 text-error"
+                                                mat-icon-button
+                                                (click)="removeRow(i)"
+                                                matTooltip="{{'CORE.BUTTONS.DELETE' | transloco}}">
+                                            <mat-icon
+                                                    class="icon-size-5"
+                                                    [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </mat-action-row>
+                            </mat-expansion-panel>
+                        }
+                        @if (footer) {
+                            <mat-expansion-panel disabled="true">
+                                <mat-expansion-panel-header>
+                                    <span #footer></span>
+                                </mat-expansion-panel-header>
+                            </mat-expansion-panel>
+                        }
+                    </mat-accordion>
+
+                    @if (instance.hasAddButton()) {
+                        <mat-card-actions>
+                            <button mat-raised-button color="primary" (click)="addAnother()">
+                                <mat-icon svgIcon="heroicons_outline:plus-circle"></mat-icon>
+                                {{ instance.t(component.addAnother || 'Add Another', {_userInput: true}) }}
+                            </button>
+                        </mat-card-actions>
+                    }
+                } @else {
+                    <div #components></div>
+                }
+            </mat-card-content>
+        </mat-card>
+    </ng-template>
+
+    <ng-template #labelTemplate>
+        <label class="mat-label" [component]="component" matFormioLabel [standalone]="true"></label>
+    </ng-template>
+}

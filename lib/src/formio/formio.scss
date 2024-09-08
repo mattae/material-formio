@@ -1,0 +1,248 @@
+@use '@angular/material' as mat;
+
+.vertical-tab .mat-tab-group {
+    flex-direction: row;
+
+    .mat-tab-header {
+        border-bottom: none;
+    }
+
+    .mat-tab-header-pagination {
+        display: none !important;
+    }
+
+    .mat-tab-labels {
+        flex-direction: column;
+    }
+
+    .mat-ink-bar {
+        height: 100%;
+        left: 98% !important;
+    }
+
+    .mat-tab-body-wrapper {
+        flex: 1 1 auto;
+    }
+}
+
+.sr-only {
+    @apply hidden;
+}
+
+.formio-form {
+    @apply bg-card p-4 border-0;
+}
+
+a {
+    @apply text-primary;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.formio-component-content {
+    @apply pb-4 mx-auto;
+}
+
+.formio-component-htmlelement {
+    word-wrap: break-word;
+}
+
+.mat-fio-label {
+    left: 0 !important;
+    width: 100% !important;
+    transform: none !important;
+    pointer-events: auto;
+    font-weight: 400;
+    @apply pb-2 text-default !important;
+}
+
+.formio-error-wrapper {
+    color: var(--sys-error);
+    background-color: transparent !important;
+    border-color: #f5c6cb;
+}
+
+.formio-error-wrapper, .formio-warning-wrapper {
+    @apply p-0 !important;
+}
+
+.formio-loader {
+    border-top: 6px solid var(--mdc-circular-progress-active-indicator-color) !important;
+}
+
+.formio-action-button {
+    @include mat.icon-button-density(-5);
+}
+
+.formio-dialog-content {
+    border-radius: var(--mdc-dialog-container-shape, 4px) !important;
+    background-color: var(--mdc-dialog-container-color, white) !important;
+}
+
+.formio-dialog {
+    z-index: 950 !important;
+}
+
+.alert-danger {
+    @apply text-error;
+}
+
+.table {
+    @apply w-full mb-4 bg-transparent;
+
+    th,
+    td {
+        @apply p-3 text-left border-t-2 border-solid border-gray-300;
+
+        &.align-middle {
+            vertical-align: middle;
+        }
+
+        &.align-bottom {
+            vertical-align: bottom;
+        }
+    }
+
+    thead th {
+        @apply border-b-2 border-solid border-gray-300;
+        border-style: solid;
+    }
+
+    tbody + tbody {
+        @apply border-t-2 border-solid border-gray-300;
+        border-style: solid;
+    }
+}
+
+.table-cell-header {
+    &__label {
+        @apply flex;
+        > span:first-child {
+            @apply flex-1;
+        }
+    }
+
+    &__filter {
+        @apply mt-1;
+    }
+}
+
+.table-sm {
+    th,
+    td {
+        @apply p-1.5;
+    }
+}
+
+
+/* Border versions - Add or remove borders all around the table and between all the columns. */
+
+
+.table-bordered {
+    @apply border border-solid border-gray-300;
+
+    th,
+    td {
+        @apply border border-solid border-gray-300;
+    }
+
+    thead {
+        th,
+        td {
+            @apply border;
+        }
+    }
+}
+
+.table-borderless {
+    th,
+    td,
+    thead th,
+    tbody + tbody {
+        @apply border-0;
+    }
+}
+
+/* Zebra-striping - Default zebra-stripe styles (alternating gray and transparent backgrounds) */
+
+.table-striped {
+    tbody tr:nth-of-type(odd) {
+        @apply bg-tertiary-container text-on-tertiary-container;
+    }
+}
+
+/* Hover effect - Placed here since it has to come after the potential zebra striping */
+
+.table-hover {
+    tbody tr {
+        @apply hover:text-gray-900 hover:bg-gray-200;
+    }
+}
+
+.table-group {
+    @apply border-2 border-gray-300;
+    .table {
+        @apply border-t-0 mb-0;
+        thead th {
+            @apply border-t-0;
+        }
+    }
+
+    .pagination-group {
+        @apply border-t-2 border-gray-300 p-3;
+    }
+}
+
+mat-formio-form-field label, .mat-fio-label {
+    left: 0 !important;
+    width: 100% !important;
+    pointer-events: auto;
+    font-weight: 500;
+    transform: translateY(-20%);
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: text;
+    overflow: hidden;
+    font-family: var(--mdc-filled-text-field-label-text-font);
+    font-size: var(--mdc-filled-text-field-label-text-size);
+    letter-spacing: var(--mdc-filled-text-field-label-text-tracking);
+    color: var(--mdc-filled-text-field-label-text-color);
+    display: var(--mat-form-field-filled-label-display, block);
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    line-height: normal;
+    will-change: auto;
+    right: auto;
+    transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.label-hidden label {
+    @apply hidden;
+}
+
+.formio-pdf {
+    @include mat.all-component-densities(-5);
+
+    input {
+        font-size: 22px !important;
+        line-height: 25px !important;
+        font-weight: 500 !important;
+    }
+}
+
+.pdf-component {
+    @apply border-2 border-primary bg-tertiary-container text-on-tertiary-container justify-center text-xl flex flex-row items-center;
+}
+
+.resize-handle {
+    @apply bg-tertiary;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    bottom: 0;
+    right: 0;
+    cursor: se-resize;
+}

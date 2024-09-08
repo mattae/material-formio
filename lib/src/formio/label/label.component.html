@@ -1,0 +1,18 @@
+@if (label) {
+    <span [ngClass]="styleClass">
+        <span [innerHTML]="label | transloco"></span>
+        @if (required) {
+            <span class="required-star">*</span>
+        }
+        @if (component?.tooltip || tooltip) {
+            <mat-icon svgIcon="mat_outline:info"
+                      [mtxTooltip]="tooltipTpl" matSuffix
+            >
+        </mat-icon>
+        }
+    </span>
+}
+
+<ng-template #tooltipTpl>
+    <div [innerHTML]=" (component.tooltip || tooltip) | transloco"></div>
+</ng-template>

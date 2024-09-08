@@ -1,0 +1,26 @@
+@if (component) {
+    <button
+        [ngClass]="buttonClass"
+        type="{{ component.action }}"
+        mat-raised-button [color]="color"
+        [disabled]="disabled"
+        (click)="onClick($event)"
+    >
+        @if (component.leftIcon) {
+            <mat-icon [svgIcon]="component.leftIcon"></mat-icon>
+        }
+        @if (done) {
+            <mat-icon svgIcon="mat_outline:done_all"></mat-icon>
+        }
+        @if (error) {
+            <mat-icon svgIcon="mat_outline:error_outline"></mat-icon>
+        }
+        @if (loading) {
+            <mat-icon class="mat-icon-spin" svgIcon="heroicons_outline:arrow-path"></mat-icon>
+        }
+        <div [innerHTML]="resultMessage || component.label | transloco"></div>
+        @if (component.rightIcon) {
+            <mat-icon [svgIcon]="component.rightIcon"></mat-icon>
+        }
+    </button>
+}
