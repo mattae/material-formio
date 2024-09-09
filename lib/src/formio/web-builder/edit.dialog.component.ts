@@ -138,8 +138,7 @@ export class MaterialComponentEditComponent {
     isNew: boolean;
     isJsonEdit: boolean;
     original: any;
-    flags: {}
-    previousChange: any;
+    flags: {};
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: {
         instance: any,
@@ -159,7 +158,8 @@ export class MaterialComponentEditComponent {
         this.flags = data.flags;
 
         this.instance.dialog = {
-            close: ()=>{}
+            close: () => {
+            }
         }
 
         this.instance.updateComponent = this.updateComponent.bind(this);
@@ -378,12 +378,6 @@ export class MaterialComponentEditComponent {
         this.instance.hook('editFormWrapper');
 
         this.instance.editForm.on('change', (event) => {
-            if (event.data && event.data.type) {
-                this.previousChange = event.data;
-            }
-            if (event.data && !event.data.type && this.previousChange) {
-                event.data = this.previousChange;
-            }
             if (event.changed) {
                 if (event.changed.component && event.changed.component.key === 'showFullSchema') {
                     const {value} = event.changed;
@@ -426,7 +420,7 @@ export class MaterialComponentEditComponent {
                             formComponents = formComponents.filter(comp => editFormOptions.editComponent.id !== comp.id);
 
                             // Set a unique key for this component.
-                            BuilderUtils['default'].uniquify(formComponents, event.data);
+                            BuilderUtils.uniquify(formComponents, event.data);
                         }
                     }
                 }
