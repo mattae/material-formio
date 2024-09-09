@@ -347,7 +347,6 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
             }
 
             attach(element: HTMLElement) {
-                console.log('Attach datetime', element, element.querySelectorAll(customComponentOptions.selector))
                 let superAttach = super.attach(element);
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
@@ -415,7 +414,6 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
             }
 
             attach(element: HTMLElement) {
-                console.log('Attach radio', element, element.querySelectorAll(customComponentOptions.selector))
                 let superAttach = super.attach(element);
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
