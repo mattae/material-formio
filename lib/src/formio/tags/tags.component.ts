@@ -80,11 +80,10 @@ export class MaterialTagsComponent extends MaterialComponent {
     }
 
     setValue(value: any) {
-        if (this.component.storeas === 'string') {
-            this.tags = []
+        this.tags = []
+        if (this.component.storeas === 'string' && value) {
             this.tags = value.split(this.component.delimiter || ',')
         } else if (this.component.storeas !== 'string' && Array.isArray(value)) {
-            this.tags = []
             this.tags.push(...value)
         }
     }
