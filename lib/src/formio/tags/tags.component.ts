@@ -14,7 +14,8 @@ import { MaterialComponent } from '../material.component';
     template: `
         <mat-formio-form-field [component]="component" [componentTemplate]="componentTemplate"></mat-formio-form-field>
         <ng-template #componentTemplate let-hasLabel>
-            <mat-form-field class="example-chip-list w-full h-full">
+            <mat-form-field class="example-chip-list w-full h-full"
+                            [subscriptSizing]="'dynamic'">
 
                 @if (hasLabel) {
                     <mat-label>
@@ -25,9 +26,9 @@ import { MaterialComponent } from '../material.component';
                 <mat-chip-grid #chipList [attr.aria-label]="component.label | transloco">
                     @for (tag of tags; track tag; let i = $index) {
                         <mat-chip-option
-                            [selectable]="true"
-                            [removable]="!control.disabled"
-                            (removed)="remove(i)"
+                                [selectable]="true"
+                                [removable]="!control.disabled"
+                                (removed)="remove(i)"
                         >
                             {{ tag | transloco }}
                             <mat-icon matChipRemove svgIcon="heroicons_outline:backspace"></mat-icon>
@@ -38,9 +39,18 @@ import { MaterialComponent } from '../material.component';
                            [matChipInputFor]="chipList"
                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                            [matChipInputAddOnBlur]="true"
+                           [placeholder]="component.placeholder"
                            (matChipInputTokenEnd)="add($event)"
                     >
                 </mat-chip-grid>
+                @if (component.maxTags || component.description) {
+                    <mat-hint>
+                        <span [innerHTML]="getHint() | transloco"></span>
+                    </mat-hint>
+                }
+                @if (isError()) {
+                    <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                }
             </mat-form-field>
         </ng-template>
     `,
@@ -63,13 +73,16 @@ export class MaterialTagsComponent extends MaterialComponent {
     add(event: MatChipInputEvent): void {
         const input = event.chipInput.inputElement;
         const value = event.value;
-        if ((value || '').trim()) {
-            this.tags.push(value.trim());
+        if (this.component.maxTags && this.component.maxTags > this.tags.length) {
+            if ((value || '').trim()) {
+                this.tags.push(value.trim());
+                this.control.setValue(this.tags);
+            }
+            this.onChange();
         }
         if (input) {
             input.value = '';
         }
-        this.onChange();
     }
 
     remove(index: number): void {
@@ -90,5 +103,21 @@ export class MaterialTagsComponent extends MaterialComponent {
 
     getValue(): any | string {
         return (this.component.storeas === 'string') ? this.tags.join(this.component.delimiter || ',') : this.tags;
+    }
+
+    getHint() {
+        if (!this.control.value && !this.component.description) {
+            return '';
+        }
+
+        const {maxTags} = this.component;
+        if (this.component.description) {
+            return this.translocoService.translate(this.component.description)
+        }
+        if (maxTags) {
+            return `Maximum of ${this.component.maxTags} entries permitted`;
+        }
+
+        return '';
     }
 }
