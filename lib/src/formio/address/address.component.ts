@@ -61,7 +61,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
                 </button>
                 @if ( component.description) {
                     <mat-hint>
-                        <div [outerHTML]="component.description | transloco"></div>
+                        <span [innerHTML]="component.description | transloco"></span>
                     </mat-hint>
                 }
                 @if (isError()) {

@@ -55,13 +55,13 @@ import { MaterialComponent } from "../material.component";
                                 </tr>
                             }
                             @if (component.description) {
-                                <mat-hint class="mat-formio-component-description">
-                                    {{ component.description | transloco }}
+                                <mat-hint>
+                                    <span [innerHTML]="component.description | transloco"></span>
                                 </mat-hint>
                             }
                         </tbody>
                         @if (isError()) {
-                            <mat-error>{{ instance.error.message | transloco }}</mat-error>
+                            <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
                         }
                     </table>
                 </div>

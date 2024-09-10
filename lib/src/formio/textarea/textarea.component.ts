@@ -43,12 +43,17 @@ Components.components.textarea.prototype.render = function (...args) {
                               (input)="onChange()"
                               #textarea
                     >
-                </textarea>
+                    </textarea>
                     @if (component.suffix) {
                         <span matSuffix>{{ component.suffix | transloco }}</span>
                     }
+                    @if ( component.description) {
+                        <mat-hint>
+                            <span [innerHTML]="component.description | transloco"></span>
+                        </mat-hint>
+                    }
                     @if (isError()) {
-                        <mat-error>{{ instance.error.message | transloco }}</mat-error>
+                        <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
                     }
                 </mat-form-field>
             </ng-template>

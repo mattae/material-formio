@@ -59,11 +59,11 @@ export const DATETIME_TEMPLATE = `
                     <mtx-datetimepicker-toggle [for]="datetimePicker" matSuffix></mtx-datetimepicker-toggle>
                     @if (component.description) {
                         <mat-hint>
-                            <div [outerHTML]="component.description | transloco"></div>
+                            <span [innerHTML]="component.description | transloco"></span>
                         </mat-hint>
                     }
                     @if (isError()) {
-                        <mat-error>{{ instance.error.message | transloco }}</mat-error>
+                        <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
                     }
                 </mat-form-field>
             </ng-template>

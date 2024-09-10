@@ -35,10 +35,10 @@ import _ from 'lodash';
                         }
                     </mat-checkbox>
                     <mat-hint>
-                        <p [innerHtml]="component.description | transloco"></p>
+                        <span [innerHtml]="component.description | transloco"></span>
                     </mat-hint>
                     @if (isError()) {
-                        <mat-error>{{ instance.error.message | transloco }}</mat-error>
+                        <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
                     }
                 </div>
             }

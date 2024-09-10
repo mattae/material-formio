@@ -56,7 +56,7 @@ export const TEXTFIELD_TEMPLATE = `
                 }
                 @if (component.showWordCount || component.showCharCount || component.description) {
                     <mat-hint>
-                        <div [outerHTML]="getHint() | transloco"></div>
+                        <span [innerHTML]="getHint() | transloco"></span>
                     </mat-hint>
                 }
                 @if (isError()) {
