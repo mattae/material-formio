@@ -48,7 +48,7 @@ const Webform = _Webform['default'] || _Webform;
     ],
     template: `
         @if (instance) {
-            <div mat-dialog-title class="flex flex-row pt-2 border-b border-primary">
+            <div mat-dialog-title class="flex flex-row p-4 border-b border-primary">
                 <div class="w-1/2">
                     <h2 class="lead">{{ instance.t(componentInfo?.title, {_userInput: true}) }}
                         {{ instance.t('Component') }}</h2>
@@ -72,7 +72,7 @@ const Webform = _Webform['default'] || _Webform;
                     }
                 </div>
             </div>
-            <mat-dialog-content class="flex flex-row mat-typography">
+            <mat-dialog-content class="flex flex-row mat-typography shadow-md">
                 <div [ngClass]="{
                     'w-1/2': instance.preview,
                     'w-full': !instance.preview,
@@ -104,7 +104,7 @@ const Webform = _Webform['default'] || _Webform;
                                 <div class="pt-2">
                                     <div #preview></div>
                                 </div>
-                                <mat-card-actions>
+                                <mat-card-actions class="gap-x-1">
                                     <button mat-raised-button class="bg-green text-on-green"
                                             (click)="save()">{{ instance.t('Save') }}
                                     </button>
@@ -120,8 +120,8 @@ const Webform = _Webform['default'] || _Webform;
                     </div>
                 }
             </mat-dialog-content>
-            <mat-dialog-actions align="end">
-                <button mat-button mat-dialog-close>Cancel</button>
+            <mat-dialog-actions align="end" class="border-t border-primary">
+                <button mat-raised-button mat-dialog-close>Cancel</button>
             </mat-dialog-actions>
         }
     `
