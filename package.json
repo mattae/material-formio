@@ -1,5 +1,5 @@
 {
-    "name": "@mattae/formio",
+    "name": "@mattae/material-formio",
     "version": "1.0.0",
     "scripts": {
         "ng": "ng",
