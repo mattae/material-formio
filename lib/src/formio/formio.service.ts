@@ -832,7 +832,7 @@ const registerMaterialComponents = (injector: Injector) => {
     registerCustomFormioComponent(DATAMAP_OPTIONS, MaterialDatamapComponent, injector)
     registerCustomFormioComponent(EDITGRID_OPTIONS, MaterialEditGridComponent, injector)
     registerCustomFormioComponent(FIELDSET_OPTIONS, MaterialFieldsetComponent, injector)
-    registerCustomFormioComponent(FILE_OPTIONS, MaterialFileComponent, injector)
+    //registerCustomFormioComponent(FILE_OPTIONS, MaterialFileComponent, injector)
     registerCustomFormioComponent(HTML_OPTIONS, MaterialHtmlComponent, injector)
     //registerCustomFormioComponent(MULTIVALUE_OPTIONS, MaterialMultiValueComponent, injector)
     //registerCustomFormioComponent(WIZARD_OPTIONS, MaterialWizardComponent, injector);

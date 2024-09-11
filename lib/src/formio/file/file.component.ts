@@ -17,9 +17,9 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import BaseComponent from 'formiojs/components/_classes/component/Component';
 import BMF from 'browser-md5-file';
 
-Components.components.file.prototype.render = function (element) {
+/*Components.components.file.prototype.render = function (element) {
     return BaseComponent.prototype.render.call(this, element);
-}
+}*/
 
 
 //handleFilesToUpload
