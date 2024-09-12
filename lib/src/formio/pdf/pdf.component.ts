@@ -255,8 +255,8 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
                     let width = 0;
                     let height = 0;
                     if (pageParams) {
-                        style += `top: ${top}px;`;
-                        style += `left: ${left}px;`;
+                        style += `top: ${top - 6}px;`;
+                        style += `left: ${left - 4}px;`;
 
                         if (overlay.width && ('string' == typeof overlay.width && overlay.width.endsWith('%') && (overlay.width = Number(overlay.width.replace('%', '')) / 100))) {
                             width = parseInt(overlay.width, 10)

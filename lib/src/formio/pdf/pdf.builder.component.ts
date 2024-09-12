@@ -10,10 +10,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import _ from 'lodash';
 import { Utils } from 'formiojs';
 import autoScroll from 'dom-autoscroller';
-import BuilderUtils = Utils.BuilderUtils;
 import { uniquify } from '../web-builder/web-builder.component';
-
-console.log('Utils', Utils, BuilderUtils);
 
 @Component({
     selector: 'mat-formio-pdf-builder',
@@ -125,8 +122,6 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
 
     initialize() {
         super.initialize();
-
-        this.instance.emit('change', this.instance.form);
 
         if (this.container()) {
             this.container()!.nativeElement.formioContainer = this.instance.webform.component.components || []
@@ -244,8 +239,8 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
                     if (pageParams) {
                         let width: number;
                         let height: number;
-                        style += ` top: ${overlay.top}px;`;
-                        style += ` left: ${overlay.left}px;`;
+                        style += ` top: ${overlay.top - 5}px;`;
+                        style += ` left: ${overlay.left - 3}px;`;
                         if (overlay.width && ('string' == typeof overlay.width && overlay.width.endsWith('%') && (overlay.width = Number(overlay.width.replace('%', '')) / 100))) {
                             width = parseInt(overlay.width, 10);
                         } else {
@@ -278,6 +273,8 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
                 }
             }
         });
+
+        this.instance.emit('updateComponent', {});
     }
 
     updateComponent(component: any) {
@@ -336,8 +333,8 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
                 const pageParams = this.pages.find(p => p.page == this.page);
 
                 component.overlay = Object.assign({}, component.overlay, {
-                    left: dropPage!.left * this.containerZoom,
-                    top: dropPage!.top * this.containerZoom + pageParams!.marginTop,
+                    left: (dropPage!.left * this.containerZoom) + 2,
+                    top: (dropPage!.top * this.containerZoom + pageParams!.marginTop) + 6,
                     page: this.page
                 });
 
