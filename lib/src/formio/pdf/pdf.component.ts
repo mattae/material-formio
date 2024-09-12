@@ -5,14 +5,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MaterialWebBuilderComponent } from '../web-builder/web-builder.component';
 import { HttpClient } from '@angular/common/http';
 import { MatCard, MatCardActions, MatCardContent } from '@angular/material/card';
-import _BaseComponent from 'formiojs/components/_classes/component/Component';
-import _PDF from 'formiojs/PDF';
+import { Components, Displays } from 'formiojs';
 
-const BaseComponent = _BaseComponent['default'] || _BaseComponent;
-const PDF = _PDF['default'] || _PDF;
-
-PDF.prototype.attach = function (element) {
-    return BaseComponent.prototype.attach.call(this, element);
+Displays.getDisplay('pdf').prototype.attach = function (element) {
+    return Components.components.base.prototype.attach.call(this, element);
 }
 
 @Component({

@@ -12,12 +12,9 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import { Components } from 'formiojs';
 import _ from 'lodash';
-import _BaseComponent from 'formiojs/components/_classes/component/Component';
-
-const BaseComponent = _BaseComponent['default'] || _BaseComponent;
 
 Components.components.editgrid.prototype.render = function (...args) {
-    return BaseComponent.prototype.render.call(this, ...args);
+    return Components.components.base.prototype.render.call(this, ...args);
 }
 
 enum EditRowState {

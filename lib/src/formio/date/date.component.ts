@@ -20,12 +20,7 @@ import { provideLuxonDatetimeAdapter } from '@ng-matero/extensions-luxon-adapter
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import _ from 'lodash';
-import { FormioUtils } from '@formio/angular';
-import _CalendarWidget from 'formiojs/widgets/CalendarWidget';
-
-const CalendarWidget = _CalendarWidget['default'] || _CalendarWidget;
-
-CalendarWidget.prototype.initFlatpickr = function (arg) {}
+import { Utils } from 'formiojs';
 
 export const DATETIME_TEMPLATE = `
     @if (component) {
@@ -145,7 +140,7 @@ export class MaterialDateComponent extends MaterialComponent {
         this.timeInterval = _.get(this.component, 'timePicker.minuteStep', 5);
 
         if (!this.instance.defaultValue && this.component.defaultDate) {
-            let defaultValue = FormioUtils.getDateSetting(this.component.defaultDate);
+            let defaultValue = Utils.getDateSetting(this.component.defaultDate);
             if (defaultValue) {
                 this.control.setValue(DateTime.fromJSDate(defaultValue));
             }
@@ -184,12 +179,12 @@ export class MaterialDateComponent extends MaterialComponent {
 
     get maxDate() {
         const maxDate = _.get(this.component, 'datePicker.maxDate');
-        return maxDate ? DateTime.fromJSDate(FormioUtils.getDateSetting(maxDate)!) : null
+        return maxDate ? DateTime.fromJSDate(Utils.getDateSetting(maxDate)!) : null
     }
 
     get minDate() {
         const minDate = _.get(this.component, 'datePicker.minDate');
-        return minDate ? DateTime.fromJSDate(FormioUtils.getDateSetting(minDate)!) : null
+        return minDate ? DateTime.fromJSDate(Utils.getDateSetting(minDate)!) : null
     }
 
     get enableDate() {

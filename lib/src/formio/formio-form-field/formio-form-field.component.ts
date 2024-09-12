@@ -39,7 +39,7 @@ export class FormioFormFieldComponent {
     constructor() {
         effect(() => {
             if (this.container()) {
-                const td = this.container().nativeElement.closest('td');
+                const td = this.container()!.nativeElement.closest('td');
                 this.hideLabel = !!(td && td.classList.contains('label-hidden'));
 
                 this.componentTemplateContext = {$implicit: this.hasLabel()};

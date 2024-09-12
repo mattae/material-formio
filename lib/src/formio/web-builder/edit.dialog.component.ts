@@ -9,9 +9,7 @@ import {
     viewChild
 } from '@angular/core';
 import _ from 'lodash';
-import { Components, Utils } from 'formiojs';
-import _BuilderUtils from 'formiojs/utils/builder';
-import _Webform from 'formiojs/Webform';
+import { Components, Displays, Utils, Widgets } from 'formiojs';
 import { MatIcon } from '@angular/material/icon';
 import { NgClass } from '@angular/common';
 import { MatButton } from '@angular/material/button';
@@ -25,9 +23,9 @@ import {
     MatDialogTitle
 } from '@angular/material/dialog';
 import getComponent = Utils.getComponent;
+import { uniquify } from './web-builder.component';
 
-const BuilderUtils = _BuilderUtils['default'] || _BuilderUtils;
-const Webform = _Webform['default'] || _Webform;
+const Webform = Displays.getDisplay('webform');
 
 @Component({
     selector: 'mat-formio-component-edit',
@@ -420,7 +418,7 @@ export class MaterialComponentEditComponent {
                             formComponents = formComponents.filter(comp => editFormOptions.editComponent.id !== comp.id);
 
                             // Set a unique key for this component.
-                            BuilderUtils.uniquify(formComponents, event.data);
+                            uniquify(formComponents, event.data);
                         }
                     }
                 }

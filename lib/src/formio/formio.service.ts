@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { Components, Templates } from 'formiojs';
+import { Components, Templates, Utils } from 'formiojs';
 import { FormioCustomComponentInfo, FormioCustomTag } from './elements.common';
 import { registerCustomComponent, registerCustomFormioComponent } from './register-custom-component';
 import { MaterialCheckboxComponent } from './checkbox/checkbox.component';
@@ -44,15 +44,12 @@ import { MaterialWizardBuilderComponent } from './wizard/wizard.builder.componen
 import iconClass from './module/icons/iconClass';
 import EventBus from 'js-event-bus';
 import { MaterialHtmlComponent } from './html/html.component';
-import { FormioUtils } from '@formio/angular';
-import _BaseEditForm from 'formiojs/components/_classes/component/Component.form';
 import _ from 'lodash';
 import EditFormUtils = Components.EditFormUtils;
-
-const BaseEditForm = _BaseEditForm['default'] || _BaseEditForm;
+import baseEditForm = Components.baseEditForm;
 
 const editForm = function(...extend) {
-    const components = BaseEditForm().components.map(cmp => {
+    const components = baseEditForm().components.map(cmp => {
         if (cmp.type === 'tabs') {
             cmp.components = cmp.components.map(c => {
                 if (c.key === 'logic') {
@@ -97,7 +94,7 @@ Templates.current.iconClass = iconClass;
 
 export const eventBus = new EventBus();
 
-FormioUtils.sanitize = (function (dirty, options) {
+Utils.sanitize = (function (dirty, options) {
     return dirty;
 })
 

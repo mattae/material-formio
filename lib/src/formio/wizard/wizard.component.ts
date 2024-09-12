@@ -3,15 +3,16 @@ import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MaterialComponent } from '../material.component';
 import { AsyncPipe, NgStyle } from '@angular/common';
-import Wizard from 'formiojs/Wizard';
-import BaseComponent from 'formiojs/components/_classes/component/Component';
+import { Components, Displays } from 'formiojs';
+
+const Wizard = Displays.getDisplay('wizard');
 
 Wizard.prototype.render = function (...args) {
-    return BaseComponent.prototype.render.call(this, ...args);
+    return Components.components.base.prototype.render.call(this, args);
 }
 
 Wizard.prototype.attach = function (...args) {
-    return BaseComponent.prototype.attach.call(this, ...args);
+    return Components.components.base.prototype.attach.call(this, args);
 }
 
 @Component({

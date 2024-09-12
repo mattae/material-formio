@@ -7,11 +7,10 @@ import { LabelComponent } from '../label/label.component';
 import { TranslocoModule } from '@jsverse/transloco'
 import { MaterialTextfieldComponent, TEXTFIELD_TEMPLATE } from '../textfield/textfield.component';
 import { MatIconModule } from '@angular/material/icon';
-import _NumberComponent from 'formiojs/components/number/Number';
-import { NgClass } from "@angular/common";
+import { NgClass } from '@angular/common';
+import { Components } from 'formiojs';
 
-const NumberComponent = _NumberComponent['default'] || _NumberComponent;
-NumberComponent.prototype.focus = function () {}
+Components.components.number.prototype.focus = function () {}
 
 @Component({
     selector: 'mat-formio-number',

@@ -8,12 +8,9 @@ import { MaterialComponent } from '../material.component';
 import { Components, Utils } from 'formiojs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import getLocaleDateFormatInfo = Utils.getLocaleDateFormatInfo;
-import _BaseComponent from 'formiojs/components/_classes/component/Component';
-
-const BaseComponent = _BaseComponent['default'] || _BaseComponent;
 
 Components.components.day.prototype.render = function (...args) {
-    return BaseComponent.prototype.render.call(this, ...args);
+    return Components.components.base.prototype.render.call(this, ...args);
 }
 
 @Component({

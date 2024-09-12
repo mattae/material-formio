@@ -12,6 +12,45 @@ import autoScroll from 'dom-autoscroller';
 import _ from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { MaterialComponentEditComponent } from './edit.dialog.component';
+import { Utils } from 'formiojs';
+import eachComponent = Utils.eachComponent;
+import uniqueKey = Utils.uniqueKey;
+
+export const uniquify = (container, component) => {
+    let changed = false;
+    const formKeys = {};
+    eachComponent(container, (comp) => {
+        formKeys[comp.key] = true;
+
+        if (['address', 'container', 'datagrid', 'editgrid', 'dynamicWizard', 'tree'].includes(comp.type) || comp.tree || comp.arrayTree) {
+            return true;
+        }
+        return false;
+    }, true);
+
+    // Recurse into all child components.
+    eachComponent([component], (component): boolean => {
+        // Skip key uniquification if this component doesn't have a key.
+        if (!component.key) {
+            return true;
+        }
+
+        const newKey = uniqueKey(formKeys, component.key);
+        if (newKey !== component.key) {
+            component.key = newKey;
+            changed = true;
+        }
+
+        formKeys[newKey] = true;
+
+        if (['address', 'container', 'datagrid', 'editgrid', 'dynamicWizard', 'tree'].includes(component.type) || component.tree || component.arrayTree) {
+            return true;
+        }
+        return false;
+    }, true);
+
+    return changed;
+}
 
 @Component({
     selector: 'mat-formio-web-builder',
@@ -94,12 +133,12 @@ export class MaterialWebBuilderComponent extends MaterialComponent {
     sidebarContainer = viewChildren('sidebarContainer', {read: ElementRef});
     form = viewChild('form', {read: ElementRef});
     search = viewChild('search', {read: ElementRef});
-    #dialog = inject(MatDialog);
     iconClass = IconClass;
     groupOrders = [];
     componentOrders: any = {};
     _groupOrders = [];
     _componentOrders: any = {};
+    #dialog = inject(MatDialog);
 
     constructor() {
         super();

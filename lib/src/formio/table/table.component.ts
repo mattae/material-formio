@@ -15,14 +15,11 @@ import {
     MatTable
 } from '@angular/material/table';
 import { LabelComponent } from '../label/label.component';
-import { Components } from "formiojs";
+import { Components } from 'formiojs';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
-import _BaseComponent from 'formiojs/components/_classes/component/Component';
-
-const BaseComponent = _BaseComponent['default'] || _BaseComponent;
 
 Components.components.table.prototype.render = function (...args) {
-    return BaseComponent.prototype.render.call(this, ...args);
+    return Components.components.base.prototype.render.call(this, ...args);
 }
 
 @Component({

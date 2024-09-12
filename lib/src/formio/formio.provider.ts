@@ -2,7 +2,7 @@ import { ENVIRONMENT_INITIALIZER, EnvironmentProviders, inject, Provider } from 
 import { FormioService } from './formio.service';
 import { CustomTagsService } from '@formio/angular';
 
-export const provideFormio = (): Array<Provider | EnvironmentProviders> => {
+export const provideMaterialFormio = (): Array<Provider | EnvironmentProviders> => {
     return [
         {
             provide: FormioService,

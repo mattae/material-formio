@@ -9,10 +9,11 @@ import { MatInput } from '@angular/material/input';
 import { TranslocoPipe } from '@jsverse/transloco';
 import _ from 'lodash';
 import { Utils } from 'formiojs';
-import _BuilderUtils from 'formiojs/utils/builder';
 import autoScroll from 'dom-autoscroller';
+import BuilderUtils = Utils.BuilderUtils;
+import { uniquify } from '../web-builder/web-builder.component';
 
-const BuilderUtils = _BuilderUtils['default'] || _BuilderUtils;
+console.log('Utils', Utils, BuilderUtils);
 
 @Component({
     selector: 'mat-formio-pdf-builder',
@@ -189,7 +190,7 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
                 _.merge(schema, info);
 
                 // Set a unique key for this component.
-                BuilderUtils.uniquify([this.instance.webform._form], schema);
+                uniquify([this.instance.webform._form], schema);
                 this.instance.webform._form.components.push(schema);
                 const WIDTH = 100;
 

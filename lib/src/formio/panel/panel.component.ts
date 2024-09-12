@@ -4,12 +4,9 @@ import { MatCardModule } from '@angular/material/card';
 import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import { Components } from 'formiojs';
-import _BaseComponent from 'formiojs/components/_classes/component/Component';
-
-const BaseComponent = _BaseComponent['default'] || _BaseComponent;
 
 Components.components.panel.prototype.render = function (...args) {
-    return BaseComponent.prototype.render.call(this, ...args);
+    return Components.components.base.prototype.render.call(this, ...args);
 }
 
 @Component({

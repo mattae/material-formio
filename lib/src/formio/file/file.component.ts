@@ -14,7 +14,6 @@ import { MatIcon } from '@angular/material/icon';
 import { CovalentCommonModule } from '@covalent/core/common';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatProgressBar } from '@angular/material/progress-bar';
-import BaseComponent from 'formiojs/components/_classes/component/Component';
 import BMF from 'browser-md5-file';
 
 /*Components.components.file.prototype.render = function (element) {
@@ -247,7 +246,7 @@ export class MaterialFileComponent extends MaterialComponent {
     initialize() {
         const instance = this.instance ;
         if (this.videoPlayer()) {
-            instance.refs['videoPlayer'] = this.videoPlayer().nativeElement;
+            instance.refs['videoPlayer'] = this.videoPlayer()!.nativeElement;
         }
 
         console.log('Instance', instance, this.dropzone(), this.videoPlayer());
@@ -281,23 +280,20 @@ export class MaterialFileComponent extends MaterialComponent {
 
     dragover(event) {
         event.preventDefault();
-        console.log('Dragover');
-        this.dropzone().nativeElement.className = 'fileSelector fileDragOver';
+        this.dropzone()!.nativeElement.className = 'fileSelector fileDragOver';
 
         this.cdr.markForCheck();
     }
 
     dragleave() {
-        console.log('Dragleave');
-        this.dropzone().nativeElement.className = 'fileSelector';
+        this.dropzone()!.nativeElement.className = 'fileSelector';
 
         this.cdr.markForCheck();
     }
 
     drop(event: any) {
         event.preventDefault();
-        console.log('Drop', event, event.dataTransfer.files);
-        this.dropzone().nativeElement.className = 'fileSelector';
+        this.dropzone()!.nativeElement.className = 'fileSelector';
 
         this.instance.handleFilesToUpload(event.dataTransfer.files)
 
@@ -353,9 +349,10 @@ export class MaterialFileComponent extends MaterialComponent {
         if (this.instance.root.options.fileProcessor) {
             try {
                 if (this.fileProcessingLoader()) {
-                    this.fileProcessingLoader().nativeElement.style.display = 'block';
+                    this.fileProcessingLoader()!.nativeElement.style.display = 'block';
                 }
                 const fileProcessorHandler = this.fileProcessor(this.instance.fileService, this.instance.root.options.fileProcessor);
+                // @ts-ignore
                 processedFile = await fileProcessorHandler(file, this.component.properties);
             }
             catch (err) {
@@ -367,7 +364,7 @@ export class MaterialFileComponent extends MaterialComponent {
             }
             finally {
                 if (this.fileProcessingLoader()) {
-                    this.fileProcessingLoader().nativeElement.style.display = 'none';
+                    this.fileProcessingLoader()!.nativeElement.style.display = 'none';
                 }
             }
         }

@@ -1,25 +1,17 @@
 // @ts-nocheck
-import { BuilderInfo, Builders, Components, ExtendedComponentSchema } from 'formiojs';
+import { BuilderInfo, Builders, Components, Displays, ExtendedComponentSchema } from 'formiojs';
 import { FormioCustomComponentInfo, FormioCustomElement, FormioEvent } from './elements.common';
 import { eventBus } from "./formio.service";
 import _, { clone, isArray, isNil } from 'lodash';
-import _Wizard from 'formiojs/Wizard';
-import _PDF from 'formiojs/PDF';
-import _PDFBuilder from 'formiojs/PDFBuilder';
-import _WizardBuilder from 'formiojs/WizardBuilder';
-import _WebformBuilder from 'formiojs/WebformBuilder';
-import _Displays from 'formiojs/displays/Displays';
-import _Component from 'formiojs/components/_classes/component/Component';
 
 const InputComponent = Components.components.input;
 const TextfieldComponent = Components.components.textfield;
-const WizardComponent = _Wizard['default'] || _Wizard;
-const PDF = _PDF['default'] || _PDF;
-const PDFBuilder = _PDFBuilder['default'] || _PDFBuilder;
-const WizardBuilder = _WizardBuilder['default'] || _WizardBuilder;
-const WebformBuilder = _WebformBuilder['default'] || _WebformBuilder;
-const Displays = _Displays['default'] || _Displays;
-const Component = _Component['default'] || _Component;
+
+const PDF = Displays.getDisplay('pdf');
+const WizardComponent = Displays.getDisplay('wizard');
+const PDFBuilder = Builders.getBuilder('pdf');
+const WebformBuilder = Builders.getBuilder('webform');
+const WizardBuilder = Builders.getBuilder('wizard');
 
 export function createCustomFormioComponent(customComponentOptions: FormioCustomComponentInfo) {
     if (!customComponentOptions.baseType || customComponentOptions.baseType === 'input') {
@@ -319,6 +311,13 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     if (customComponentOptions.baseType === 'datetime') {
         return class MatDatetimeComponent extends Components.components.datetime {
 
+            get inputInfo() {
+                return {
+                    id: this.key,
+                    ...this.elementInfo()
+                };
+            }
+
             elementInfo() {
                 const info = super.elementInfo();
                 info.type = customComponentOptions.selector;
@@ -328,13 +327,6 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                     class: info.attr.class.replace('form-control', 'form-control-custom-field') // remove the form-control class as the custom angular component may look different
                 };
                 return info;
-            }
-
-            get inputInfo() {
-                return {
-                    id: this.key,
-                    ...this.elementInfo()
-                };
             }
 
             renderElement(value: any, index: number) {
@@ -474,7 +466,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
             render(): any {
                 const info = this.inputInfo;
-                return Component.prototype.render.call(this,
+                return Components.components.base.prototype.render.call(this,
                     `
                        <div>
                             ${this.renderTemplate(customComponentOptions.template || 'input', {input: info})}
@@ -592,6 +584,13 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'tags') {
         return class MatTagsComponent extends Components.components.tags {
+            get inputInfo() {
+                return {
+                    id: this.key,
+                    ...this.elementInfo()
+                };
+            }
+
             elementInfo() {
                 const info = super.elementInfo();
                 info.type = customComponentOptions.selector;
@@ -601,13 +600,6 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                     class: info.attr.class.replace('form-control', 'form-control-custom-field') // remove the form-control class as the custom angular component may look different
                 };
                 return info;
-            }
-
-            get inputInfo() {
-                return {
-                    id: this.key,
-                    ...this.elementInfo()
-                };
             }
 
             attachElement(element, index) {
@@ -1170,10 +1162,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                     `
                        <div>
                             ${this.renderTemplate(customComponentOptions.template || 'input', {
-                                input: info
-                            }
-                            )
+                            input: info
                         }
+                    )
+                    }
                        </div>
                     `
                 );
@@ -2444,7 +2436,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
             render(): any {
                 const info = this.inputInfo;
-                return Component.prototype.render.call(this,
+                return Components.components.base.prototype.render.call(this,
                     `
                        <div>
                             ${this.renderTemplate(customComponentOptions.template || 'input', {input: info})}

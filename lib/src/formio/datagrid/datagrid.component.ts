@@ -11,9 +11,6 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import { Components } from 'formiojs';
 import { MatError } from '@angular/material/form-field';
-import _BaseComponent from 'formiojs/components/_classes/component/Component';
-
-const BaseComponent = _BaseComponent['default'] || _BaseComponent;
 
 const dataGridRender = Components.components.datagrid.prototype.render;
 Components.components.datamap.prototype.render = function (...args) {
@@ -21,7 +18,7 @@ Components.components.datamap.prototype.render = function (...args) {
 }
 
 Components.components.datagrid.prototype.render = function (...args) {
-    return BaseComponent.prototype.render.call(this, ...args);
+    return Components.components.base.prototype.render.call(this, ...args);
 }
 
 Components.components.datagrid.prototype['getRowValues'] = function () {

@@ -15,11 +15,7 @@ import { FormioEvent } from './elements.common';
 import { eventBus } from './formio.service';
 import _, { get } from 'lodash';
 import { FormioControl } from './FormioControl';
-import _BaseComponent from 'formiojs/components/_classes/component/Component';
-import _Validator from 'formiojs/validator/Validator.js';
-
-const BaseComponent = _BaseComponent['default'] || _BaseComponent;
-const Validator = _Validator['default'] || _Validator;
+import { Components } from 'formiojs';
 
 @Component({
     selector: 'material-component',
@@ -108,7 +104,8 @@ export class MaterialComponent {
 
         this.instance.setPristine(false);
 
-        const validationResult = Validator.checkComponent(
+        // @ts-ignore
+        const validationResult = Components.components.base.Validator.checkComponent(
             this.instance,
             {[key]: validationValue},
             {[key]: validationValue}
@@ -202,7 +199,6 @@ export class MaterialComponent {
     }
 
     instanceInitialized(instance: any) {
-        const setValueAt = BaseComponent.prototype.setValueAt;
         this.instance = instance;
         this.control.setInstance(instance);
 
