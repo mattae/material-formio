@@ -110,28 +110,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
                     // Bind customOptions
@@ -215,28 +194,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -274,28 +232,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -342,28 +279,8 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 let superAttach = super.attach(element);
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
+
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -410,28 +327,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -480,28 +376,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -548,28 +423,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -623,28 +477,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -691,28 +524,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -759,28 +571,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -827,28 +618,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -895,28 +665,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -965,31 +714,9 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
-                    // Bind customOptions
 
                     // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
                     if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
@@ -1034,28 +761,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -1102,28 +808,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -1173,30 +858,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
             attach(element: HTMLElement) {
                 let superAttach = super.attach(element);
+
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -1205,7 +870,6 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                         this.restoreValue();
                     }
                 }
-
                 return superAttach;
             }
         };
@@ -1247,30 +911,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
             attach(element: HTMLElement) {
                 let superAttach = super.attach(element);
+
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -1279,7 +923,6 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                         this.restoreValue();
                     }
                 }
-
                 return superAttach;
             }
         };
@@ -1318,28 +961,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -1388,36 +1010,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
-                    this._customAngularElement.setAttribute('id', this.id);
-                    eventBus.emit('setInstance', null, this.id, this);
+                    this._customAngularElement.setAttribute('id', this.component.id);
+                    eventBus.emit('setInstance', null, this.component.id, this);
 
                     // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
                     if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
                         this.restoreValue();
                     }
-
                 }
                 return superAttach;
             }
@@ -1461,28 +1061,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -1490,7 +1069,6 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                     if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
                         this.restoreValue();
                     }
-
                 }
                 return superAttach;
             }
@@ -1542,64 +1120,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        newCustomElement.Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
-
-
-                    // Bind customOptions
-                    for (const key in this.component.customOptions) {
-                        if (this.component.customOptions.hasOwnProperty(key)) {
-                            this._customAngularElement[key] = this.component.customOptions[key];
-                        }
-                    }
-                    // Bind validate options
-                    for (const key in this.component.validate) {
-                        if (this.component.validate.hasOwnProperty(key)) {
-                            this._customAngularElement[key] = this.component.validate[key];
-                        }
-                    }
-                    // Bind options explicitly set
-                    const fieldOptions = customComponentOptions.fieldOptions;
-                    if (isArray(fieldOptions) && fieldOptions.length > 0) {
-                        for (const key in fieldOptions) {
-                            if (fieldOptions.hasOwnProperty(key)) {
-                                this._customAngularElement[fieldOptions[key]] = this.component[fieldOptions[key]];
-                            }
-                        }
-                    }
-
-                    // Attach event listener for emit event
-                    this._customAngularElement.addEventListener('formioEvent', (event: CustomEvent<FormioEvent>) => {
-                        this.onClick(event)
-                    });
 
                     // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
                     if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
                         this.restoreValue();
                     }
-
                 }
                 this.on('submitButton', () => {
                     this._customAngularElement.setAttribute('event', 'submitButton');
@@ -1669,59 +1197,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        newCustomElement.Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
-
-
-                    // Bind customOptions
-                    for (const key in this.component.customOptions) {
-                        if (this.component.customOptions.hasOwnProperty(key)) {
-                            this._customAngularElement[key] = this.component.customOptions[key];
-                        }
-                    }
-                    // Bind validate options
-                    for (const key in this.component.validate) {
-                        if (this.component.validate.hasOwnProperty(key)) {
-                            this._customAngularElement[key] = this.component.validate[key];
-                        }
-                    }
-                    // Bind options explicitly set
-                    const fieldOptions = customComponentOptions.fieldOptions;
-                    if (isArray(fieldOptions) && fieldOptions.length > 0) {
-                        for (const key in fieldOptions) {
-                            if (fieldOptions.hasOwnProperty(key)) {
-                                this._customAngularElement[fieldOptions[key]] = this.component[fieldOptions[key]];
-                            }
-                        }
-                    }
 
                     // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
                     if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
                         this.restoreValue();
                     }
-
                 }
 
                 return superAttach;
@@ -1764,27 +1247,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -1833,51 +1296,9 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
-                    // Bind customOptions
-                    for (const key in this.component.customOptions) {
-                        if (this.component.customOptions.hasOwnProperty(key)) {
-                            this._customAngularElement[key] = this.component.customOptions[key];
-                        }
-                    }
-                    // Bind validate options
-                    for (const key in this.component.validate) {
-                        if (this.component.validate.hasOwnProperty(key)) {
-                            this._customAngularElement[key] = this.component.validate[key];
-                        }
-                    }
-                    // Bind options explicitly set
-                    const fieldOptions = customComponentOptions.fieldOptions;
-                    if (isArray(fieldOptions) && fieldOptions.length > 0) {
-                        for (const key in fieldOptions) {
-                            if (fieldOptions.hasOwnProperty(key)) {
-                                this._customAngularElement[fieldOptions[key]] = this.component[fieldOptions[key]];
-                            }
-                        }
-                    }
 
                     // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
                     if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
@@ -1924,28 +1345,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
 
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
 
@@ -1992,30 +1392,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 this.options = this.options || {};
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        return super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 return super.attach(element);
@@ -2056,30 +1440,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 this.options = this.options || {};
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        return super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 return super.attach(element);
@@ -2121,30 +1489,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 this.options = this.options || {};
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        return super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 return super.attach(element);
@@ -2186,30 +1538,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 this.options = this.options || {};
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        return super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 return super.attach(element);
@@ -2254,30 +1590,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 let superAttach = super.attach(element);
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 return superAttach;
@@ -2319,30 +1639,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 let superAttach = super.attach(element);
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 return superAttach;
@@ -2384,30 +1688,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 let superAttach = super.attach(element);
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 return superAttach;
@@ -2449,30 +1737,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 let superAttach = super.attach(element);
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 return superAttach;
@@ -2512,30 +1784,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 let superAttach = super.attach(element);
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 return superAttach;
@@ -2578,30 +1834,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 let superAttach = super.attach(element);
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 return superAttach;
@@ -2638,30 +1878,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
             attach(element: HTMLElement) {
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 //return superAttach;
@@ -2701,30 +1925,14 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 let superAttach = super.attach(element);
                 this._customAngularElement = element.querySelector(customComponentOptions.selector);
 
-                // Bind the custom options and the validations to the Angular component's inputs (flattened)
                 if (this._customAngularElement) {
-                    // To make sure we have working input in IE...
-                    // IE doesn't render it properly if it's not visible on the screen
-                    // due to the whole structure applied via innerHTML to the parent
-                    // so we need to use appendChild
-                    if (!this._customAngularElement.getAttribute('ng-version')) {
-                        this._customAngularElement.removeAttribute('ref');
-
-                        const newCustomElement = document.createElement(customComponentOptions.selector) as FormioCustomElement;
-
-                        newCustomElement.setAttribute('ref', 'input');
-                        Object.keys(this.inputInfo.attr).forEach((attr: string) => {
-                            newCustomElement.setAttribute(attr, this.inputInfo.attr[attr]);
-                        });
-
-                        this._customAngularElement.appendChild(newCustomElement);
-                        this._customAngularElement = newCustomElement;
-
-                        superAttach = super.attach(element);
-                    }
-
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
+
+                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
+                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
+                        this.restoreValue();
+                    }
                 }
 
                 return superAttach;
