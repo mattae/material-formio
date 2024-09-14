@@ -43,8 +43,13 @@ Components.components.radio.prototype.setSelectedClasses = function () {
                             }
                         </mat-radio-button>
                     }
+                    @if ( component.description) {
+                        <mat-hint>
+                            <span [innerHTML]="component.description | transloco"></span>
+                        </mat-hint>
+                    }
                     @if (isError()) {
-                        <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                        <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
                     }
                 </mat-radio-group>
             </div>

@@ -108,7 +108,7 @@ export const DATA_GRID_TEMPLATE = `
 
                     @if (isError()) {
                         <mat-card-footer>
-                            <mat-error class="text-error">{{ getErrorMessage() }}</mat-error>
+                            <mat-error class="text-sm">{{ getErrorMessage() }}</mat-error>
                         </mat-card-footer>
                     }
                 }

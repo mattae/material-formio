@@ -17,6 +17,9 @@ import { NgStyle } from '@angular/common';
             @if (component.inputType === 'radio') {
                 @if (component.inPdf) {
                     <mat-checkbox
+                            [ngStyle]="{
+                                zoom: '1.3'
+                            }"
                             value="{{ component.value }}"
                             [checked]="isCheckboxChecked(component.value)"
                             (click)="clicked()"
@@ -26,19 +29,26 @@ import { NgStyle } from '@angular/common';
                         }
                     </mat-checkbox>
                 } @else {
-                    <mat-radio-button
-                            [ngStyle]="{
-                                zoom: '1.3'
-                            }"
-                            [name]="component.name"
-                            value="{{ component.value }}"
-                            [checked]="isRadioChecked(component.value)"
-                            (click)="clicked()"
-                    >
-                        @if (!component.labelIsHidden) {
-                            {{ component.label }}
+                    <div class="flex flex-col">
+                        <mat-radio-button
+                                [name]="component.name"
+                                value="{{ component.value }}"
+                                [checked]="isRadioChecked(component.value)"
+                                (click)="clicked()"
+                        >
+                            @if (!component.labelIsHidden) {
+                                {{ component.label }}
+                            }
+                        </mat-radio-button>
+                        @if ( component.description) {
+                            <mat-hint>
+                                <span [innerHTML]="component.description | transloco"></span>
+                            </mat-hint>
                         }
-                    </mat-radio-button>
+                        @if (isError()) {
+                            <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
+                        }
+                    </div>
                 }
             } @else {
                 <div class="flex flex-col">
@@ -50,11 +60,13 @@ import { NgStyle } from '@angular/common';
                             <span matFormioLabel [component]="component"></span>
                         }
                     </mat-checkbox>
-                    <mat-hint>
-                        <span [innerHtml]="component.description | transloco"></span>
-                    </mat-hint>
+                    @if ( component.description) {
+                        <mat-hint>
+                            <span [innerHTML]="component.description | transloco"></span>
+                        </mat-hint>
+                    }
                     @if (isError()) {
-                        <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                        <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
                     }
                 </div>
             }

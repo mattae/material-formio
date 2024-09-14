@@ -61,7 +61,7 @@ import { MaterialComponent } from "../material.component";
                             }
                         </tbody>
                         @if (isError()) {
-                            <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                            <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
                         }
                     </table>
                 </div>
