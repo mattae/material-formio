@@ -28,10 +28,10 @@
                                         (formLoad)="formLoaded(row, i)"></formio>
                                 <mat-action-row>
                                     <div class="flex gap-1 justify-end">
-                                        <button mat-raised-button color="primary" [disabled]="!valid"
+                                        <button mat-raised-button class="bg-primary text-on-primary" [disabled]="!valid"
                                                 (click)="saveRow(row, i)">{{ instance.t(component.saveRow || 'Save', {_userInput: true}) }}
                                         </button>
-                                        <button mat-button color="accent"
+                                        <button mat-button class="bg-neutral text-on-neutral"
                                                 (click)="cancelRow(i)">{{ 'CORE.BUTTONS.CANCEL' | transloco }}
                                         </button>
                                         <button
@@ -58,7 +58,7 @@
 
                     @if (instance.hasAddButton()) {
                         <mat-card-actions>
-                            <button mat-raised-button color="primary" (click)="addAnother()">
+                            <button mat-raised-button class="bg-primary text-on-primary" (click)="addAnother()">
                                 <mat-icon svgIcon="heroicons_outline:plus-circle"></mat-icon>
                                 {{ instance.t(component.addAnother || 'Add Another', {_userInput: true}) }}
                             </button>

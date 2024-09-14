@@ -17,6 +17,9 @@ Components.components.editgrid.prototype.render = function (...args) {
     return Components.components.base.prototype.render.call(this, ...args);
 }
 
+Components.components.editgrid.prototype.redraw = function (...args) {
+}
+
 enum EditRowState {
     NEW = 'new',
     EDITING = 'editing',
@@ -113,6 +116,12 @@ export class MaterialEditGridComponent extends MaterialComponent {
                 this.components()!.nativeElement.innerHTML = this.instance.renderComponents();
                 this.instance.attachComponents(this.components()!.nativeElement)
             }
+            if (this.headerElement()) {
+                this.renderTemplate(this.headerElement()!, this.header);
+            }
+            if (this.footerElement()) {
+                this.renderTemplate(this.footerElement()!, this.footer);
+            }
         });
     }
 
@@ -173,12 +182,6 @@ export class MaterialEditGridComponent extends MaterialComponent {
                 displayValue: (component) => this.instance.displayComponentValue(component),
             });
         }
-        setTimeout(() => {
-            this.renderTemplate(this.headerElement()!, this.header);
-            this.renderTemplate(this.footerElement()!, this.footer);
-
-            this.cdr.markForCheck();
-        }, 0);
     }
 
     addAnother() {
@@ -215,7 +218,7 @@ export class MaterialEditGridComponent extends MaterialComponent {
         const editRow: any = {...this.instance.editRows[index]};
         if (editRow.state !== this.RowStates.NEW) {
             const flattenedComponents = this.instance.flattenComponents(index);
-            this.renderTemplate(rowElement, this.instance.renderString(_.get(this.component, 'templates.row', DEFAULT_ROW_TEMPLATE), {
+            this.renderTemplate(rowElement, this.instance.renderString(DEFAULT_ROW_TEMPLATE, {
                 row: this.instance.dataValue[index] || {},
                 data: this.instance.data,
                 rowIndex: index,
@@ -229,6 +232,8 @@ export class MaterialEditGridComponent extends MaterialComponent {
                     return comps[component.type] ? comps[component.type].getView(data) : '';
                 }
             }));
+
+            this.cdr.markForCheck();
         }
     }
 
