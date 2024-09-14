@@ -124,7 +124,7 @@ Templates.current = {
                     template += `
                     <mat-fio-icon button="true"
                         label="${ctx.t('cancel')}"
-                        color="secondary"
+                        class="bg-secondary text-on-secondary"
                         ref="${ctx.wizardKey}-cancel"
                         aria-label="${ctx.t('cancelButtonAriaLabel')}"/>
                     </mat-fio-icon>
@@ -134,7 +134,7 @@ Templates.current = {
                     template += `
                     <mat-fio-icon button="true"
                         label="${ctx.t('previous')}"
-                        color="primary"
+                        class="bg-primary text-on-primay"
                         ref="${ctx.wizardKey}-previous"
                         aria-label="${ctx.t('previousButtonAriaLabel')}">
                     </mat-fio-icon>
@@ -144,7 +144,7 @@ Templates.current = {
                     template += `
                     <mat-fio-icon button="true"
                         label="${ctx.t('next')}"
-                        color="primary"
+                        class="bg-primary text-on-primay"
                         ref="${ctx.wizardKey}-next"
                         aria-label="${ctx.t('nextButtonAriaLabel')}">
                     </mat-fio-icon>
@@ -156,7 +156,7 @@ Templates.current = {
                             <mat-fio-icon button="true"
                                 disabled
                                 label="${ctx.t('submit')}"
-                                color="primary"
+                                class="bg-primary text-on-primay"
                                 ref="${ctx.wizardKey}-submit"
                                 aria-label="${ctx.t('submit')} button. Click to submit the form">
                             </mat-fio-icon>
@@ -165,7 +165,7 @@ Templates.current = {
                         template += `
                             <mat-fio-icon button="true"
                                 label="${ctx.t('submit')}"
-                                color="primary"
+                                class="bg-primary text-on-primay"
                                 ref="${ctx.wizardKey}-submit"
                                 aria-label="${ctx.t('submit')} button. Click to submit the form">
                             </mat-fio-icon>
@@ -340,7 +340,7 @@ Templates.current = {
                 template += `
                     <div class="component-btn-group bg-card rounded-lg shadow-md" data-noattach="true">
                         <mat-fio-icon iconButton="true"
-                            color="primary"
+                            class="bg-primary text-on-primay"
                             aria-label="Remove button. Click to remove component from the form"
                             tabindex="-1"
                             classNames="formio-action-button"
@@ -348,7 +348,7 @@ Templates.current = {
                             icon="heroicons_outline:trash">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
-                            color="primary"
+                            class="bg-primary text-on-primay"
                             aria-label="Copy button. Click to copy component"
                             tabindex="-1"
                             classNames="formio-action-button"
@@ -356,7 +356,7 @@ Templates.current = {
                             icon="feather:copy">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
-                            color="primary"
+                            class="bg-primary text-on-primay"
                             aria-label="Paste below button. Click to paste component below the current component"
                             tabindex="-1"
                             classNames="formio-action-button"
@@ -364,7 +364,7 @@ Templates.current = {
                             icon="mat_outline:save">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
-                            color="primary"
+                            class="bg-primary text-on-primay"
                             aria-label="Edit json button. Click to edit json of the current component"
                             tabindex="-1"
                             classNames="formio-action-button"
@@ -372,7 +372,7 @@ Templates.current = {
                             icon="heroicons_outline:wrench-screwdriver">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
-                            color="primary"
+                            class="bg-primary text-on-primay"
                             aria-label="Move button"
                             tabindex="-1"
                             classNames="formio-action-button"
@@ -380,7 +380,7 @@ Templates.current = {
                             icon="feather:move">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
-                            color="primary"
+                            class="bg-primary text-on-primay"
                             aria-label="Edit button. Click to open component settings modal window"
                             tabindex="-1"
                             classNames="formio-action-button"

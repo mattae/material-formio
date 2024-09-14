@@ -58,7 +58,7 @@ import { eventBus } from '../formio.service';
                         </div>
                     }
                     <div class="flex flex-row justify-end ml-auto">
-                        <button mat-raised-button color="primary" (click)="close()">Close</button>
+                        <button mat-raised-button class="bg-primary text-on-primay" (click)="close()">Close</button>
                     </div>
                 </div>
             </div>

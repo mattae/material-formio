@@ -154,8 +154,8 @@ import BMF from 'browser-md5-file';
                                 <div class="video-container">
                                     <video class="video" autoplay="true" #videoPlayer tabindex="-1"></video>
                                 </div>
-                                <button mat-button color="primary" (click)="takePicture()"><mat-icon svgIcon="heroicons_outline:camera"/> {{instance.t('Take Picture')}}</button>
-                                <button mat-button color="primary" (click)="toggleCameraMode()">{{instance.t('Switch to file upload') }}</button>
+                                <button mat-button class="bg-primary text-on-primay" (click)="takePicture()"><mat-icon svgIcon="heroicons_outline:camera"/> {{instance.t('Take Picture')}}</button>
+                                <button mat-button class="bg-primary text-on-primay" (click)="toggleCameraMode()">{{instance.t('Switch to file upload') }}</button>
                             }
                         }
                         @for (status of instance.statuses; track status) {

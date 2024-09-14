@@ -43,7 +43,7 @@ export const DATA_GRID_TEMPLATE = `
                     @if (instance.hasAddButton() && (instance.addAnotherPosition === 'both' || instance.addAnotherPosition === 'top') && !instance.builderMode) {
                         <mat-card-actions
                         >
-                            <button mat-raised-button color="primary" (click)="addAnother()">
+                            <button mat-raised-button class="primary text-on-primary" (click)="addAnother()">
                                 <mat-icon>add</mat-icon>
                                 {{ component.addAnother || 'Add another' | transloco }}
                             </button>
@@ -99,7 +99,7 @@ export const DATA_GRID_TEMPLATE = `
                     </table>
                     @if (instance.hasAddButton() && instance.addAnotherPosition !== 'top' && !instance.builderMode) {
                         <mat-card-actions>
-                            <button mat-raised-button color="primary" (click)="addAnother()">
+                            <button mat-raised-button class="bg-primary text-on-primay" (click)="addAnother()">
                                 <mat-icon svgIcon="heroicons_outline:plus-circle"></mat-icon>
                                 {{ (component.addAnother || 'Add another') | transloco }}
                             </button>

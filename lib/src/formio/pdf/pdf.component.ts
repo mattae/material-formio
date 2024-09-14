@@ -41,7 +41,7 @@ Displays.getDisplay('pdf').prototype.attach = function (element) {
                 </div>
                 <mat-card-actions>
                     <div class="flex flex-row justify-start pt-2">
-                        <button mat-raised-button color="primary">Submit</button>
+                        <button mat-raised-button class="bg-primary text-on-primay">Submit</button>
                     </div>
                 </mat-card-actions>
             </mat-card-content>

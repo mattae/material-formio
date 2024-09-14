@@ -31,19 +31,19 @@ Wizard.prototype.attach = function (...args) {
                                 </button>
                             }
                             @if (button === 'previous' && buttons.previous) {
-                                <button mat-raised-button color="primary"
+                                <button mat-raised-button class="bg-primary text-on-primay"
                                         (click)="prevPage()">Previous
                                 </button>
                             }
                             @if (button === 'next' && buttons.next) {
                                 <button mat-raised-button
-                                        color="primary" (click)="nextPage()">
+                                        class="bg-primary text-on-primay" (click)="nextPage()">
                                     Next
                                 </button>
                             }
                             @if (button === 'submit' && buttons.submit) {
                                 <button mat-raised-button
-                                        color="primary" (click)="submit()">
+                                        class="bg-primary text-on-primay" (click)="submit()">
                                     Submit
                                 </button>
                             }
