@@ -1125,34 +1125,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 if (this._customAngularElement) {
                     this._customAngularElement.setAttribute('id', this.component.id);
                     eventBus.emit('setInstance', null, this.component.id, this);
-
-                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
-                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
-                        this.restoreValue();
-                    }
                 }
-                this.on('submitButton', () => {
-                    this._customAngularElement.setAttribute('event', 'submitButton');
-
-                }, true);
-                this.on('cancelSubmit', () => {
-                    this._customAngularElement.setAttribute('event', 'cancelSubmit');
-                }, true);
-                this.on('submitDone', (message: any) => {
-                    const resultMessage = _.isString(message) ? message : this.t('complete');
-                    this._customAngularElement.setAttribute('event', 'submitDone');
-                    this._customAngularElement.setAttribute('message', resultMessage);
-                }, true);
-                this.on('submitError', (message: any) => {
-                    const resultMessage = _.isString(message) ? this.t(message) : this.t(this.errorMessage('submitError'));
-                    this._customAngularElement.setAttribute('event', 'submitError');
-                    this._customAngularElement.setAttribute('message', resultMessage);
-                }, true);
-                this.on('change', (value: any, flags: any) => {
-                    let isValid = value.isValid;
-                    this._customAngularElement.setAttribute('event', 'change');
-                    this._customAngularElement.setAttribute('valid', isValid);
-                }, true);
 
                 return superAttach;
             }

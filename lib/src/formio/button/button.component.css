@@ -1,23 +1,15 @@
 @keyframes spin {
-  from {
-    transform:rotate(0deg);
-  }
-  to {
-    transform:rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 :host .mat-icon-spin {
-  animation-name: spin;
-  animation-duration: 1000ms;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
-
-.mat-formio-theme-success {
-  background-color: rgb(99, 214, 68) !important;
-}
-
-.mat-formio-theme-info {
-  background-color: rgb(73, 217, 244) !important;
+    animation-name: spin;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }

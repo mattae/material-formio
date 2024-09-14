@@ -1,10 +1,10 @@
 @if (component) {
     <button
-        [ngClass]="buttonClass"
-        type="{{ component.action }}"
-        mat-raised-button [color]="color"
-        [disabled]="disabled"
-        (click)="onClick($event)"
+            [ngClass]="buttonClass"
+            type="{{ component.action }}"
+            mat-raised-button
+            [disabled]="disabled || clicked()"
+            (click)="onClick($event)"
     >
         @if (component.leftIcon) {
             <mat-icon [svgIcon]="component.leftIcon"></mat-icon>
@@ -18,9 +18,20 @@
         @if (loading) {
             <mat-icon class="mat-icon-spin" svgIcon="heroicons_outline:arrow-path"></mat-icon>
         }
-        <div [innerHTML]="resultMessage || component.label | transloco"></div>
+        {{ component.label | transloco }}
         @if (component.rightIcon) {
             <mat-icon [svgIcon]="component.rightIcon"></mat-icon>
         }
     </button>
+    @if (success() || hasError()) {
+        <div #messageContainer class="mt-2" (click)="messageClicked()"
+        >
+            <span [innerHTML]="resultMessage() | transloco"  class="rounded p-1" [ngClass]="{
+                    'bg-green-600 text-on-green': success(),
+                    'bg-error text-on-error ': hasError()
+                }"
+            >
+            </span>
+        </div>
+    }
 }
