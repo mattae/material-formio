@@ -162,13 +162,15 @@ export class MaterialEditGridComponent extends MaterialComponent {
         if (instance.component.templates && instance.component.templates.header) {
             this.header = instance.renderString(_.get(this.component, 'templates.header', DEFAULT_HEADER_TEMPLATE), {
                 components: instance.component.components,
-                value: dataValue
+                value: dataValue,
+                displayValue: (component) => this.instance.displayComponentValue(component),
             });
         }
         if (instance.component.templates && instance.component.templates.footer) {
             this.footer = instance.renderString(_.get(this.component, 'templates.header', DEFAULT_HEADER_TEMPLATE), {
                 components: instance.component.components,
-                value: dataValue
+                value: dataValue,
+                displayValue: (component) => this.instance.displayComponentValue(component),
             });
         }
         setTimeout(() => {
