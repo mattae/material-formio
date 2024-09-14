@@ -82,12 +82,6 @@ export class MaterialComponent {
             value = this.instance.emptyValue;
         }
 
-        if (this.input() && this.input().nativeElement.mask && value && !keepInputRaw) {
-            this.input().nativeElement.mask.textMaskInputElement.update(value);
-            this.control.setValue(this.input().nativeElement.value);
-            value = this.getValue();
-        }
-
         this.instance.updateValue(value, {modified: true});
         this.instance.triggerChange();
 
