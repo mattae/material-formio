@@ -996,13 +996,15 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 return info;
             }
 
-            renderElement(value: any, index: number) {
+            render(): any {
                 const info = this.inputInfo;
-                return this.renderTemplate(customComponentOptions.template || 'input', {
-                    input: info,
-                    value,
-                    index
-                });
+                return Components.components.base.prototype.render.call(this,
+                    `
+                       <div>
+                            ${this.renderTemplate(customComponentOptions.template || 'input', {input: info})}
+                       </div>
+                    `
+                );
             }
 
             attach(element: HTMLElement) {
