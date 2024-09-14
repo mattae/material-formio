@@ -41,7 +41,7 @@ Displays.getDisplay('pdf').prototype.attach = function (element) {
                 </div>
                 <mat-card-actions>
                     <div class="flex flex-row justify-start pt-2">
-                        <button mat-raised-button class="bg-primary text-on-primay">Submit</button>
+                        <div #button></div>
                     </div>
                 </mat-card-actions>
             </mat-card-content>
@@ -62,6 +62,7 @@ Displays.getDisplay('pdf').prototype.attach = function (element) {
 export class MaterialPdfComponent extends MaterialWebBuilderComponent {
     container = viewChild('container', {read: ElementRef});
     iframe = viewChild('iframe', {read: ElementRef});
+    submitButton = viewChild('button', {read: ElementRef})
     http = inject(HttpClient);
     src: string;
     doc: any;
@@ -105,6 +106,23 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
                 this.pdfLoaded = true;
             }
         });
+
+        if (this.submitButton()) {
+            const button = this.instance.addComponent({
+                disabled: this.instance.form.disableWizardSubmit,
+                input: true,
+                type: 'button',
+                action: 'submit',
+                internal: true,
+                label: 'Submit',
+                key: 'submit',
+                ref: 'button',
+                hidden: this.instance.isSubmitButtonHidden()
+            });
+
+            this.submitButton()!.nativeElement.innerHTML = button.render();
+            button.attach(this.submitButton()!.nativeElement);
+        }
     }
 
     initializeContainer() {
