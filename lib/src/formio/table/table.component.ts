@@ -15,7 +15,7 @@ import {
     MatTable
 } from '@angular/material/table';
 import { LabelComponent } from '../label/label.component';
-import { Components } from 'formiojs';
+import { Components } from '@formio/js';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 
 Components.components.table.prototype.render = function (...args) {

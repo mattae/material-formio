@@ -7,7 +7,7 @@ import { LabelComponent } from '../label/label.component';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { Components } from 'formiojs';
+import { Components } from '@formio/js';
 
 // @ts-ignore
 Components.components.selectboxes.prototype.setSelectedClasses = function () {};

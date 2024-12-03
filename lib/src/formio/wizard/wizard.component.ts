@@ -3,7 +3,7 @@ import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MaterialComponent } from '../material.component';
 import { AsyncPipe, NgStyle } from '@angular/common';
-import { Components, Displays } from 'formiojs';
+import { Components, Displays } from '@formio/js';
 
 const Wizard = Displays.getDisplay('wizard');
 

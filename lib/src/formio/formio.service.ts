@@ -1,5 +1,5 @@
-import { Injectable, Injector } from '@angular/core';
-import { Components, Templates, Utils } from 'formiojs';
+import { inject, Injectable, Injector } from '@angular/core';
+import { Templates, Utils } from '@formio/js';
 import { FormioCustomComponentInfo, FormioCustomTag } from './elements.common';
 import { registerCustomComponent, registerCustomFormioComponent } from './register-custom-component';
 import { MaterialCheckboxComponent } from './checkbox/checkbox.component';
@@ -33,7 +33,6 @@ import { MaterialTableComponent } from './table/table.component';
 import { MaterialDataGridComponent } from './datagrid/datagrid.component';
 import { MaterialEditGridComponent } from './editgrid/editgrid.component';
 import { MaterialFieldsetComponent } from './fieldset/fieldset.component';
-import { MaterialFileComponent } from './file/file.component';
 import { MaterialSignatureComponent } from './signature/signature.component';
 import { MaterialDatamapComponent } from './datamap/datamap.component';
 import { MaterialPdfComponent } from './pdf/pdf.component';
@@ -45,24 +44,25 @@ import iconClass from './module/icons/iconClass';
 import EventBus from 'js-event-bus';
 import { MaterialHtmlComponent } from './html/html.component';
 import _ from 'lodash';
-import EditFormUtils = Components.EditFormUtils;
+import { Components } from '@formio/deprecated-types';
 import baseEditForm = Components.baseEditForm;
+import EditFormUtils from '@formio/js/lib/mjs/components/_classes/component/editForm/utils';
 
-const editForm = function(...extend) {
+const editForm = function (...extend) {
     const components = baseEditForm().components.map(cmp => {
         if (cmp.type === 'tabs') {
             cmp.components = cmp.components.map(c => {
                 if (c.key === 'logic') {
                     c.components = c.components.map(c1 => {
                         if (c1.key === 'logic') {
-                            c1.templates =  {
+                            c1.templates = {
                                 header: '<div class="row"><div class="col-sm-6"><strong>{{ value.length }} {{ ctx.t("Advanced Logic Configured") }}</strong></div></div>',
                                 row: '<div class="row"><div class="col-sm-6"><div>{{ row.name }}</div></div></div> ',
                                 footer: '',
                             }
                         }
                         if (c1.key === 'actions') {
-                            c1.templates =  {
+                            c1.templates = {
                                 header: '<div class="row"><div class="col-sm-6"><strong>{{ value.length }} {{ ctx.t("actions") }}</strong></div></div>',
                                 row: '<div class="row"><div class="col-sm-6"><div>{{ row.name }} </div></div></div> ',
                                 footer: '',
@@ -849,7 +849,11 @@ const registerMaterialComponents = (injector: Injector) => {
 
 @Injectable()
 export class FormioService {
-    constructor(private injector: Injector) {
+    private injector = inject(Injector);
+
+    constructor() {
+        const injector = this.injector;
+
         registerMaterialComponents(injector);
     }
 }

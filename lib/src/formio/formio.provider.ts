@@ -1,4 +1,4 @@
-import { ENVIRONMENT_INITIALIZER, EnvironmentProviders, inject, Provider } from '@angular/core';
+import { EnvironmentProviders, inject, provideEnvironmentInitializer, Provider } from '@angular/core';
 import { FormioService } from './formio.service';
 import { CustomTagsService } from '@formio/angular';
 
@@ -10,10 +10,8 @@ export const provideMaterialFormio = (): Array<Provider | EnvironmentProviders> 
         {
             provide: CustomTagsService
         },
-        {
-            provide: ENVIRONMENT_INITIALIZER,
-            useValue: () => inject(FormioService),
-            multi: true,
-        },
+        provideEnvironmentInitializer(() => {
+            inject(FormioService)
+        })
     ];
 };

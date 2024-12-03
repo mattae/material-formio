@@ -1,7 +1,7 @@
 import { ExtendedComponentSchema } from '@formio/angular';
 import { EventEmitter } from '@angular/core';
 import { NgElement, WithProperties } from '@angular/elements';
-import { BuilderInfo, ValidateOptions } from 'formiojs';
+import { BuilderInfo, ValidateOptions } from '@formio/deprecated-types';
 
 // Custom Angular Components
 export interface FormioCustomComponentInfo extends BuilderInfo {

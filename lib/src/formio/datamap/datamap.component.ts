@@ -10,7 +10,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { MatError } from '@angular/material/form-field';
-import { Utils } from 'formiojs';
+import { Utils } from '@formio/js';
 import iterateKey = Utils.iterateKey;
 
 Utils.uniqueKey = function uniqueKey(map, base) {

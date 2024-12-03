@@ -16,31 +16,28 @@ import { MaterialComponent } from "../material.component";
                                    [componentTemplate]="componentTemplate"></mat-formio-form-field>
             <ng-template #componentTemplate let-hasLabel>
                 <div class="pb-3">
-                    <table class="border-collapse table-auto border w-full h-full p-4 border-slate-400">
-                        <thead class="bg-primary-container">
+                    @if (hasLabel) {
+                        <mat-label>
+                            <span [component]="component" matFormioLabel [standalone]="true"></span>
+                        </mat-label>
+                    }
+                    <table class="border-collapse table-auto border w-full h-full p-4 border-slate-400 rounded-2xl">
+                        <thead>
                         <tr>
-                            <th class="border border-on-tertiary-container">
-                                @if (hasLabel) {
-                                    <h4>
-                                        <span [component]="component" matFormioLabel></span>
-                                    </h4>
-                                }
-                            </th>
+                            <th class="border border-slate-400"></th>
                             @for (value of component.values; track value) {
-                                <th class="text-on-primary-container font-semibold p-4 border border-on-tertiary-container"
-                                >
+                                <th class="text-on-primary-container font-semibold p-4 bg-primary-container">
                                     {{ value.label | transloco }}
                                 </th>
                             }
                         </tr>
                         </thead>
-
                         <tbody>
                             @for (question of component.questions; track question; let i = $index, e = $even) {
                                 <tr [ngClass]="{'bg-tertiary-container text-on-tertiary-container': e, 'text-primary': !e}">
-                                    <td class="border border-slate-300 dark:border-slate-700 pl-1.5 ">{{ question.label | transloco }}</td>
+                                    <td class="border border-slate-400 pl-1.5 ">{{ question.label | transloco }}</td>
                                     @for (value of component.values; track value; let j = $index) {
-                                        <td class="border border-slate-300 dark:border-slate-700"
+                                        <td class="border border-slate-400"
                                         >
                                             <div class="flex items-center justify-center">
                                                 <mat-radio-group (change)="onChange()"
@@ -54,15 +51,17 @@ import { MaterialComponent } from "../material.component";
                                     }
                                 </tr>
                             }
+                        </tbody>
+                        <tfoot>
                             @if (component.description) {
                                 <mat-hint>
                                     <span [innerHTML]="component.description | transloco"></span>
                                 </mat-hint>
                             }
-                        </tbody>
-                        @if (isError()) {
-                            <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
-                        }
+                            @if (isError()) {
+                                <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
+                            }
+                        </tfoot>
                     </table>
                 </div>
             </ng-template>

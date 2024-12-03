@@ -4,7 +4,7 @@ import IconClass from '../module/icons/iconClass';
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material/expansion';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
-import { MatIconButton, MatMiniFabButton } from '@angular/material/button';
+import { MatIconButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgStyle } from '@angular/common';
@@ -12,7 +12,7 @@ import autoScroll from 'dom-autoscroller';
 import _ from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { MaterialComponentEditComponent } from './edit.dialog.component';
-import { Utils } from 'formiojs';
+import { Utils } from '@formio/js';
 import eachComponent = Utils.eachComponent;
 import uniqueKey = Utils.uniqueKey;
 
@@ -122,7 +122,6 @@ export const uniquify = (container, component) => {
         MatIcon,
         MatIconButton,
         MatInput,
-        MatMiniFabButton,
         TranslocoPipe,
         NgStyle
     ],

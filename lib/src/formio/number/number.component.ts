@@ -8,7 +8,7 @@ import { TranslocoModule } from '@jsverse/transloco'
 import { MaterialTextfieldComponent, TEXTFIELD_TEMPLATE } from '../textfield/textfield.component';
 import { MatIconModule } from '@angular/material/icon';
 import { NgClass } from '@angular/common';
-import { Components } from 'formiojs';
+import { Components } from '@formio/js';
 
 Components.components.number.prototype.focus = function () {}
 

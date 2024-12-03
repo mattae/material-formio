@@ -6,7 +6,7 @@ import { LabelComponent } from '../label/label.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialTextfieldComponent } from '../textfield/textfield.component';
-import { Components } from 'formiojs';
+import { Components } from '@formio/js';
 
 Components.components.textarea.prototype.render = function (...args) {
     return Components.components.base.prototype.render.call(this, ...args);

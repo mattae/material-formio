@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, ElementRef, viewChild } from '@angular/core';
 import { MaterialComponent } from '../material.component';
-import { Components } from 'formiojs';
+import { Components } from '@formio/js';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 import { LabelComponent } from '../label/label.component';

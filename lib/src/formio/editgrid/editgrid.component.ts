@@ -10,7 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormioComponent, FormioModule } from '@formio/angular';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
-import { Components } from 'formiojs';
+import { Components } from '@formio/js';
 import _ from 'lodash';
 
 Components.components.editgrid.prototype.render = function (...args) {
@@ -227,7 +227,7 @@ export class MaterialEditGridComponent extends MaterialComponent {
                 isVisibleInRow: (component) => this.instance.isComponentVisibleInRow(component, flattenedComponents),
                 getView: function getView(component, data) {
                     if (!comps[component.type]) {
-                        comps[component.type] = Components.create(component, {}, {}, true);
+                        comps[component.type] = Components.create(component, {}, {});
                     }
                     return comps[component.type] ? comps[component.type].getView(data) : '';
                 }

@@ -1,16 +1,12 @@
 import { ChangeDetectionStrategy, Component, effect, ElementRef, viewChild, viewChildren } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { LabelComponent } from '../label/label.component';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NgTemplateOutlet } from '@angular/common';
-import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
-import { Components } from 'formiojs';
-import { MatError } from '@angular/material/form-field';
+import { Components } from '@formio/js';
 
 const dataGridRender = Components.components.datagrid.prototype.render;
 Components.components.datamap.prototype.render = function (...args) {
@@ -128,18 +124,11 @@ export const DATA_GRID_TEMPLATE = `
         ':host() { @apply p-0.5; }'
     ],
     imports: [
-        LabelComponent,
         MatCardModule,
         MatIconModule,
         MatButtonModule,
-        CdkDrag,
         MatTableModule,
-        CdkDropList,
-        NgTemplateOutlet,
-        FormioFormFieldComponent,
-        TranslocoModule,
-        CdkDragHandle,
-        MatError
+        TranslocoModule
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -225,7 +214,7 @@ export class MaterialDataGridComponent extends MaterialComponent {
     dropTable(event: CdkDragDrop<any>) {
         const prevIndex = this.dataSource.findIndex((d) => d === event.item.data);
         moveItemInArray(this.instance.dataValue, prevIndex, event.currentIndex);
-        this.instance.setValue(this.instance.dataValue, { isReordered: true });
+        this.instance.setValue(this.instance.dataValue, {isReordered: true});
 
         this.initialized = false;
     }

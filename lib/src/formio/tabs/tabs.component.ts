@@ -3,7 +3,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TranslocoModule } from '@jsverse/transloco';
 import { NgStyle } from '@angular/common';
 import { MaterialComponent } from '../material.component';
-import { Components } from 'formiojs';
+import { Components } from '@formio/js';
 
 Components.components.tabs.prototype.render = function (...args) {
     return Components.components.base.prototype.render.call(this, ...args);

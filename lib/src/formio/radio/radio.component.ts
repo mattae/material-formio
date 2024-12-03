@@ -7,7 +7,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
-import { Components } from 'formiojs';
+import { Components } from '@formio/js';
 
 // @ts-ignore
 Components.components.radio.prototype.setSelectedClasses = function () {

@@ -4,12 +4,11 @@ import {
     Component,
     effect,
     ElementRef,
-    Inject,
     inject,
     viewChild
 } from '@angular/core';
 import _ from 'lodash';
-import { Components, Displays, Utils, Widgets } from 'formiojs';
+import { Components, Displays, Utils } from '@formio/js';
 import { MatIcon } from '@angular/material/icon';
 import { NgClass } from '@angular/common';
 import { MatButton } from '@angular/material/button';
@@ -22,8 +21,8 @@ import {
     MatDialogRef,
     MatDialogTitle
 } from '@angular/material/dialog';
-import getComponent = Utils.getComponent;
 import { uniquify } from './web-builder.component';
+import getComponent = Utils.getComponent;
 
 const Webform = Displays.getDisplay('webform');
 
@@ -125,6 +124,8 @@ const Webform = Displays.getDisplay('webform');
     `
 })
 export class MaterialComponentEditComponent {
+    data = inject(MAT_DIALOG_DATA);
+
     editForm = viewChild('editForm', {read: ElementRef});
     preview = viewChild('preview', {read: ElementRef});
     cdr = inject(ChangeDetectorRef);
@@ -138,15 +139,9 @@ export class MaterialComponentEditComponent {
     original: any;
     flags: {};
 
-    constructor(@Inject(MAT_DIALOG_DATA) public data: {
-        instance: any,
-        component: any,
-        parent: any,
-        isNew: boolean,
-        isJsonEdit: boolean,
-        original: any,
-        flags: any
-    }) {
+    constructor() {
+        const data = this.data;
+
         this.instance = data.instance;
         this.component = data.component;
         this.parent = data.parent;

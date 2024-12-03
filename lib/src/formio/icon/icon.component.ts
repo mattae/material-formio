@@ -12,32 +12,32 @@ import { MatButton, MatIconButton, MatMiniFabButton } from '@angular/material/bu
         MatMiniFabButton
     ],
     template: `
-        @if (iconButton) {
-            @if (fab) {
-                <button mat-mini-fab [class]="classNames">
+        @if (iconButton()) {
+            @if (fab()) {
+                <button mat-mini-fab [class]="classNames()">
                     <mat-icon [svgIcon]="icon"></mat-icon>
                 </button>
             } @else {
-                <button mat-icon-button [class]="classNames">
-                    <mat-icon [svgIcon]="icon" [class]="iconClasses"></mat-icon>
+                <button mat-icon-button [class]="classNames()">
+                    <mat-icon [svgIcon]="icon" [class]="iconClasses()"></mat-icon>
                 </button>
             }
-        } @else if (button) {
+        } @else if (button()) {
             <button
                 type="button"
                 mat-raised-button
-                [class]="classNames"
+                [class]="classNames()"
                 [color]="color"
             >
                 @if (icon) {
-                    <mat-icon [svgIcon]="icon" [class]="iconClasses"></mat-icon>
+                    <mat-icon [svgIcon]="icon" [class]="iconClasses()"></mat-icon>
                 }
                 @if (label) {
                     {{ label }}
                 }
             </button>
         } @else {
-            <mat-icon [svgIcon]="icon" [class]="iconClasses"></mat-icon>
+            <mat-icon [svgIcon]="icon" [class]="iconClasses()"></mat-icon>
         }
     `
 })
@@ -45,18 +45,13 @@ export class MaterialIconComponent {
     _color: string;
     @Input()
     icon: string;
-    @Input()
-    fab: boolean;
-    @Input('iconbutton')
-    iconButton: boolean
-    @Input()
-    button: boolean
+    readonly fab = input<boolean>();
+    readonly iconButton = input<boolean>(undefined, { alias: "iconbutton" });
+    readonly button = input<boolean>();
     @Input()
     label: string
-    @Input('classnames')
-    classNames: string;
-    @Input("iconclasses")
-    iconClasses: string;
+    readonly classNames = input<string>(undefined, { alias: "classnames" });
+    readonly iconClasses = input<string>(undefined, { alias: "iconclasses" });
     @Input()
     set color(color: string) {
         if (color === 'primary' || color === 'secondary' || color === 'warn') {

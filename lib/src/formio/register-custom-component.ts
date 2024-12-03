@@ -1,6 +1,6 @@
 import { Injector, Type } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
-import { Components } from 'formiojs';
+import { Components } from '@formio/js';
 import { createCustomFormioComponent } from './create-custom-component';
 import { FormioCustomComponentInfo, FormioCustomTag } from './elements.common';
 import { CustomTagsService } from "@formio/angular";

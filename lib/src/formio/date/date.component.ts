@@ -20,7 +20,7 @@ import { provideLuxonDatetimeAdapter } from '@ng-matero/extensions-luxon-adapter
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import _ from 'lodash';
-import { Utils } from 'formiojs';
+import { Utils } from '@formio/js';
 
 export const DATETIME_TEMPLATE = `
     @if (component) {

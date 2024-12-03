@@ -4,7 +4,7 @@
         @if (required) {
             <span class="required-star">*</span>
         }
-        @if (component?.tooltip || tooltip) {
+        @if (component?.tooltip || tooltip()) {
             <mat-icon svgIcon="mat_outline:info"
                       [mtxTooltip]="tooltipTpl" matSuffix
             >
@@ -14,5 +14,5 @@
 }
 
 <ng-template #tooltipTpl>
-    <div [innerHTML]=" (component.tooltip || tooltip) | transloco"></div>
+    <div [innerHTML]=" (component.tooltip || tooltip()) | transloco"></div>
 </ng-template>

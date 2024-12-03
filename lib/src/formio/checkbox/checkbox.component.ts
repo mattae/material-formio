@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslocoModule } from '@jsverse/transloco';
-import { MatError, MatHint, MatSuffix } from '@angular/material/form-field';
+import { MatError, MatHint } from '@angular/material/form-field';
 import { LabelComponent } from '../label/label.component';
-import { MatIcon } from '@angular/material/icon';
-import { MatTooltip } from '@angular/material/tooltip';
 import { MatRadioButton } from '@angular/material/radio';
 import { MaterialRadioComponent } from '../radio/radio.component';
 import _ from 'lodash';
@@ -40,7 +38,7 @@ import { NgStyle } from '@angular/common';
                                 {{ component.label }}
                             }
                         </mat-radio-button>
-                        @if ( component.description) {
+                        @if (component.description) {
                             <mat-hint>
                                 <span [innerHTML]="component.description | transloco"></span>
                             </mat-hint>
@@ -60,7 +58,7 @@ import { NgStyle } from '@angular/common';
                             <span matFormioLabel [component]="component"></span>
                         }
                     </mat-checkbox>
-                    @if ( component.description) {
+                    @if (component.description) {
                         <mat-hint>
                             <span [innerHTML]="component.description | transloco"></span>
                         </mat-hint>
@@ -78,9 +76,6 @@ import { NgStyle } from '@angular/common';
         MatError,
         MatHint,
         LabelComponent,
-        MatIcon,
-        MatSuffix,
-        MatTooltip,
         MatRadioButton,
         NgStyle
     ],

@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { LabelComponent } from '../label/label.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MaterialComponent } from '../material.component';
-import { Components, Utils } from 'formiojs';
+import { Components, Utils } from '@formio/js';
 import { TranslocoPipe } from '@jsverse/transloco';
 import getLocaleDateFormatInfo = Utils.getLocaleDateFormatInfo;
 

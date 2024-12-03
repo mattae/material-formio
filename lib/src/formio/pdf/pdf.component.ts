@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, effect, ElementRef, HostListener, inject, viewChild } from '@angular/core';
 import { NgStyle } from '@angular/common';
-import { MatButton, MatIconButton, MatMiniFabButton } from '@angular/material/button';
+import { MatMiniFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MaterialWebBuilderComponent } from '../web-builder/web-builder.component';
 import { HttpClient } from '@angular/common/http';
 import { MatCard, MatCardActions, MatCardContent } from '@angular/material/card';
-import { Components, Displays } from 'formiojs';
+import { Components, Displays } from '@formio/js';
 
 Displays.getDisplay('pdf').prototype.attach = function (element) {
     return Components.components.base.prototype.attach.call(this, element);
@@ -50,10 +50,8 @@ Displays.getDisplay('pdf').prototype.attach = function (element) {
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         NgStyle,
-        MatIconButton,
         MatIcon,
         MatMiniFabButton,
-        MatButton,
         MatCard,
         MatCardContent,
         MatCardActions

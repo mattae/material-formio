@@ -11,7 +11,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButton, MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { CommonModule, NgStyle } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 import { LabelComponent } from '../label/label.component';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -171,13 +171,14 @@ export class SignatureOverlay {
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        CommonModule,
         MatFormFieldModule,
         MatButtonModule,
         MatIconModule,
         FormioFormFieldComponent,
         LabelComponent,
         TranslocoPipe,
+        NgClass,
+        NgStyle
     ],
     styles: [
         `

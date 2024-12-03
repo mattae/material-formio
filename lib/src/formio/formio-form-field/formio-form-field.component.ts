@@ -29,9 +29,9 @@ import { TranslocoModule } from '@jsverse/transloco';
 })
 export class FormioFormFieldComponent {
     private _component;
-    @Input() labelTemplate!: TemplateRef<any>;
-    @Input() showDescription = true;
-    @Input() renderElementOnly = false;
+    readonly labelTemplate = input<TemplateRef<any>>();
+    readonly showDescription = input(true);
+    readonly renderElementOnly = input(false);
     container = viewChild('container', {read: ElementRef});
     hideLabel = false;
     cdr = inject(ChangeDetectorRef)
@@ -67,6 +67,6 @@ export class FormioFormFieldComponent {
         const component = this.component;
         const hasNoLabel = !component.label || component.hideLabel || this.component.labelIsHidden || this.hideLabel;
 
-        return !(hasNoLabel || this.renderElementOnly);
+        return !(hasNoLabel || this.renderElementOnly());
     }
 }

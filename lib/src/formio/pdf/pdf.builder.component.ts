@@ -8,7 +8,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { TranslocoPipe } from '@jsverse/transloco';
 import _ from 'lodash';
-import { Utils } from 'formiojs';
+import { Utils } from '@formio/js';
 import autoScroll from 'dom-autoscroller';
 import { uniquify } from '../web-builder/web-builder.component';
 

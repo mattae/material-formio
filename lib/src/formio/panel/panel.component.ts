@@ -3,7 +3,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
 import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
-import { Components } from 'formiojs';
+import { Components } from '@formio/js';
 
 Components.components.panel.prototype.render = function (...args) {
     return Components.components.base.prototype.render.call(this, ...args);

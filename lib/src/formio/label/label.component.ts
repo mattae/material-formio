@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -21,8 +21,7 @@ import { MtxTooltip } from "@ng-matero/extensions/tooltip";
     standalone: true,
 })
 export class LabelComponent {
-    @Input()
-    standalone = false
+    readonly standalone = input(false);
 
     _label: string
 
@@ -61,10 +60,9 @@ export class LabelComponent {
         return this._required;
     }
 
-    @Input()
-    tooltip: string;
+    readonly tooltip = input<string>();
 
     get styleClass() {
-        return this.standalone ? 'mat-fio-label' : '';
+        return this.standalone() ? 'mat-fio-label' : '';
     }
 }
