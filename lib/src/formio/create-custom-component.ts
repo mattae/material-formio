@@ -28,6 +28,8 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                     },
                 }, data);
 
+                this.isMaterial = true;
+
                 if (customComponentOptions.extraValidators) {
                     this.validators = this.validators.concat(customComponentOptions.extraValidators);
                 }
@@ -161,6 +163,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'password') {
         return class MatPasswordComponent extends Components.components.password {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
 
             get inputInfo() {
                 return {
@@ -209,6 +215,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'checkbox') {
         return class MatCheckboxComponent extends Components.components.checkbox {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
             get inputInfo() {
                 return {
                     id: this.key,
@@ -247,6 +257,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'datetime') {
         return class MatDatetimeComponent extends Components.components.datetime {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
 
             get inputInfo() {
                 return {
@@ -295,6 +309,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'textfield') {
         return class MatTextfieldComponent extends Components.components.textfield {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
             get inputInfo() {
                 return {
                     id: this.key,
@@ -305,10 +323,8 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
             elementInfo() {
                 const info = super.elementInfo();
                 info.type = customComponentOptions.selector;
-                info.changeEvent = customComponentOptions.changeEvent || 'valueChange';
                 info.attr = {
-                    ...info.attr,
-                    class: info.attr.class.replace('form-control', 'form-control-custom-field') // remove the form-control class as the custom angular component may look different
+                    ...info.attr
                 };
                 return info;
             }
@@ -320,6 +336,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                     value,
                     index
                 });
+            }
+
+            checkInputMaskValue(inputMask) {
+
             }
 
             attach(element: HTMLElement) {
@@ -342,6 +362,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'htmlelement') {
         return class MatHTMLElementComponent extends Components.components.htmlelement {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
             get inputInfo() {
                 return {
                     id: this.key,
@@ -391,6 +415,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'email') {
         return class MatEmailComponent extends Components.components.email {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
             get inputInfo() {
                 return {
                     id: this.key,
@@ -413,6 +441,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 const info = this.inputInfo;
                 return this.renderTemplate(customComponentOptions.template || 'input', {
                     input: info,
+
                     value,
                     index
                 });
@@ -438,6 +467,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'tags') {
         return class MatTagsComponent extends Components.components.tags {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
             get inputInfo() {
                 return {
                     id: this.key,
@@ -492,6 +525,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'survey') {
         return class MatSurveyComponent extends Components.components.survey {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
             get inputInfo() {
                 return {
                     id: this.key,
@@ -515,7 +552,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 return Components.components.base.prototype.render.call(this,
                     `
                        <div>
-                            ${this.renderTemplate(customComponentOptions.template || 'input', {input: info})}
+                            ${this.renderTemplate('input', {input: info})}
                        </div>
                     `
                 );
@@ -541,6 +578,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'time') {
         return class MatTimeComponent extends Components.components.time {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
             get inputInfo() {
                 return {
                     id: this.key,
@@ -588,6 +629,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'signature') {
         return class MatSignatureComponent extends Components.components.signature {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
             get inputInfo() {
                 return {
                     id: this.key,
@@ -635,6 +680,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'selectboxes') {
         return class MatSelectboxComponent extends Components.components.selectboxes {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
             get inputInfo() {
                 return {
                     id: this.key,
@@ -653,13 +702,15 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 return info;
             }
 
-            renderElement(value: any, index: number) {
+            render(): any {
                 const info = this.inputInfo;
-                return this.renderTemplate(customComponentOptions.template || 'input', {
-                    input: info,
-                    value,
-                    index
-                });
+                return Components.components.base.prototype.render.call(this,
+                    `
+                       <div>
+                            ${this.renderTemplate('input', {input: info})}
+                       </div>
+                    `
+                );
             }
 
             attach(element: HTMLElement) {
@@ -682,6 +733,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'day') {
         return class MatDayComponent extends Components.components.day {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
             get inputInfo() {
                 return {
                     id: this.key,
@@ -731,6 +786,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'url') {
         return class MatUrlComponent extends Components.components.url {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -778,6 +838,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'address') {
         return class MatAddressComponent extends Components.components.address {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -825,6 +890,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'panel') {
         return class MatPanelComponent extends Components.components.panel {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -878,6 +948,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'fieldset') {
         return class MatFieldsetComponent extends Components.components.fieldset {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -931,11 +1006,24 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'number') {
         return class MatNumberComponent extends Components.components.number {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,
                     ...this.elementInfo()
                 };
+            }
+
+            get defaultValue() {
+                let defaultValue = super.defaultValue;
+                if (this.component.multiple && _.isArray(defaultValue)) {
+                    defaultValue = !defaultValue[0] && defaultValue[0] !== 0 ? [0] : defaultValue[0];
+                }
+                return defaultValue;
             }
 
             elementInfo() {
@@ -978,6 +1066,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'radio') {
         return class MatRadioComponent extends Components.components.radio {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             static editForm = customComponentOptions.editForm || Components.components.radio.editForm;
 
             get inputInfo() {
@@ -1029,6 +1122,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'select') {
         return class MatSelectComponent extends Components.components.select {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             editForm = Components.components.select.editForm;
 
             get inputInfo() {
@@ -1160,9 +1258,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                        <div>
                             ${this.renderTemplate(customComponentOptions.template || 'input', {
                             input: info
-                        }
-                    )
-                    }
+                        }) }
                        </div>
                     `
                 );
@@ -1190,6 +1286,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'textarea') {
         return class MatTextareaComponent extends Components.components.textarea {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -1534,6 +1635,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'table') {
         return class MatTableComponent extends Components.components.table {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -1632,6 +1738,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'datagrid') {
         return class MatDatagridComponent extends Components.components.datagrid {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -1681,6 +1792,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'datamap') {
         return class MatDatamapComponent extends Components.components.datamap {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -1730,6 +1846,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'phoneNumber') {
         return class MatPhoneNumberComponent extends Components.components.phoneNumber {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -1777,6 +1898,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'editgrid') {
         return class MatEditgridComponent extends Components.components.editgrid {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -1871,6 +1997,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'currency') {
         return class MatCurrencyComponent extends Components.components.currency {
+            constructor(...args) {
+                super(...args);
+                this.isMaterial = true;
+            }
+
             get inputInfo() {
                 return {
                     id: this.key,

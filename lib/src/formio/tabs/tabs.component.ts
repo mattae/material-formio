@@ -51,16 +51,16 @@ export class MaterialTabsComponent extends MaterialComponent {
     }
 
     initialize() {
-        if (this.instance && this.tabContents()) {
-            ['change', 'error'].forEach(event => this.instance.on(event, this.handleTabsValidation.bind(this)));
+        if (this.instance() && this.tabContents()) {
+            ['change', 'error'].forEach(event => this.instance().on(event, this.handleTabsValidation.bind(this)));
             this.tabContents().forEach((tab, index) => {
-                const content = this.instance.tabs.map(tab => this.instance.renderComponents(tab));
+                const content = this.instance().tabs.map(tab => this.instance().renderComponents(tab));
                 tab.nativeElement.innerHTML = content[index];
             })
             this.tabContents().forEach((tab, index) => {
-                this.instance.attachComponents(tab.nativeElement, this.instance.tabs[index], this.instance.component.components[index].components);
+                this.instance().attachComponents(tab.nativeElement, this.instance().tabs[index], this.instance().component.components[index].components);
             });
-            this.instance.setValue({})
+           // this.instance().setValue({})
 
             this.cdr.markForCheck();
         }
@@ -76,10 +76,10 @@ export class MaterialTabsComponent extends MaterialComponent {
     handleTabsValidation() {
 
         const labels = this.labels().map(l => l.nativeElement);
-        this.instance.clearErrorClasses(labels);
+        this.instance().clearErrorClasses(labels);
         this.cdr.markForCheck();
 
-        const invalidTabsIndexes = this.instance.tabs.reduce((invalidTabs, tab, tabIndex) => {
+        const invalidTabsIndexes = this.instance().tabs.reduce((invalidTabs, tab, tabIndex) => {
             const hasComponentWithError = tab.some(comp => !!comp.error);
             return hasComponentWithError ? [...invalidTabs, tabIndex] : invalidTabs;
         }, []);
@@ -89,7 +89,7 @@ export class MaterialTabsComponent extends MaterialComponent {
         }
 
         const invalidTabs = [...labels].filter((_, tabIndex) => invalidTabsIndexes.includes(tabIndex));
-        this.instance.setErrorClasses(invalidTabs);
+        this.instance().setErrorClasses(invalidTabs);
 
         this.cdr.markForCheck();
     }

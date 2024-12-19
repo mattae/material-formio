@@ -5,7 +5,7 @@ import {
     ElementRef,
     inject,
     Input,
-    output,
+    output, signal,
     Signal,
     viewChild
 } from '@angular/core';
@@ -30,13 +30,15 @@ export class MaterialComponent {
     readonly formioEvent = output();
     component: any;
 
-    instance: any;
+    instance  = signal(null);
     labelIsHidden: boolean;
     readonly valueChange = output();
 
     constructor() {
         eventBus.on('setInstance', (id, instance) => {
             if (id === this._id || this._id === `${id}-${instance.component.key}`) {
+                instance.isMaterial = true;
+                this.instance.set(instance);
                 this.instanceInitialized(instance);
             }
         });
@@ -44,8 +46,8 @@ export class MaterialComponent {
         effect(() => {
             if (this.input()) {
                 // Set the input masks.
-                this.instance.setInputMask(this.input().nativeElement);
-                this.instance.addFocusBlurEvents(this.input().nativeElement);
+                this.instance().setInputMask(this.input().nativeElement);
+                this.instance().addFocusBlurEvents(this.input().nativeElement);
             }
         });
     }
@@ -72,7 +74,7 @@ export class MaterialComponent {
     }
 
     get isReadOnly() {
-        return this.instance.options.readOnly || this.instance.disabled || this.instance.shouldDisabled ||
+        return this.instance().options.readOnly || this.instance().disabled || this.instance().shouldDisabled ||
             this.component?.disabled || this.component.readOnly
     }
 
@@ -80,47 +82,46 @@ export class MaterialComponent {
         let value = this.getValue();
 
         if (value === undefined || value === null) {
-            value = this.instance.emptyValue;
+            value = this.instance().emptyValue;
         }
 
-        this.instance.updateValue(value, {modified: true});
-        this.instance.triggerChange();
+        this.instance().updateValue(value, {modified: true});
+        this.instance().triggerChange();
 
         this.cdr.markForCheck();
     }
 
     validateOnInit() {
-        const {key} = this.instance.component;
-        const validationValue = this.getFormValue(this.instance.path);
+        const {key} = this.instance().component;
+        const validationValue = this.getFormValue(this.instance().path);
 
         if (validationValue === null) {
             return;
         }
 
-        this.instance.setPristine(false);
-
+        this.instance().setPristine(false);
         // @ts-ignore
-        const validationResult = Components.components.base.Validator.checkComponent(
+       /* const validationResult = Components.components.form.checkComponent(
             this.instance,
             {[key]: validationValue},
             {[key]: validationValue}
         );
 
         if (validationResult.length) {
-            this.instance.setCustomValidity(validationResult, false);
+            this.instance().setCustomValidity(validationResult, false);
             if (!!validationValue) {
                 this.control.markAsTouched();
             }
-        }
+        }*/
     }
 
     getValue() {
-        if (!this.instance.hasInput || this.instance.viewOnly || !this.instance.refs.input || !this.instance.refs.input.length) {
-            return this.instance.dataValue;
+        if (!this.instance().hasInput || this.instance().viewOnly || !this.instance().refs.input || !this.instance().refs.input.length) {
+            return this.instance().dataValue;
         }
         const values = [];
-        for (const i in this.instance.refs.input) {
-            if (this.instance.refs.input.hasOwnProperty(i)) {
+        for (const i in this.instance().refs.input) {
+            if (this.instance().refs.input.hasOwnProperty(i)) {
                 if (!this.component.multiple) {
                     return this.getValueAt(i);
                 }
@@ -136,14 +137,18 @@ export class MaterialComponent {
     }
 
     getValueAt(index: any) {
-        const input = this.instance.refs.input[index];
+        const input = this.instance().refs.input[index];
         return input ? input.value : undefined;
     }
 
     setValue(value: any) {
-        if (Array.isArray(value) && this.component.multiple) {
-            const index = this.getIndex();
-            value = value[index];
+        try {
+            if (Array.isArray(value) && this.component.multiple) {
+                const index = this.getIndex();
+                value = value[index];
+            }
+        } catch (e) {
+            console.log('Error', this, e)
         }
         if (value) {
             this.control.patchValue(value);
@@ -153,13 +158,13 @@ export class MaterialComponent {
     }
 
     storeFormData() {
-        if (this.instance.parent && this.instance.parent.submission && this.instance.parent.submission.data) {
-            sessionStorage.setItem('formData', JSON.stringify(this.instance.parent.submission.data));
+        if (this.instance().parent && this.instance().parent.submission && this.instance().parent.submission.data) {
+            sessionStorage.setItem('formData', JSON.stringify(this.instance().parent.submission.data));
         }
     }
 
     shouldValidateOnInit() {
-        return this.instance;
+        return this.instance();
     }
 
     getFormValue(path: string) {
@@ -173,31 +178,32 @@ export class MaterialComponent {
     }
 
     isError() {
-        if (this.instance.error && !this.component.hideError) {
+        if (this.instance().errors && this.instance().errors.length && !this.component.hideError) {
             this.control.setErrors(this.component.validate);
+            this.control.updateValueAndValidity()
             return true;
         } else {
+            this.control.setErrors(null);
+            this.control.updateValueAndValidity()
+
             return false;
         }
     }
 
     getErrorMessage() {
-        if (this.instance.error && this.instance.error.messages) {
-            const {messages} = this.instance.error;
-
-            for (const msg of messages) {
-                if (msg.context && (this.control.hasError(msg.context.validator) || msg.context.validator)) {
-                    return this.instance.error.message;
+        if (this.instance().errors) {
+            for (const msg of this.instance().errors) {
+                if (msg.context && (this.control.hasError(msg.context.ruleName) || msg.context.processor)) {
+                    return msg.message;
                 }
             }
         }
     }
 
     instanceInitialized(instance: any) {
-        this.instance = instance;
         this.control.setInstance(instance);
 
-        this.instance.root?.on('beforeSetSubmission', ({data}) => {
+        this.instance().root?.on('beforeSetSubmission', ({data}) => {
             if (data) {
                 this.setValue(get(data, instance.component.key))
                 if (instance.component.multiple) {
@@ -206,12 +212,12 @@ export class MaterialComponent {
             }
         });
 
-        this.instance.root?.on('change', () => this.cdr.markForCheck());
+        this.instance().root?.on('change', () => this.cdr.markForCheck());
 
         this.component = instance.component;
         this.component.labelIsHidden = instance.labelIsHidden();
         const defaultValue = this.component?.defaultValue;
-        const instanceValue = _.get(this.instance.data, this.component.key);
+        const instanceValue = _.get(this.instance().data, this.component.key);
         if (instanceValue) {
             if (!this.component.multiple || Array.isArray(instanceValue)) {
                 this.setValue(instanceValue);
@@ -250,6 +256,7 @@ export class MaterialComponent {
             this.storeFormData();
             this.validateOnInit();
         }
+
     }
 
     getIndex() {

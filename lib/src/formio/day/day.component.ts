@@ -24,14 +24,14 @@ Components.components.day.prototype.render = function (...args) {
                 </mat-label>
             }
             <div class="grid grid-cols-3 gap-1">
-                @if (dayFirst && instance.showDay) {
+                @if (dayFirst && instance().showDay) {
                     <mat-form-field>
-                        @if (!instance.component.hideInputLabels) {
+                        @if (!instance().component.hideInputLabels) {
                             <mat-label>Day</mat-label>
                         }
                         <mat-select [formControl]="dayControl" (selectionChange)="onChange()"
-                                    [required]="instance.dayRequired">
-                            @for (day of instance.days;track day) {
+                                    [required]="instance().dayRequired">
+                            @for (day of instance().days;track day) {
                                 <mat-option [value]="day.value">
                                     {{ day.label }}
                                 </mat-option>
@@ -42,14 +42,14 @@ Components.components.day.prototype.render = function (...args) {
                         }
                     </mat-form-field>
                 }
-                @if (instance.showMonth) {
+                @if (instance().showMonth) {
                     <mat-form-field>
-                        @if (!instance.component.hideInputLabels) {
+                        @if (!instance().component.hideInputLabels) {
                             <mat-label>Month</mat-label>
                         }
                         <mat-select [formControl]="monthControl" (selectionChange)="onChange()"
-                                    [required]="instance.monthRequired">
-                            @for (month of instance.months;track month) {
+                                    [required]="instance().monthRequired">
+                            @for (month of instance().months;track month) {
                                 <mat-option [value]="month.value">
                                     {{ month.label }}
                                 </mat-option>
@@ -57,14 +57,14 @@ Components.components.day.prototype.render = function (...args) {
                         </mat-select>
                     </mat-form-field>
                 }
-                @if (!dayFirst && instance.showDay) {
+                @if (!dayFirst && instance().showDay) {
                     <mat-form-field>
-                        @if (!instance.component.hideInputLabels) {
+                        @if (!instance().component.hideInputLabels) {
                             <mat-label>Day</mat-label>
                         }
                         <mat-select [formControl]="dayControl" (selectionChange)="onChange()"
-                                    [required]="instance.dayRequired">
-                            @for (day of instance.days;track day) {
+                                    [required]="instance().dayRequired">
+                            @for (day of instance().days;track day) {
                                 <mat-option [value]="day.value">
                                     {{ day.label }}
                                 </mat-option>
@@ -75,14 +75,14 @@ Components.components.day.prototype.render = function (...args) {
                         }
                     </mat-form-field>
                 }
-                @if (instance.showYear) {
+                @if (instance().showYear) {
                     <mat-form-field>
-                        @if (!instance.component.hideInputLabels) {
+                        @if (!instance().component.hideInputLabels) {
                             <mat-label>Year</mat-label>
                         }
                         <mat-select [formControl]="yearControl" (selectionChange)="onChange()"
-                                    [required]="instance.yearRequired">
-                            @for (year of instance.years;track year) {
+                                    [required]="instance().yearRequired">
+                            @for (year of instance().years;track year) {
                                 <mat-option [value]="year.value">
                                     {{ year.label }}
                                 </mat-option>
@@ -116,7 +116,7 @@ export class MaterialDayComponent extends MaterialComponent {
         super();
 
         effect(() => {
-            if (this.instance) {
+            if (this.instance()) {
                 this.initialize();
             }
         });
@@ -135,7 +135,7 @@ export class MaterialDayComponent extends MaterialComponent {
     }
 
     getValue() {
-        return this.instance.getDate();
+        return this.instance().getDate();
     }
 
     setValue(value) {
@@ -154,17 +154,17 @@ export class MaterialDayComponent extends MaterialComponent {
             }
             const year = parts.shift();
 
-            if (this.instance.showDay) {
+            if (this.instance().showDay) {
                 this.dayControl.setValue(day === '00' ? '' : parseInt(day, 10));
             }
-            if (this.instance.showMonth) {
+            if (this.instance().showMonth) {
                 this.monthControl.setValue(month === '00' ? '' : parseInt(month, 10));
             }
-            if (this.instance.showYear) {
+            if (this.instance().showYear) {
                 this.yearControl.setValue(year === '0000' ? '' : parseInt(year, 10));
             }
         }
-        return this.instance.setValueAt(0, value);
+        return this.instance().setValueAt(0, value);
     }
 
     initialize() {
@@ -181,23 +181,23 @@ export class MaterialDayComponent extends MaterialComponent {
         };
         (this.yearControl as any).removeAttribute = () => {
         };
-        this.instance.refs = {
+        this.instance().refs = {
             day: this.dayControl,
             month: this.monthControl,
             year: this.yearControl
         };
 
-        if (this.instance.yearRequired) {
+        if (this.instance().yearRequired) {
             this.yearControl.addValidators(Validators.required);
         } else {
             this.yearControl.removeValidators(Validators.required);
         }
-        if (this.instance.monthRequired) {
+        if (this.instance().monthRequired) {
             this.monthControl.addValidators(Validators.required);
         } else {
             this.monthControl.removeValidators(Validators.required);
         }
-        if (this.instance.dayRequired) {
+        if (this.instance().dayRequired) {
             this.dayControl.addValidators(Validators.required);
         } else {
             this.dayControl.removeValidators(Validators.required);
@@ -208,7 +208,7 @@ export class MaterialDayComponent extends MaterialComponent {
 
         this.setDisabled(this.control.disabled);
 
-        const dateFormatInfo = getLocaleDateFormatInfo(this.instance.options.language);
+        const dateFormatInfo = getLocaleDateFormatInfo(this.instance().options.language);
         this.dayFirst = this.component.useLocaleSettings
             ? dateFormatInfo.dayFirst
             : this.component.dayFirst;
@@ -217,14 +217,23 @@ export class MaterialDayComponent extends MaterialComponent {
     }
 
     getErrorMessage() {
-        if (this.instance.error) {
+        if (this.instance().errors) {
             this.dayControl.setErrors({
-                day: this.instance.error.message,
+                day: super.getErrorMessage(),
             });
             this.dayControl.markAsDirty();
 
             this.cdr.markForCheck();
         }
-        return this.instance.error.message;
+        return  super.getErrorMessage();
+    }
+
+    isError() {
+        const isError = super.isError();
+        if (!isError) {
+            this.dayControl.setErrors(null);
+            this.dayControl.updateValueAndValidity();
+        }
+        return isError;
     }
 }

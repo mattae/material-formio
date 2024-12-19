@@ -8,6 +8,43 @@ import { LabelComponent } from '../label/label.component';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 import { MaterialComponent } from '../material.component';
 import { NgClass } from "@angular/common";
+import { MatIconButton } from '@angular/material/button';
+import { Components } from '@formio/js';
+import _ from 'lodash';
+import { Formio } from '@formio/angular';
+
+const setInputMask = Components.components.textfield.prototype.setInputMask;
+Components.components.textfield.prototype.setInputMask = function (...args) {
+    try {
+        setInputMask.call(this, args)
+    }catch (e) {
+
+    }
+}
+
+Components.components.textfield.prototype.addAce = function (element, settings, onChange) {
+    if (!settings || (settings.theme === 'snow')) {
+        const mode = settings ? settings.mode : '';
+        settings = {};
+        if (mode) {
+            settings.mode = mode;
+        }
+    }
+    settings = _.merge(this.wysiwygDefault.ace, _.get(this.options, 'editors.ace.settings', {}), settings || {});
+    return Formio.requireLibrary('ace', 'ace', _.get(this.options, 'editors.ace.src', `${Formio.cdn.ace}/ace.js`), true)
+        .then((editor) => {
+            editor = editor.edit(element);
+            editor.removeAllListeners('change');
+            delete settings.isUseWorkerDisabled;
+            editor.setOptions(settings);
+            editor.getSession().setMode(settings.mode);
+            editor.on('change', () => onChange(editor.getValue()));
+            if (settings.isUseWorkerDisabled) {
+                editor.session.setUseWorker(false);
+            }
+            return editor;
+        });
+}
 
 export const TEXTFIELD_TEMPLATE = `
     @if(component){
@@ -78,7 +115,8 @@ export const TEXTFIELD_TEMPLATE = `
         MatIconModule,
         LabelComponent,
         FormioFormFieldComponent,
-        NgClass
+        NgClass,
+        MatIconButton
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -37,8 +37,8 @@ Components.components.selectboxes.prototype.setSelectedClasses = function () {};
                             {{ option.label | transloco }}
                         </mat-checkbox>
                     }
-                    @if (instance.error) {
-                        <mat-error class="text-error">{{ instance.error.message | transloco }}</mat-error>
+                    @if (instance().error) {
+                        <mat-error class="text-error">{{ instance().error.message | transloco }}</mat-error>
                     }
                 </div>
             </div>
@@ -73,8 +73,8 @@ export class MaterialSelectBoxesComponent extends MaterialRadioComponent {
     }
 
     setValue(value: any) {
-        if (this.instance) {
-            const normalizedValue = this.instance.normalizeValue(value);
+        if (this.instance()) {
+            const normalizedValue = this.instance().normalizeValue(value);
             for (const prop in normalizedValue) {
                 if (normalizedValue.hasOwnProperty(prop)) {
                     this.values[prop] = normalizedValue[prop];
@@ -88,9 +88,9 @@ export class MaterialSelectBoxesComponent extends MaterialRadioComponent {
     }
 
     initialize() {
-        if (this.instance) {
+        if (this.instance()) {
             const _this = this;
-            this.instance.checkComponentValidity = function (data, dirty, rowData, options, errors = []) {
+            this.instance().checkComponentValidity = function (data, dirty, rowData, options, errors = []) {
                 const minCount = this.component.validate.minSelectedCount;
                 const maxCount = this.component.validate.maxSelectedCount;
                 if (!this.shouldSkipValidation(data, rowData, options)) {
@@ -118,7 +118,7 @@ export class MaterialSelectBoxesComponent extends MaterialRadioComponent {
                             })
                         }
 
-                        if (!isValid && maxCount && count > maxCount) {
+                        if ( maxCount && count > maxCount) {
                             const message = this.t(
                                 this.component.maxSelectedCountMessage || 'You may only select up to {{maxCount}} items',
                                 {maxCount}
@@ -126,7 +126,7 @@ export class MaterialSelectBoxesComponent extends MaterialRadioComponent {
                             this.errors.push({message});
                             this.setCustomValidity(message, dirty);
                             return false;
-                        } else if (!isValid && minCount && count < minCount) {
+                        } else if ( minCount && count < minCount) {
                             this.setInputsDisabled(false);
                             const message = this.t(
                                 this.component.minSelectedCountMessage || 'You must select at least {{minCount}} items',

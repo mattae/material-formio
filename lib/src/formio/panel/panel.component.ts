@@ -65,16 +65,11 @@ export class MaterialPanelComponent extends MaterialComponent {
     }
 
     initialize() {
-        if (this.instance && this.content()) {
+        if (this.instance() && this.content()) {
             const content = this.content()!.nativeElement;
-            content.innerHTML = this.instance.renderComponents()
-            this.instance.attachComponents(content);
+            content.innerHTML = this.instance().renderComponents()
+            this.instance().attachComponents(content);
 
-            this.instance.root.on('beforeSetSubmission', ({data}) => {
-                if (data) {
-                    this.instance.setValue(data)
-                }
-            })
             this.cdr.markForCheck();
         }
     }

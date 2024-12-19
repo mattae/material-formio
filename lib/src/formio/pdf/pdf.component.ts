@@ -13,7 +13,6 @@ Displays.getDisplay('pdf').prototype.attach = function (element) {
 
 @Component({
     selector: 'mat-formio-pdf',
-    standalone: true,
     template: `
         <mat-card appearance="raised">
             <mat-card-content>
@@ -22,13 +21,13 @@ Displays.getDisplay('pdf').prototype.attach = function (element) {
                         <button mat-mini-fab class="bg-primary text-on-primary"
                                 (click)="zoom(true)"
                                 style="position:absolute;right:40px;top:30px;cursor:pointer;">
-                            <mat-icon svgIcon="feather:zoom-in"></mat-icon>
+                            <mat-icon svgIcon="feather:zoom-in" class="text-on-primary"></mat-icon>
                         </button>
                         <button mat-mini-fab class="bg-primary text-on-primary"
                                 (click)="zoom()"
                                 [disabled]="containerZoom <= minContainerZoom"
                                 style="position:absolute;right:40px;top:80px;cursor:pointer;">
-                            <mat-icon svgIcon="feather:zoom-out"></mat-icon>
+                            <mat-icon svgIcon="feather:zoom-out" class="text-on-primary"></mat-icon>
                         </button>
                         <div data-noattach="true" ref="iframeContainer"></div>
                     </div>
@@ -60,7 +59,7 @@ Displays.getDisplay('pdf').prototype.attach = function (element) {
 export class MaterialPdfComponent extends MaterialWebBuilderComponent {
     container = viewChild('container', {read: ElementRef});
     iframe = viewChild('iframe', {read: ElementRef});
-    submitButton = viewChild('button', {read: ElementRef})
+    submitButton = viewChild('button', {read: ElementRef});
     http = inject(HttpClient);
     src: string;
     doc: any;
@@ -83,8 +82,8 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
     constructor() {
         super();
         effect(() => {
-            if (this.instance) {
-                this.instance.iframeReadyResolve = () => {
+            if (this.instance()) {
+                this.instance().iframeReadyResolve = () => {
                 }
                 this.initialize();
             }
@@ -93,21 +92,22 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
 
     initialize() {
         super.initialize();
-        const src = `${this.instance.form.settings.pdf.src}.html`;
-        this.http.get(src, {responseType: 'text'}).subscribe(res => {
-            const blob = new Blob([res], {type: 'text/html'});
-            this.src = URL.createObjectURL(blob);
-
-            if (this.iframe() && !this.pdfLoaded) {
-                const iframe = this.iframe()!.nativeElement;
-                iframe.src = this.src;
-                this.pdfLoaded = true;
-            }
-        });
+        if (this.instance().form.settings?.pdf?.src) {
+            const src = `${this.instance().form.settings.pdf.src}.html`;
+            this.http.get(src, {responseType: 'text'}).subscribe(res => {
+                const blob = new Blob([res], {type: 'text/html'});
+                this.src = URL.createObjectURL(blob);
+                if (this.iframe() && !this.pdfLoaded) {
+                    const iframe = this.iframe()!.nativeElement;
+                    iframe.src = this.src;
+                    this.pdfLoaded = true;
+                }
+            });
+        }
 
         if (this.submitButton()) {
-            const button = this.instance.addComponent({
-                disabled: this.instance.form.disableWizardSubmit,
+            const button = this.instance().addComponent({
+                disabled: this.instance().form.disableWizardSubmit,
                 input: true,
                 type: 'button',
                 action: 'submit',
@@ -115,7 +115,7 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
                 label: 'Submit',
                 key: 'submit',
                 ref: 'button',
-                hidden: this.instance.isSubmitButtonHidden()
+                hidden: this.instance().isSubmitButtonHidden()
             });
 
             this.submitButton()!.nativeElement.innerHTML = button.render();
@@ -124,7 +124,7 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
     }
 
     initializeContainer() {
-        const components = this.instance.webform?.components || this.component.components || [];
+        const components = this.instance().webform?.components || this.component.components || [];
         components.forEach((component: { hideLabel: boolean; hideError: boolean; inPdf: boolean; }) => {
             component.hideLabel = true;
             component.hideError = true;
@@ -133,7 +133,7 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
 
         if (this.container()) {
             const container = this.container()!.nativeElement;
-            container.innerHTML = (this.instance.webform || this.instance).renderComponents();
+            container.innerHTML = (this.instance().webform || this.instance()).renderComponents();
 
             let pages = this.doc.querySelectorAll('div.pf.w0');
             Array.from(pages).forEach((page: any, index) => {
@@ -255,12 +255,12 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
         this.initializeContainer();
 
         const container = this.container()!.nativeElement;
-        const components = this.instance.webform?.component.components || this.component.components;
+        const components = this.instance().webform?.component.components || this.component.components;
 
         const elements = Array.from(container.children).flatMap((child: any) => Array.from(child.children));
         elements.forEach((child: any) => {
             const component = components.find(cmp => cmp.id === child.id);
-            const instance = (this.instance.webform?.components || this.instance.components).find(cmp => cmp.id === child.id);
+            const instance = (this.instance().webform?.components || this.instance().components).find(cmp => cmp.id === child.id);
             if (component && instance) {
                 let style = 'position: absolute;';
                 const overlay = component.overlay;

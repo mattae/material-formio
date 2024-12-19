@@ -23,14 +23,14 @@ import { MaterialComponent } from "../material.component";
                     }
                     <table class="border-collapse table-auto border w-full h-full p-4 border-slate-400 rounded-2xl">
                         <thead>
-                        <tr>
-                            <th class="border border-slate-400"></th>
-                            @for (value of component.values; track value) {
-                                <th class="text-on-primary-container font-semibold p-4 bg-primary-container">
-                                    {{ value.label | transloco }}
-                                </th>
-                            }
-                        </tr>
+                            <tr>
+                                <th class="border border-slate-400"></th>
+                                @for (value of component.values; track value) {
+                                    <th class="text-on-primary-container font-semibold p-4 bg-primary-container">
+                                        {{ value.label | transloco }}
+                                    </th>
+                                }
+                            </tr>
                         </thead>
                         <tbody>
                             @for (question of component.questions; track question; let i = $index, e = $even) {

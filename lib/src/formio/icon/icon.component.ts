@@ -15,11 +15,11 @@ import { MatButton, MatIconButton, MatMiniFabButton } from '@angular/material/bu
         @if (iconButton()) {
             @if (fab()) {
                 <button mat-mini-fab [class]="classNames()">
-                    <mat-icon [svgIcon]="icon"></mat-icon>
+                    <mat-icon [svgIcon]="icon()"></mat-icon>
                 </button>
             } @else {
                 <button mat-icon-button [class]="classNames()">
-                    <mat-icon [svgIcon]="icon" [class]="iconClasses()"></mat-icon>
+                    <mat-icon [svgIcon]="icon()" [class]="iconClasses()"></mat-icon>
                 </button>
             }
         } @else if (button()) {
@@ -29,27 +29,25 @@ import { MatButton, MatIconButton, MatMiniFabButton } from '@angular/material/bu
                 [class]="classNames()"
                 [color]="color"
             >
-                @if (icon) {
-                    <mat-icon [svgIcon]="icon" [class]="iconClasses()"></mat-icon>
+                @if (icon()) {
+                    <mat-icon [svgIcon]="icon()" [class]="iconClasses()"></mat-icon>
                 }
-                @if (label) {
-                    {{ label }}
+                @if (label()) {
+                    {{ label() }}
                 }
             </button>
         } @else {
-            <mat-icon [svgIcon]="icon" [class]="iconClasses()"></mat-icon>
+            <mat-icon [svgIcon]="icon()" [class]="iconClasses()"></mat-icon>
         }
     `
 })
 export class MaterialIconComponent {
     _color: string;
-    @Input()
-    icon: string;
+    readonly icon = input<string>();
     readonly fab = input<boolean>();
     readonly iconButton = input<boolean>(undefined, { alias: "iconbutton" });
     readonly button = input<boolean>();
-    @Input()
-    label: string
+    readonly label = input<string>();
     readonly classNames = input<string>(undefined, { alias: "classnames" });
     readonly iconClasses = input<string>(undefined, { alias: "iconclasses" });
     @Input()

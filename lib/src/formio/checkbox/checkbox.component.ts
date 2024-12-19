@@ -38,11 +38,9 @@ import { NgStyle } from '@angular/common';
                                 {{ component.label }}
                             }
                         </mat-radio-button>
-                        @if (component.description) {
-                            <mat-hint>
-                                <span [innerHTML]="component.description | transloco"></span>
-                            </mat-hint>
-                        }
+                        <mat-hint>
+                            <span [innerHtml]="component.description | transloco"></span>
+                        </mat-hint>
                         @if (isError()) {
                             <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
                         }
@@ -58,11 +56,9 @@ import { NgStyle } from '@angular/common';
                             <span matFormioLabel [component]="component"></span>
                         }
                     </mat-checkbox>
-                    @if (component.description) {
-                        <mat-hint>
-                            <span [innerHTML]="component.description | transloco"></span>
-                        </mat-hint>
-                    }
+                    <mat-hint>
+                        <span [innerHtml]="component.description | transloco"></span>
+                    </mat-hint>
                     @if (isError()) {
                         <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
                     }
@@ -89,17 +85,17 @@ export class MaterialCheckboxComponent extends MaterialRadioComponent {
     }
 
     isRadioChecked(value: any) {
-        return value === this.instance.dataValue;
+        return value === this.instance().dataValue;
     }
 
     isCheckboxChecked(value: any) {
-        return value === this.instance.dataValue;
+        return value === this.instance().dataValue;
     }
 
     clicked(): void {
         this.control.setValue(this.component.value);
-        _.set(this.instance.data, this.component.name, this.component.value)
-        this.instance.updateValue(this.component.value, {
+        _.set(this.instance().data, this.component.name, this.component.value)
+        this.instance().updateValue(this.component.value, {
             modified: true
         });
     }

@@ -20,6 +20,71 @@ Components.components.editgrid.prototype.render = function (...args) {
 Components.components.editgrid.prototype.redraw = function (...args) {
 }
 
+Components.components.editgrid.prototype.checkComponentValidity = function (data, dirty, row, options:any = {}, errors = []) {
+    const { silentCheck, fromSubmission } = options;
+    const superValid = Components.components.base.prototype.checkComponentValidity.call(this, data, dirty, row, options, errors);
+
+    // If super tells us that component invalid and there is no need to update alerts, just return false
+    if (!superValid && (!this.alert && !this.hasOpenRows())) {
+        return false;
+    }
+
+    let rowsEditing = false;
+    const allRowErrors = [];
+    this.editRows.forEach((editRow, index) => {
+        // Trigger all errors on the row.
+        const rowErrors = this.validateRow(editRow, dirty, silentCheck, fromSubmission);
+        errors.push(...rowErrors);
+        allRowErrors.push(...rowErrors);
+
+        if (this.rowRefs) {
+            const rowContainer = this.rowRefs[index];
+
+            if (rowContainer) {
+                const errorContainer = rowContainer.querySelector('.editgrid-row-error');
+
+                if (rowErrors.length && errorContainer && (!this.component.rowDrafts || this.shouldValidateDraft(editRow))) {
+                    const rowError = rowErrors.find(error => error.rowError);
+                    this.addClass(errorContainer,  'help-block' );
+                    errorContainer.textContent = this.t(rowError ? rowError.message : this.errorMessage('invalidRowError'));
+                }
+                else if (errorContainer) {
+                    errorContainer.textContent = '';
+                    this.removeClass(errorContainer,  'help-block' );
+                }
+            }
+        }
+        // If this is a dirty check, and any rows are still editing, we need to throw validation error.
+        // @ts-ignore
+        rowsEditing |= (dirty && this.isOpen(editRow));
+    });
+
+    if (allRowErrors.length) {
+        if (!silentCheck && (dirty || this.dirty) && (!this.component.rowDrafts || this.root?.submitted)) {
+            this.setCustomValidity(this.t(this.errorMessage('invalidRowsError')), dirty);
+            this.removeClass(this.element, 'has-error');
+        }
+        return false;
+    }
+    else if (rowsEditing && this.saveEditMode && !this.component.openWhenEmpty) {
+        this._errors = this.setCustomValidity(this.t(this.errorMessage('unsavedRowsError')), dirty);
+        errors.push(...this._errors);
+        return false;
+    }
+
+    const message = this.invalid || this.invalidMessage(data, dirty, false, row);
+    if (allRowErrors.length && this.root?.submitted && !message) {
+        this._errors = this.setCustomValidity(message, dirty);
+        errors.push(...this._errors);
+        this.root.showErrors([message]);
+    }
+    else {
+        this._errors = this.setCustomValidity(message, dirty) || [];
+        errors.push(...this._errors);
+    }
+    return superValid;
+}
+
 enum EditRowState {
     NEW = 'new',
     EDITING = 'editing',
@@ -113,8 +178,8 @@ export class MaterialEditGridComponent extends MaterialComponent {
                 }
             }
             if (this.components()) {
-                this.components()!.nativeElement.innerHTML = this.instance.renderComponents();
-                this.instance.attachComponents(this.components()!.nativeElement)
+                this.components()!.nativeElement.innerHTML = this.instance().renderComponents();
+                this.instance().attachComponents(this.components()!.nativeElement)
             }
             if (this.headerElement()) {
                 this.renderTemplate(this.headerElement()!, this.header);
@@ -148,7 +213,7 @@ export class MaterialEditGridComponent extends MaterialComponent {
 
             form.submission = {data: JSON.parse(JSON.stringify(row.data))};
 
-            this.instance.triggerChange();
+            this.instance().triggerChange();
             this.cdr.markForCheck();
         }
     }
@@ -172,25 +237,25 @@ export class MaterialEditGridComponent extends MaterialComponent {
             this.header = instance.renderString(_.get(this.component, 'templates.header', DEFAULT_HEADER_TEMPLATE), {
                 components: instance.component.components,
                 value: dataValue,
-                displayValue: (component) => this.instance.displayComponentValue(component),
+                displayValue: (component) => this.instance().displayComponentValue(component),
             });
         }
         if (instance.component.templates && instance.component.templates.footer) {
             this.footer = instance.renderString(_.get(this.component, 'templates.header', DEFAULT_HEADER_TEMPLATE), {
                 components: instance.component.components,
                 value: dataValue,
-                displayValue: (component) => this.instance.displayComponentValue(component),
+                displayValue: (component) => this.instance().displayComponentValue(component),
             });
         }
     }
 
     addAnother() {
-        const row = this.instance.addRow();
+        const row = this.instance().addRow();
         this.cdr.markForCheck();
     }
 
     removeRow(index: number) {
-        this.instance.removeRow(index);
+        this.instance().removeRow(index);
 
         this.cdr.markForCheck();
     }
@@ -202,7 +267,7 @@ export class MaterialEditGridComponent extends MaterialComponent {
         if (state === NEW || state === REMOVED) {
             return;
         }
-        this.instance.editRow(index);
+        this.instance().editRow(index);
 
         this.cdr.markForCheck();
     }
@@ -215,16 +280,16 @@ export class MaterialEditGridComponent extends MaterialComponent {
      * @param comps
      */
     updateRowTemplate(rowElement: ElementRef, index, comps) {
-        const editRow: any = {...this.instance.editRows[index]};
+        const editRow: any = {...this.instance().editRows[index]};
         if (editRow.state !== this.RowStates.NEW) {
-            const flattenedComponents = this.instance.flattenComponents(index);
-            this.renderTemplate(rowElement, this.instance.renderString(DEFAULT_ROW_TEMPLATE, {
-                row: this.instance.dataValue[index] || {},
-                data: this.instance.data,
+            const flattenedComponents = this.instance().flattenComponents(index);
+            this.renderTemplate(rowElement, this.instance().renderString(DEFAULT_ROW_TEMPLATE, {
+                row: this.instance().dataValue[index] || {},
+                data: this.instance().data,
                 rowIndex: index,
-                components: this.instance.component.components,
-                displayValue: (component) => this.instance.displayComponentValue(component),
-                isVisibleInRow: (component) => this.instance.isComponentVisibleInRow(component, flattenedComponents),
+                components: this.instance().component.components,
+                displayValue: (component) => this.instance().displayComponentValue(component),
+                isVisibleInRow: (component) => this.instance().isComponentVisibleInRow(component, flattenedComponents),
                 getView: function getView(component, data) {
                     if (!comps[component.type]) {
                         comps[component.type] = Components.create(component, {}, {});
@@ -248,7 +313,7 @@ export class MaterialEditGridComponent extends MaterialComponent {
         if (forms[index]) {
             const formioComponent = forms[index];
             row.data = JSON.parse(JSON.stringify(formioComponent.formio.submission.data));
-            this.instance.saveRow(index);
+            this.instance().saveRow(index);
             const rows = this.rowElements();
             if (rows && rows[index]) {
                 this.updateRowTemplate(rows[index], index, {});
@@ -259,7 +324,7 @@ export class MaterialEditGridComponent extends MaterialComponent {
     }
 
     cancelRow(index) {
-        this.instance.cancelRow(index);
+        this.instance().cancelRow(index);
         this.valid = true;
 
         this.cdr.markForCheck();

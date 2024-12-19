@@ -18,7 +18,7 @@
         @if (loading) {
             <mat-icon class="mat-icon-spin" svgIcon="heroicons_outline:arrow-path"></mat-icon>
         }
-        {{ component.label | transloco }}
+        <span [innerHTML]="component.label | transloco"></span>
         @if (component.rightIcon) {
             <mat-icon [svgIcon]="component.rightIcon"></mat-icon>
         }

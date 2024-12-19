@@ -13,9 +13,9 @@
     },
     "sideEffects": false,
     "peerDependencies": {
-        "@angular/elements": "^18.0.6",
-        "@angular/material": ">=18.0.0",
-        "@formio/angular": "^7.0.0",
+        "@angular/elements": "^19.0.1",
+        "@angular/material": ">=19.0.0",
+        "@formio/angular": "^8.0.0-rc.11",
         "@jsverse/transloco": "^6.5.0",
         "@ng-matero/extensions": "^18.3.4",
         "js-event-bus": "^1.1.1"
@@ -69,5 +69,8 @@
     "publishConfig": {
         "access": "public"
     },
-    "dependencies": {}
+    "dependencies": {
+        "marked": "^15.0.3",
+        "showdown": "^2.1.0"
+    }
 }

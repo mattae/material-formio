@@ -12,15 +12,28 @@ Wizard.prototype.render = function (...args) {
 }
 
 Wizard.prototype.attach = function (...args) {
+    console.log('Attach', args)
     return Components.components.base.prototype.attach.call(this, args);
+}
+
+Wizard.prototype.loadRefs = function (...args) {
+
+}
+
+Wizard.prototype.redrawHeader = function (...args) {
+
+}
+
+Wizard.prototype.redraw1 = function (...args) {
+    return Promise.resolve()
 }
 
 @Component({
     selector: 'mat-formio-wizard',
     template: `
-        @if (instance){
+        @if (instance()){
         <mat-stepper>
-            @for (page of pages ; track trackedBy(page)) {
+            @for (page of pages; track trackedBy(page)) {
                 <mat-step [label]="page.component.title">
                     <div class="p-2 pt-3"  #components></div>
                     <div class="flex flex-row gap-x-0.5">
@@ -31,19 +44,19 @@ Wizard.prototype.attach = function (...args) {
                                 </button>
                             }
                             @if (button === 'previous' && buttons.previous) {
-                                <button mat-raised-button class="bg-primary text-on-primay"
+                                <button mat-raised-button color="primary"
                                         (click)="prevPage()">Previous
                                 </button>
                             }
                             @if (button === 'next' && buttons.next) {
                                 <button mat-raised-button
-                                        class="bg-primary text-on-primay" (click)="nextPage()">
+                                        color="primary" (click)="nextPage()">
                                     Next
                                 </button>
                             }
                             @if (button === 'submit' && buttons.submit) {
                                 <button mat-raised-button
-                                        class="bg-primary text-on-primay" (click)="submit()">
+                                        color="primary" (click)="submit()">
                                     Submit
                                 </button>
                             }
@@ -81,7 +94,7 @@ export class MaterialWizardComponent extends MaterialComponent {
 
     instanceInitialized(instance: any) {
         super.instanceInitialized(instance);
-        this.instance.setValue({});
+        this.instance().setValue({});
         const establishPages =  Wizard.prototype.establishPages;
         const _this = this;
         Wizard.prototype.establishPages = function (...args) {
@@ -94,21 +107,21 @@ export class MaterialWizardComponent extends MaterialComponent {
             return result;
         }
 
-        this.instance.on('pagesChanged', ()=> this.cdr.markForCheck())
+        this.instance().on('pagesChanged', ()=> this.cdr.markForCheck())
     }
 
     initialize() {
-        if (this.instance) {
-            this.buttonSettings = this.instance.options.buttonSettings;
-            this.buttonOrder = this.instance.renderContext.buttonOrder;
-            this.buttons = this.instance.buttons;
-            const instance = this.instance;
+        if (this.instance()) {
+            this.buttonSettings = this.instance().options.buttonSettings;
+            this.buttonOrder = this.instance().renderContext.buttonOrder;
+            this.buttons = this.instance().buttons;
+            const instance = this.instance();
 
             if (this.stepper()) {
                 this.stepper()!.selectedIndex = instance.page
             }
             if (this.components()) {
-                const pages = instance.allPages.length ? this.instance.allPages : this.instance.pages;
+                const pages = instance.allPages.length ? this.instance().allPages : this.instance().pages;
                 this.pages = pages;
 
                this.renderPages(pages);
@@ -117,36 +130,36 @@ export class MaterialWizardComponent extends MaterialComponent {
     }
 
     renderPages(pages: any[]) {
-        /*this.components().forEach((panel, index) => {
+        this.components().forEach((panel, index) => {
             const content = pages.map((page: any) => {
-                return this.instance.renderComponents(page.components)
+                return this.instance().renderComponents(page.components)
             });
             panel.nativeElement.innerHTML = content[index];
         })
         this.components().forEach((page, index) => {
-            this.instance.attachComponents(page.nativeElement, pages[index].components, pages[index].component.components);
-        });*/
+            this.instance().attachComponents(page.nativeElement, pages[index].components, pages[index].component.components);
+        });
 
         this.cdr.markForCheck()
     }
 
     resetWizard() {
-        this.instance.cancel();
+        this.instance().cancel();
         this.stepper()!.reset();
     }
 
     nextPage() {
-        this.instance.nextPage()
+        this.instance().nextPage()
         this.stepper()!.next();
     }
 
     prevPage() {
-        this.instance.prevPage()
+        this.instance().prevPage()
         this.stepper()!.previous();
     }
 
     submit() {
-        this.instance.submit();
+        this.instance().submit();
     }
 
     trackedBy(page: any) {

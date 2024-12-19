@@ -32,25 +32,25 @@ import { uniquify } from '../web-builder/web-builder.component';
                         </mat-form-field>
                         <mat-accordion>
                             @for (groupOrder of groupOrders; track groupOrder) {
-                                <mat-expansion-panel [expanded]="instance.groups[groupOrder].default">
+                                <mat-expansion-panel [expanded]="instance().groups[groupOrder].default">
                                     <mat-expansion-panel-header>
-                                        {{ instance.groups[groupOrder].title | transloco }}
+                                        {{ instance().groups[groupOrder].title | transloco }}
                                     </mat-expansion-panel-header>
                                     @for (componentOrder of componentOrders[groupOrder]; track componentOrder) {
                                         <div class="pt-1.5 drag-copy"
                                              draggable="true"
                                              (dragstart)="onDragStart($event)"
                                              [attr.data-group]="groupOrder"
-                                             [attr.data-key]="instance.groups[groupOrder].components[componentOrder].key"
-                                             [attr.data-type]="instance.groups[groupOrder].components[componentOrder].schema.type"
-                                             tabindex="{{instance.keyboardActionsEnabled ? 0 : -1}}">
+                                             [attr.data-key]="instance().groups[groupOrder].components[componentOrder].key"
+                                             [attr.data-type]="instance().groups[groupOrder].components[componentOrder].schema.type"
+                                             tabindex="{{instance().keyboardActionsEnabled ? 0 : -1}}">
                                             <div
                                                     class="pl-2 space-x-0.5 flex items-center justify-items-end bg-primary shadow-lg rounded-md h-10">
                                                 <mat-icon class="text-on-primary icon-size-4"
-                                                          [svgIcon]="instance.groups[groupOrder].components[componentOrder].icon ? iconClass('', instance.groups[groupOrder].components[componentOrder].icon) : 'feather:copy'">
+                                                          [svgIcon]="instance().groups[groupOrder].components[componentOrder].icon ? iconClass('', instance().groups[groupOrder].components[componentOrder].icon) : 'feather:copy'">
                                                 </mat-icon>
                                                 <div class="ml-1.5 leading-5 mr-auto pl-1 text-on-primary">
-                                                    {{ instance.groups[groupOrder].components[componentOrder].title }}
+                                                    {{ instance().groups[groupOrder].components[componentOrder].title }}
                                                 </div>
                                             </div>
                                         </div>
@@ -67,13 +67,13 @@ import { uniquify } from '../web-builder/web-builder.component';
                                 <button mat-mini-fab class="bg-primary text-on-primary"
                                         (click)="zoom(true)"
                                         style="position:absolute;right:40px;top:30px;cursor:pointer;">
-                                    <mat-icon svgIcon="feather:zoom-in"></mat-icon>
+                                    <mat-icon svgIcon="feather:zoom-in" class="text-on-primary"></mat-icon>
                                 </button>
                                 <button mat-mini-fab class="bg-primary text-on-primary"
                                         (click)="zoom()"
                                         [disabled]="containerZoom <= minContainerZoom"
                                         style="position:absolute;right:40px;top:80px;cursor:pointer;">
-                                    <mat-icon svgIcon="feather:zoom-out"></mat-icon>
+                                    <mat-icon svgIcon="feather:zoom-out" class="text-on-primary"></mat-icon>
                                 </button>
                                 <div data-noattach="true" ref="iframeContainer"></div>
                             </div>
@@ -114,7 +114,7 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
     constructor() {
         super();
         effect(() => {
-            if (this.instance) {
+            if (this.instance()) {
                 this.initialize();
             }
         });
@@ -124,8 +124,8 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
         super.initialize();
 
         if (this.container()) {
-            this.container()!.nativeElement.formioContainer = this.instance.webform.component.components || []
-            this.container()!.nativeElement.formioComponent = this.instance.webform;
+            this.container()!.nativeElement.formioContainer = this.instance().webform.component.components || []
+            this.container()!.nativeElement.formioComponent = this.instance().webform;
             this.container()!.nativeElement.formioComponent.rebuild = () => Promise.resolve();
 
             const _this = this;
@@ -178,30 +178,30 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
         const dropPage = this.findDropPage(offsetX, offsetY);
 
         if (dropPage) {
-            const schema = Utils['fastCloneDeep'](this.instance.schemas[type]);
+            const schema = Utils['fastCloneDeep'](this.instance().schemas[type]);
 
             if (key && group) {
-                const info = this.instance.getComponentInfo(key, group);
+                const info = this.instance().getComponentInfo(key, group);
                 _.merge(schema, info);
 
                 // Set a unique key for this component.
-                uniquify([this.instance.webform._form], schema);
-                this.instance.webform._form.components.push(schema);
+                uniquify([this.instance().webform._form], schema);
+                this.instance().webform._form.components.push(schema);
                 const WIDTH = 100;
 
                 const pageParams = this.pages.find(p => p.page == this.page);
                 if (pageParams) {
                     schema.overlay = {
-                        top: dropPage.top - (this.defaultHeight / 2),
+                        top: dropPage.top - (this.defaultHeight / 2) - 11,
                         left: dropPage.left - (WIDTH / 2),
                         width: WIDTH,
                         height: this.defaultHeight,
                         page: this.page
                     };
 
-                    this.instance.webform.addComponent(schema, {}, null, true);
+                    this.instance().webform.addComponent(schema, {}, null, true);
                     this.container()!.nativeElement.formioContainer.push(schema)
-                    this.instance.editComponent(schema, this.container()!.nativeElement, true, null, null);
+                    this.instance().editComponent(schema, this.container()!.nativeElement, true, null, null);
 
                     this.container()!.nativeElement.scroll(0, 0);
 
@@ -217,7 +217,7 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
         this.enableEdit = true;
 
         const container = this.container()!.nativeElement;
-        const components = this.instance.webform?.component.components || this.component.components;
+        const components = this.instance().webform?.component.components || this.component.components;
 
         const elements = Array.from(container.children).flatMap((child: any) => Array.from(child.children));
         elements.forEach((element: any) => {
@@ -225,11 +225,11 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
 
             element.addEventListener('click', () => {
                 if (component && !(this.resizing || this.dragging) && this.enableEdit) {
-                    this.instance.editComponent(component, this.container()!.nativeElement, false, null, null);
+                    this.instance().editComponent(component, this.container()!.nativeElement, false, null, null);
                 }
             });
 
-            const instance = (this.instance.webform?.components || this.instance.components).find(cmp => cmp.id === element.id);
+            const instance = (this.instance().webform?.components || this.instance().components).find(cmp => cmp.id === element.id);
             if (component && instance) {
                 let style = 'position: absolute; resize: horizontal;';
                 let r = 1;
@@ -239,7 +239,7 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
                     if (pageParams) {
                         let width: number;
                         let height: number;
-                        style += ` top: ${overlay.top - 5}px;`;
+                        style += ` top: ${overlay.top - 11}px;`;
                         style += ` left: ${overlay.left - 3}px;`;
                         if (overlay.width && ('string' == typeof overlay.width && overlay.width.endsWith('%') && (overlay.width = Number(overlay.width.replace('%', '')) / 100))) {
                             width = parseInt(overlay.width, 10);
@@ -274,12 +274,13 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
             }
         });
 
-        this.instance.emit('updateComponent', {});
+        this.instance().emit('updateComponent', {});
     }
 
     updateComponent(component: any) {
-        this.instance.emit('updateComponent', component);
-        this.instance.emit('change', this.instance.form);
+        console.log('Update 1', component)
+        this.instance().emit('updateComponent', component);
+        this.instance().emit('change', this.instance().form);
     }
 
     private repositionComponent(element: any, resizeHandle: HTMLDivElement, component) {
@@ -334,7 +335,7 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
 
                 component.overlay = Object.assign({}, component.overlay, {
                     left: (dropPage!.left * this.containerZoom) + 2,
-                    top: (dropPage!.top * this.containerZoom + pageParams!.marginTop) + 6,
+                    top: (dropPage!.top * this.containerZoom + pageParams!.marginTop) + 4,
                     page: this.page
                 });
 
@@ -398,7 +399,7 @@ export class MaterialPdfBuilderComponent extends MaterialPdfComponent {
                 // Apply the new dimensions to the resizable element
                 element.style.width = `${newWidth}px`;
                 element.style.height = `${newHeight}px`;
-
+console.log('new Width', newWidth)
                 component.overlay = Object.assign({}, component.overlay, {
                     width: newWidth,
                     height: newHeight / this.containerZoom,

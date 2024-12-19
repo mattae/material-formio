@@ -9,6 +9,7 @@ import { MaterialTextfieldComponent, TEXTFIELD_TEMPLATE } from '../textfield/tex
 import { MatIconModule } from '@angular/material/icon';
 import { NgClass } from '@angular/common';
 import { Components } from '@formio/js';
+import { MatIconButton } from '@angular/material/button';
 
 Components.components.number.prototype.focus = function () {}
 
@@ -23,7 +24,8 @@ Components.components.number.prototype.focus = function () {}
         LabelComponent,
         TranslocoModule,
         MatIconModule,
-        NgClass
+        NgClass,
+        MatIconButton
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -35,12 +37,12 @@ export class MaterialNumberComponent extends MaterialTextfieldComponent {
     constructor() {
         super();
         effect(() => {
-            if (this.instance && this.input()) {
+            if (this.instance() && this.input()) {
                 const {instance} = this;
                 this.renderer.listen(this.input().nativeElement, 'blur', () => {
-                    let value = instance.parseValue(this.control.value);
-                    value = instance.formatValue(value);
-                    value = instance.getValueAsString(value);
+                    let value = instance().parseValue(this.control.value);
+                    value = instance().formatValue(value);
+                    value = instance().getValueAsString(value);
                     this.control.setValue(value);
                 });
             }
@@ -48,13 +50,13 @@ export class MaterialNumberComponent extends MaterialTextfieldComponent {
     }
 
     getValueAt(index: string) {
-        if (!this.instance.refs.input.length || !this.instance.refs.input[index]) {
+        if (!this.instance().refs.input.length || !this.instance().refs.input[index]) {
             return null;
         }
 
-        const val = this.instance.refs.input[index].value;
+        const val = this.instance().refs.input[index].value;
 
-        return val && val !== '-_' ? this.instance.parseNumber(val) : null;
+        return val && val !== '-_' ? this.instance().parseNumber(val) : null;
     }
 
     onChange() {

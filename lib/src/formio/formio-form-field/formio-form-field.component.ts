@@ -1,16 +1,17 @@
 import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     effect,
     ElementRef,
+    inject,
     Input,
-    TemplateRef,
-    viewChild,
     input,
-    ChangeDetectionStrategy, inject, ChangeDetectorRef
+    TemplateRef,
+    viewChild
 } from '@angular/core';
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { LabelComponent } from '../label/label.component';
 import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
@@ -18,23 +19,22 @@ import { TranslocoModule } from '@jsverse/transloco';
     templateUrl: './formio-form-field.component.html',
     styleUrls: ['./formio-form-field.component.css'],
     imports: [
-        NgClass,
         NgTemplateOutlet,
         MatFormFieldModule,
-        LabelComponent,
         TranslocoModule
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormioFormFieldComponent {
-    private _component;
     readonly labelTemplate = input<TemplateRef<any>>();
     readonly showDescription = input(true);
     readonly renderElementOnly = input(false);
     container = viewChild('container', {read: ElementRef});
     hideLabel = false;
     cdr = inject(ChangeDetectorRef)
+    componentTemplate = input<TemplateRef<any>>();
+    componentTemplateContext;
 
     constructor() {
         effect(() => {
@@ -48,6 +48,12 @@ export class FormioFormFieldComponent {
         });
     }
 
+    private _component;
+
+    get component() {
+        return this._component;
+    }
+
     @Input('component')
     set component(instance) {
         this._component = instance;
@@ -55,13 +61,6 @@ export class FormioFormFieldComponent {
             this.componentTemplateContext = {$implicit: this.hasLabel()};
         }
     }
-
-    get component() {
-        return this._component;
-    }
-
-    componentTemplate = input<TemplateRef<any>>();
-    componentTemplateContext;
 
     hasLabel() {
         const component = this.component;

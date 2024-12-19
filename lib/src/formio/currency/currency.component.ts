@@ -9,6 +9,7 @@ import { LabelComponent } from '../label/label.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { MatIconModule } from '@angular/material/icon';
 import { NgClass } from "@angular/common";
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
     selector: 'mat-formio-currency',
@@ -22,7 +23,8 @@ import { NgClass } from "@angular/common";
         LabelComponent,
         TranslocoModule,
         MatIconModule,
-        NgClass
+        NgClass,
+        MatIconButton
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

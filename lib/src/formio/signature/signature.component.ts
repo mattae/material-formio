@@ -11,13 +11,14 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButton, MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { NgClass, NgStyle } from '@angular/common';
+import { CommonModule, NgStyle } from '@angular/common';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 import { LabelComponent } from '../label/label.component';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import { PopoverService } from '@mattae/angular-shared';
 import { eventBus } from '../formio.service';
+import { MatCard } from '@angular/material/card';
 
 @Component({
     selector: 'signature-overlay',
@@ -58,10 +59,11 @@ import { eventBus } from '../formio.service';
                         </div>
                     }
                     <div class="flex flex-row justify-end ml-auto">
-                        <button mat-raised-button class="bg-primary text-on-primay" (click)="close()">Close</button>
+                        <button mat-raised-button color="primary" (click)="close()">Close</button>
                     </div>
                 </div>
             </div>
+            <mat-card></mat-card>
         }
     `,
     imports: [
@@ -69,7 +71,8 @@ import { eventBus } from '../formio.service';
         MatIcon,
         MatIconButton,
         TranslocoPipe,
-        MatButton
+        MatButton,
+        MatCard
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -96,7 +99,7 @@ export class SignatureOverlay {
         eventBus.emit('instanceInitialized', null, this.#id);
 
         effect(() => {
-            if (this.canvas()) {
+            if (this.instance && this.canvas()) {
                 this.instance.attach(this.element.nativeElement);
             }
         });
@@ -114,9 +117,9 @@ export class SignatureOverlay {
             @if (component.inPdf) {
                 <div class="justify-center text-2xl flex flex-row items-center" (click)="padClicked()"
                      [ngClass]="{
-                        'sign h-full': !instance.dataValue
+                        'sign h-full': !instance().dataValue
                      }">
-                    @if (!instance.dataValue) {
+                    @if (!instance().dataValue) {
                         <div class="flex text-center justify-center">
                             Click to sign
                         </div>
@@ -141,14 +144,14 @@ export class SignatureOverlay {
                                     style="padding: 0; margin: 0;"
                                     [ngStyle]="{
                                 width: component.width,
-                                height: component.height
+                                height: component.height + 50
                             }"
                                     tabindex="{{component.tabindex || 0}}"
                                     [attr.ref]="'padBody'"
                             >
                                 <canvas class="signature-pad-canvas" style="display: none;" [attr.ref]="'canvas'"
                                         #canvas
-                                        [ngStyle]="{height: component.height}"></canvas>
+                                        [ngStyle]="{height: component.height + 50}"></canvas>
                                 <img style="width: 100%; display: inherit;" [attr.ref]="'signatureImage'">
                                 <div class="signature-pad-refresh absolute top-0 left-0 z-99" #refresh>
                                     <button mat-icon-button [attr.ref]="'refresh'">
@@ -158,9 +161,9 @@ export class SignatureOverlay {
                             </div>
                         </div>
 
-                        @if (instance.component.footer) {
+                        @if (instance().component.footer) {
                             <div class="signature-pad-footer">
-                                {{ instance.component.footer | transloco }}
+                                {{ instance().component.footer | transloco }}
                             </div>
                         }
                     </ng-template>
@@ -171,14 +174,13 @@ export class SignatureOverlay {
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
+        CommonModule,
         MatFormFieldModule,
         MatButtonModule,
         MatIconModule,
         FormioFormFieldComponent,
         LabelComponent,
-        TranslocoPipe,
-        NgClass,
-        NgStyle
+        TranslocoPipe
     ],
     styles: [
         `
@@ -186,7 +188,7 @@ export class SignatureOverlay {
                 background-color: var(--mdc-filled-text-field-container-color);
             }
             
-            :host() {
+            :host {
                 display: block;
                 width: 100%;
             }
@@ -204,18 +206,17 @@ export class MaterialSignatureComponent extends MaterialComponent {
         super();
 
         effect(() => {
-
-            if (this.instance && this.canvas() && this.refresh()) {
+            if (this.instance() && this.canvas() && this.refresh()) {
                 this.component.input = true;
 
-                this.instance.attach(this.element.nativeElement);
+                this.instance().attach(this.element.nativeElement);
             }
 
             if (this.img()) {
-                this.img()!.nativeElement.src = this.instance.dataValue;
+                this.img()!.nativeElement.src = this.instance().dataValue;
             }
 
-            if (this.instance && this.component.overlay && this.component.overlay.height && this.component.inPdf) {
+            if (this.instance() && this.component.overlay && this.component.overlay.height && this.component.inPdf) {
                 this.element.nativeElement.setAttribute('style', `height: ${this.component.overlay.height}px;`);
             }
         })
@@ -243,10 +244,12 @@ export class MaterialSignatureComponent extends MaterialComponent {
                 ]
             });
             popoverRef.afterClosed$.subscribe(_ => {
-                this.img()!.nativeElement.src = this.instance.dataValue;
+                if (this.img()) {
+                    this.img()!.nativeElement.src = this.instance().dataValue;
+                }
             });
             eventBus.on('instanceInitialized', (id) => {
-                eventBus.emit('setSignatureInstance', null, id, this.instance);
+                eventBus.emit('setSignatureInstance', null, id, this.instance());
             });
 
             eventBus.on('instanceClosed', (id) => {

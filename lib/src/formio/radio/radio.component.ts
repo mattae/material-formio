@@ -13,6 +13,10 @@ import { Components } from '@formio/js';
 Components.components.radio.prototype.setSelectedClasses = function () {
 }
 
+// @ts-ignore
+Components.components.radio.prototype.render1 = function () {
+}
+
 @Component({
     selector: 'mat-formio-radio',
     template: `
@@ -20,23 +24,21 @@ Components.components.radio.prototype.setSelectedClasses = function () {
         <ng-template #componentTemplate let-hasLabel>
             <div class="flex-col flex">
                 @if (hasLabel) {
-                    <mat-label>
-                        <span [component]="component" matFormioLabel [standalone]="true"></span>
-                    </mat-label>
+                    <span [component]="component" matFormioLabel [standalone]="true"></span>
                 }
 
                 <mat-radio-group
-                    (change)="onChange()"
-                    [formControl]="control"
-                    class="flex pl-2"
-                    [ngClass]="getLayout()"
+                        (change)="onChange()"
+                        [formControl]="control"
+                        class="flex pl-2"
+                        [ngClass]="getLayout()"
                 >
                     @for (option of component.values; track tracked(option)) {
                         <mat-radio-button
-                            value="{{ option.value }}"
-                            [checked]="isRadioChecked(option)"
-                            (keyup.space)="clearValue($event, option)"
-                            (click)="clearValue($event, option)"
+                                value="{{ option.value }}"
+                                [checked]="isRadioChecked(option)"
+                                (keyup.space)="clearValue($event, option)"
+                                (click)="clearValue($event, option)"
                         >
                             @if (!component.labelIsHidden) {
                                 {{ option.label }}
@@ -73,7 +75,7 @@ export class MaterialRadioComponent extends MaterialComponent {
     }
 
     isRadioChecked(option: { value: any; }) {
-        return option.value === this.instance.dataValue;
+        return option.value === this.instance().dataValue;
     }
 
     clearValue(event: { preventDefault: () => void; }, option: { value: any; }) {

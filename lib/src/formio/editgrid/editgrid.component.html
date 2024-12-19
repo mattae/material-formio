@@ -8,7 +8,7 @@
         }
         <mat-card appearance="outlined">
             <mat-card-content>
-                @if (!instance.builderMode) {
+                @if (!instance().builderMode) {
                     <mat-accordion>
                         @if (header) {
                             <mat-expansion-panel disabled="true">
@@ -17,30 +17,30 @@
                                 </mat-expansion-panel-header>
                             </mat-expansion-panel>
                         }
-                        @for (row of instance.editRows; track trackedBy(row); let i = $index) {
-                            <mat-expansion-panel [expanded]="instance.isOpen(row)">
+                        @for (row of instance().editRows; track trackedBy(row); let i = $index) {
+                            <mat-expansion-panel [expanded]="instance().isOpen(row)">
                                 <mat-expansion-panel-header (click)="editRow(row, i)">
                                     @if (row.state !== RowStates.NEW) {
                                         <span #rows class="w-full row1"></span>
                                     }
                                 </mat-expansion-panel-header>
-                                <formio [form]="instance.component" #forms (change)="validate(i)"
+                                <formio [form]="instance().component" #forms (change)="validate(i)"
                                         (formLoad)="formLoaded(row, i)"></formio>
                                 <mat-action-row>
                                     <div class="flex gap-1 justify-end">
                                         <button mat-raised-button class="bg-primary text-on-primary" [disabled]="!valid"
-                                                (click)="saveRow(row, i)">{{ instance.t(component.saveRow || 'Save', {_userInput: true}) }}
+                                                (click)="saveRow(row, i)">{{ instance().t(component.saveRow || 'Save', {_userInput: true}) }}
                                         </button>
                                         <button mat-button class="bg-neutral text-on-neutral"
                                                 (click)="cancelRow(i)">{{ 'CORE.BUTTONS.CANCEL' | transloco }}
                                         </button>
                                         <button
-                                                class="w-8 h-8 min-h-8 text-error"
+                                                class="w-8 h-8 min-h-8"
                                                 mat-icon-button
                                                 (click)="removeRow(i)"
                                                 matTooltip="{{'CORE.BUTTONS.DELETE' | transloco}}">
                                             <mat-icon
-                                                    class="icon-size-5"
+                                                    class="icon-size-5 text-error"
                                                     [svgIcon]="'heroicons_solid:trash'"></mat-icon>
                                         </button>
                                     </div>
@@ -56,11 +56,11 @@
                         }
                     </mat-accordion>
 
-                    @if (instance.hasAddButton()) {
+                    @if (instance().hasAddButton()) {
                         <mat-card-actions>
                             <button mat-raised-button class="bg-primary text-on-primary" (click)="addAnother()">
-                                <mat-icon svgIcon="heroicons_outline:plus-circle"></mat-icon>
-                                {{ instance.t(component.addAnother || 'Add Another', {_userInput: true}) }}
+                                <mat-icon svgIcon="heroicons_outline:plus-circle" class="text-on-primary"></mat-icon>
+                                {{ instance().t(component.addAnother || 'Add Another', {_userInput: true}) }}
                             </button>
                         </mat-card-actions>
                     }

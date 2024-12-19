@@ -27,7 +27,7 @@ Utils.uniqueKey = function uniqueKey(map, base) {
     template: DATA_GRID_TEMPLATE,
     standalone: true,
     styles: [
-        ':host() { @apply p-0.5; }'
+        ':host { @apply p-0.5; }'
     ],
     imports: [
         LabelComponent,
@@ -47,7 +47,7 @@ Utils.uniqueKey = function uniqueKey(map, base) {
 })
 export class MaterialDatamapComponent extends MaterialDataGridComponent {
     addAnother() {
-        this.instance.addRow();
+        this.instance().addRow();
         // @ts-ignore
         this.dataSource.push({});
         this.dataSource = [...this.dataSource];
@@ -58,7 +58,7 @@ export class MaterialDatamapComponent extends MaterialDataGridComponent {
 
     initialize() {
         if (!this.initialized) {
-            const component = this.instance;
+            const component = this.instance();
             this.columns = {};
             this.displayedColumns = [];
             this.formColumns = [];
@@ -69,7 +69,7 @@ export class MaterialDatamapComponent extends MaterialDataGridComponent {
             });
 
             this.displayedColumns.push('__removeRow');
-            if (this.instance.component.reorder) {
+            if (this.instance().component.reorder) {
                 this.displayedColumns.push('position');
             }
             this.initialized = true
@@ -82,7 +82,7 @@ export class MaterialDatamapComponent extends MaterialDataGridComponent {
 
     setValue(value: {} | null) {
         value = value || {};
-        const rowValues = this.instance.getRowValues();
+        const rowValues = this.instance().getRowValues();
 
         this.dataSource = [];
         Object.keys(value).forEach((_: any) => {
@@ -90,7 +90,7 @@ export class MaterialDatamapComponent extends MaterialDataGridComponent {
             this.dataSource.push({});
         });
         // Delete any extra rows.
-        const removedRows = this.instance.rows.splice(rowValues.length);
+        const removedRows = this.instance().rows.splice(rowValues.length);
         const removed = !!removedRows.length;
         if (removed) {
             this.dataSource.splice(rowValues.length)

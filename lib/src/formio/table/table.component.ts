@@ -3,15 +3,12 @@ import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import {
-    MatCell,
-    MatCellDef,
+    MatCell, MatCellDef,
     MatColumnDef,
     MatHeaderCell,
     MatHeaderCellDef,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatRow,
-    MatRowDef,
+    MatHeaderRow, MatHeaderRowDef,
+    MatRow, MatRowDef,
     MatTable
 } from '@angular/material/table';
 import { LabelComponent } from '../label/label.component';
@@ -34,32 +31,32 @@ Components.components.table.prototype.render = function (...args) {
                 @if (hasLabel) {
                     <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
                 }
-            <table mat-table
-                [dataSource]="dataSource"
-                class="mat-elevation-z2 w-full"
-                [ngClass]="{
+                <table mat-table
+                       [dataSource]="dataSource"
+                       class="mat-elevation-z2 w-full"
+                       [ngClass]="{
                     'table-striped': component.striped,
                     'table-bordered': component.bordered
                 }">
-                @for (column of displayedColumns; let i = $index; track column) {
-                    <ng-container [matColumnDef]="column">
-                        @if (component.headers && component.headers.length) {
-                            <th mat-header-cell *matHeaderCellDef>{{component.headers[i] | transloco }}</th>
-                        }
-                        <td mat-cell *matCellDef="let element" class="p-1">
-                            <div #components></div>
-                        </td>
-                    </ng-container>
-                }
-                @if (component.headers && component.headers.length) {
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                }
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
+                    @for (column of displayedColumns; let i = $index; track column) {
+                        <ng-container [matColumnDef]="column">
+                            @if (component.headers && component.headers.length) {
+                                <th mat-header-cell *matHeaderCellDef>{{ component.headers[i] | transloco }}</th>
+                            }
+                            <td mat-cell *matCellDef="let element" class="p-1">
+                                <div #components></div>
+                            </td>
+                        </ng-container>
+                    }
+                    @if (component.headers && component.headers.length) {
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    }
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
             </ng-template>
 
             <ng-template #labelTemplate>
-                <label class="mat-label" [component]="component" matFormioLabel  [standalone]="true"></label>
+                <label class="mat-label" [component]="component" matFormioLabel [standalone]="true"></label>
             </ng-template>
         }
     `,
@@ -67,18 +64,18 @@ Components.components.table.prototype.render = function (...args) {
         NgClass,
         TranslocoModule,
         MatCell,
-        MatCellDef,
         MatColumnDef,
         MatHeaderCell,
         MatHeaderRow,
-        MatHeaderRowDef,
         MatRow,
-        MatRowDef,
         MatTable,
-        MatHeaderCellDef,
         LabelComponent,
         FormioFormFieldComponent,
-        NgTemplateOutlet
+        NgTemplateOutlet,
+        MatHeaderCellDef,
+        MatCellDef,
+        MatHeaderRowDef,
+        MatRowDef
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -98,7 +95,7 @@ export class MaterialTableComponent extends MaterialComponent {
     }
 
     initialize() {
-        if (this.instance) {
+        if (this.instance()) {
             if (!this.initialized) {
                 this.dataSource = [];
                 this.displayedColumns = [];
@@ -118,17 +115,17 @@ export class MaterialTableComponent extends MaterialComponent {
             }
 
             if (this.components() && this.components().length) {
-                const tableComponents = this.instance.table.map(row => row.map(column =>
-                        this.instance.renderComponents(column)
+                const tableComponents = this.instance().table.map(row => row.map(column =>
+                        this.instance().renderComponents(column)
                     )
                 )
 
                 tableComponents.forEach((row, rowIndex) => {
                     row.forEach((column, colIndex) => {
-                        const index =  rowIndex * this.component.rows[0].length  + colIndex;
+                        const index = rowIndex * this.component.rows[0].length + colIndex;
                         const container = this.components()[index].nativeElement;
                         container.innerHTML = row[colIndex];
-                        this.instance.attachComponents(container, this.instance.table[rowIndex][colIndex], this.component.rows[rowIndex][colIndex].components);
+                        this.instance().attachComponents(container, this.instance().table[rowIndex][colIndex], this.component.rows[rowIndex][colIndex].components);
 
                         this.cdr.markForCheck();
                     })

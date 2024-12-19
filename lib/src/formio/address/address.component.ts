@@ -7,8 +7,6 @@ import { MatInput } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MatIcon } from '@angular/material/icon';
-import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
-import { AsyncPipe } from '@angular/common';
 import autocompleter from 'autocompleter';
 import { MatCheckbox } from '@angular/material/checkbox';
 
@@ -23,10 +21,6 @@ import { MatCheckbox } from '@angular/material/checkbox';
         ReactiveFormsModule,
         TranslocoPipe,
         MatIcon,
-        MatAutocomplete,
-        MatOption,
-        MatAutocompleteTrigger,
-        AsyncPipe,
         MatError,
         MatHint,
         MatLabel,
@@ -36,51 +30,51 @@ import { MatCheckbox } from '@angular/material/checkbox';
     template: `
         <mat-formio-form-field [component]="component" [componentTemplate]="componentTemplate"></mat-formio-form-field>
         <ng-template #componentTemplate let-hasLabel>
-            @if (instance.autocompleteMode || control.disabled) {
-            <mat-form-field class="w-full"
-                            [subscriptSizing]="'dynamic'">
-                @if (hasLabel) {
-                    <mat-label class="w-full">
-                        <span [component]="component" matFormioLabel></span>
-                    </mat-label>
-                }
-                @if (component.prefix) {
-                    <span
-                            matPrefix
-                    >
-                        {{ component.prefix | transloco}}&nbsp;
+            @if (instance().autocompleteMode || control.disabled) {
+                <mat-form-field class="w-full"
+                                [subscriptSizing]="'dynamic'">
+                    @if (hasLabel) {
+                        <mat-label class="w-full">
+                            <span [component]="component" matFormioLabel></span>
+                        </mat-label>
+                    }
+                    @if (component.prefix) {
+                        <span
+                                matPrefix
+                        >
+                        {{ component.prefix | transloco }}&nbsp;
                     </span>
-                }
-                <input matInput
-                       [disabled]="control.disabled"
-                       [placeholder]="component.placeholder | transloco"
-                       #input
-                >
-                <button matIconSuffix (click)="input.value = ''">
-                    <mat-icon svgIcon="heroicons_outline:backspace"></mat-icon>
-                </button>
-                @if ( component.description) {
-                    <mat-hint>
-                        <span [innerHTML]="component.description | transloco"></span>
-                    </mat-hint>
-                }
-                @if (isError()) {
-                    <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
-                }
-            </mat-form-field>
+                    }
+                    <input matInput
+                           [disabled]="control.disabled"
+                           [placeholder]="component.placeholder | transloco"
+                           #input
+                    >
+                    <button matIconSuffix (click)="input.value = ''">
+                        <mat-icon svgIcon="heroicons_outline:backspace"></mat-icon>
+                    </button>
+                    @if (component.description) {
+                        <mat-hint>
+                            <span [innerHTML]="component.description | transloco"></span>
+                        </mat-hint>
+                    }
+                    @if (isError()) {
+                        <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                    }
+                </mat-form-field>
             }
-            @if (component.enableManualMode && !control.disabled && !instance.isMultiple) {
+            @if (component.enableManualMode && !control.disabled && !instance().isMultiple) {
                 <fieldset class="border border-solid border-gray-300 p-3 rounded-lg">
                     @if (hasLabel && manualMode) {
                         <legend class="text-md">
-                        <mat-label class="w-full">
-                            <span [component]="component" matFormioLabel [standalone]="true"></span>
-                        </mat-label>
+                            <mat-label class="w-full">
+                                <span [component]="component" matFormioLabel [standalone]="true"></span>
+                            </mat-label>
                         </legend>
                     }
                     <mat-checkbox (change)="modeChanged(checkbox.checked)"
                                   [checked]="manualMode" #checkbox>
-                        {{component.switchToManualModeLabel}}
+                        {{ component.switchToManualModeLabel }}
                     </mat-checkbox>
                     <div class="flex flex-col" #children>
                     </div>
@@ -98,19 +92,19 @@ export class MaterialAddressComponent extends MaterialComponent {
     constructor() {
         super();
         effect(() => {
-            if(this.instance) {
+            if (this.instance()) {
                 this.initialize();
             }
         })
     }
 
     initialize() {
-        this.provider = this.instance.provider;
-        this.manualMode = this.instance.dataValue?.mode === 'manual';
+        this.provider = this.instance().provider;
+        this.manualMode = this.instance().dataValue?.mode === 'manual';
 
-        if(this.children()) {
-            this.children()!.nativeElement.innerHTML = this.instance.renderComponents();
-            this.instance.attachComponents(this.children()!.nativeElement);
+        if (this.children()) {
+            this.children()!.nativeElement.innerHTML = this.instance().renderComponents();
+            this.instance().attachComponents(this.children()!.nativeElement);
         }
 
         if (this.input()) {
@@ -126,8 +120,8 @@ export class MaterialAddressComponent extends MaterialComponent {
                         this.provider.search(text).then(update);
                     },
                     render: (address) => {
-                        const div = this.instance.ce('div');
-                        div.textContent = this.instance.getDisplayValue(address);
+                        const div = this.instance().ce('div');
+                        div.textContent = this.instance().getDisplayValue(address);
                         return div;
                     },
                     onSelect: (address) => {
@@ -138,35 +132,34 @@ export class MaterialAddressComponent extends MaterialComponent {
         }
     }
 
-    onSelectAddress (address: any) {
+    onSelectAddress(address: any) {
         const index = this.getIndex()
-        if (this.instance.isMultiple) {
-            this.instance.address[index] = address;
-            this.instance.address = [...this.instance.address];
+        if (this.instance().isMultiple) {
+            this.instance().address[index] = address;
+            this.instance().address = [...this.instance().address];
+        } else {
+            this.instance().address = address;
         }
-        else {
-            this.instance.address = address;
-        }
-        this.control.setValue(this.instance.address);
-        this.input().nativeElement.value = this.instance.getDisplayValue(this.instance.isMultiple ?
-            this.instance.address[index] : this.instance.address);
+        this.control.setValue(this.instance().address);
+        this.input().nativeElement.value = this.instance().getDisplayValue(this.instance().isMultiple ?
+            this.instance().address[index] : this.instance().address);
 
-        this.instance.triggerChange({
+        this.instance().triggerChange({
             modified: true,
         });
     }
 
     modeChanged(checked: boolean) {
         this.manualMode = checked;
-        if (this.instance.manualModeEnabled) {
-            this.instance.dataValue.mode = checked ? 'manual': 'autocomplete';
+        if (this.instance().manualModeEnabled) {
+            this.instance().dataValue.mode = checked ? 'manual' : 'autocomplete';
 
-            if (!this.instance.builderMode) {
-                if (this.instance.manualMode) {
-                    this.instance.restoreComponentsContext();
+            if (!this.instance().builderMode) {
+                if (this.instance().manualMode) {
+                    this.instance().restoreComponentsContext();
                 }
 
-                this.instance.triggerChange({
+                this.instance().triggerChange({
                     modified: true,
                 });
             }
@@ -174,10 +167,10 @@ export class MaterialAddressComponent extends MaterialComponent {
     }
 
     updateDisplayValue() {
-        let value = this.instance.dataValue;
-        if (this.instance.isMultiple) {
+        let value = this.instance().dataValue;
+        if (this.instance().isMultiple) {
             value = value[this.getIndex()]
         }
-        this.input().nativeElement.value = this.instance.getValueAsString(value);
+        this.input().nativeElement.value = this.instance().getValueAsString(value);
     }
 }

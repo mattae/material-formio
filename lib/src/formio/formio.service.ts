@@ -1,5 +1,5 @@
 import { inject, Injectable, Injector } from '@angular/core';
-import { Templates, Utils } from '@formio/js';
+import { Components, Templates, Utils } from '@formio/js';
 import { FormioCustomComponentInfo, FormioCustomTag } from './elements.common';
 import { registerCustomComponent, registerCustomFormioComponent } from './register-custom-component';
 import { MaterialCheckboxComponent } from './checkbox/checkbox.component';
@@ -43,12 +43,36 @@ import { MaterialWizardBuilderComponent } from './wizard/wizard.builder.componen
 import iconClass from './module/icons/iconClass';
 import EventBus from 'js-event-bus';
 import { MaterialHtmlComponent } from './html/html.component';
-import _ from 'lodash';
-import { Components } from '@formio/deprecated-types';
+import _, { isArray } from 'lodash';
+// @ts-ignore
+import EditFormUtils = Components.EditFormUtils;
+// @ts-ignore
 import baseEditForm = Components.baseEditForm;
-import EditFormUtils from '@formio/js/lib/mjs/components/_classes/component/editForm/utils';
+import { MaterialWizardComponent } from './wizard/wizard.component';
+
+const fixCustomConditional = (component) => {
+    if (component.customConditional) {
+        component.customConditional = function (){
+            return !Utils.Evaluator.noeval || Utils.Evaluator.protectedEval;
+        }
+    }
+
+    return component;
+}
 
 const editForm = function (...extend) {
+    extend = extend.map(ext => {
+        if (isArray(ext)) {
+            ext = ext.map(cmp => {
+                cmp = fixCustomConditional(cmp);
+                if (cmp.components) {
+                    cmp.components = cmp.components.map( c => fixCustomConditional(c));
+                }
+                return cmp;
+            })
+        }
+        return ext;
+    })
     const components = baseEditForm().components.map(cmp => {
         if (cmp.type === 'tabs') {
             cmp.components = cmp.components.map(c => {
@@ -68,10 +92,60 @@ const editForm = function (...extend) {
                                 footer: '',
                             }
                         }
+                        return fixCustomConditional(c1)
+                    })
+                }
+                if (c.key === 'conditional') {
+                    c.components = c.components.map(c1 => {
+                        if (c1.key === 'customConditionalPanel') {
+                            c1.components = c1.components.filter(c2 => {
+                                if (c2.key === 'customConditional-js') {
+                                   c2.customConditional = function (){
+                                       return !Utils.Evaluator.noeval || Utils.Evaluator.protectedEval;
+                                    }
+                                }
+                                return c2;
+                            })
+                        }
                         return c1
                     })
                 }
-                return c;
+                if (c.key === 'data') {
+                    c.components = c.components.map(c1 => {
+                        if (c1.key === 'customDefaultValuePanel') {
+                            c1.components = c1.components.map(c2 => {
+                                 if (c2.key === 'customDefaultValue-js') {
+                                    c2.customConditional = function (){
+                                        return !Utils.Evaluator.noeval || Utils.Evaluator.protectedEval;
+                                     }
+                                 }
+                                 return c2;
+                            })
+                        }
+                        if (c1.key === 'calculateValuePanel') {
+                            c1.components = c1.components.filter(c2 => {
+                                 if (c2.key === 'calculateValue-js') {
+                                    c2.customConditional = function (){
+                                        return !Utils.Evaluator.noeval || Utils.Evaluator.protectedEval;
+                                     }
+                                 }
+                                 return c2;
+                            })
+                        }
+                        return c1
+                    })
+                }
+                if (c.key === 'validation') {
+                    c.components = c.components.map(c1 => {
+                        if (c1.key === 'custom-validation-js') {
+                            c1.customConditional = function (){
+                                return !Utils.Evaluator.noeval || Utils.Evaluator.protectedEval;
+                            }
+                        }
+                        return c1;
+                    })
+                }
+                return fixCustomConditional(c);
             });
         }
         return cmp;
@@ -98,21 +172,6 @@ Utils.sanitize = (function (dirty, options) {
     return dirty;
 })
 
-const multivalueRender = Components.components.multivalue.prototype.render;
-Components.components.multivalue.prototype.render = function (children) {
-    if (this.component.multiple) {
-        let dataValue = this.dataValue;
-        if (!Array.isArray(dataValue)) {
-            dataValue = dataValue ? [dataValue] : [];
-        }
-        if (!dataValue.length) {
-            dataValue = ['']
-        }
-        this.dataValue = dataValue;
-    }
-    return multivalueRender.call(this, children);
-}
-
 Templates.current = {
     wizardNav: {
         form: (ctx) => {
@@ -124,7 +183,7 @@ Templates.current = {
                     template += `
                     <mat-fio-icon button="true"
                         label="${ctx.t('cancel')}"
-                        class="bg-secondary text-on-secondary"
+                        classNames="bg-secondary text-on-secondary"
                         ref="${ctx.wizardKey}-cancel"
                         aria-label="${ctx.t('cancelButtonAriaLabel')}"/>
                     </mat-fio-icon>
@@ -134,7 +193,7 @@ Templates.current = {
                     template += `
                     <mat-fio-icon button="true"
                         label="${ctx.t('previous')}"
-                        class="bg-primary text-on-primay"
+                        classNames="bg-primary text-on-primary"
                         ref="${ctx.wizardKey}-previous"
                         aria-label="${ctx.t('previousButtonAriaLabel')}">
                     </mat-fio-icon>
@@ -144,7 +203,7 @@ Templates.current = {
                     template += `
                     <mat-fio-icon button="true"
                         label="${ctx.t('next')}"
-                        class="bg-primary text-on-primay"
+                        classNames="bg-primary text-on-primary"
                         ref="${ctx.wizardKey}-next"
                         aria-label="${ctx.t('nextButtonAriaLabel')}">
                     </mat-fio-icon>
@@ -156,7 +215,7 @@ Templates.current = {
                             <mat-fio-icon button="true"
                                 disabled
                                 label="${ctx.t('submit')}"
-                                class="bg-primary text-on-primay"
+                                classNames="bg-primary text-on-primary"
                                 ref="${ctx.wizardKey}-submit"
                                 aria-label="${ctx.t('submit')} button. Click to submit the form">
                             </mat-fio-icon>
@@ -165,7 +224,7 @@ Templates.current = {
                         template += `
                             <mat-fio-icon button="true"
                                 label="${ctx.t('submit')}"
-                                class="bg-primary text-on-primay"
+                                classNames="bg-primary text-on-primary"
                                 ref="${ctx.wizardKey}-submit"
                                 aria-label="${ctx.t('submit')} button. Click to submit the form">
                             </mat-fio-icon>
@@ -291,7 +350,7 @@ Templates.current = {
                 template += `
                     <td class="mat-mdc-cell mdc-data-table__cell cdk-cell">
                         <mat-fio-icon iconButton="true" ref="removeRow"
-                                 classNames="text-error"
+                                 iconClasses="text-error"
                                  icon="heroicons_outline:trash"></mat-fio-icon>
                     </td>
                 `
@@ -309,20 +368,18 @@ Templates.current = {
     component: {
         form: (ctx) => {
             let template = `
-            <div id="${ctx.id}" class="pt-2 ${ctx.classes}" ref="component"
-             `
-            if (ctx.styles) {
-                template += ` styles="${ctx.styles}"`
-            }
-            template += '>'
-            if (ctx.component.type === 'textarea' && ctx.component.editor && ctx.visible) {
+            <div id="${ctx.id}" class="pt-2 ${!ctx.instance.isMaterial ? ctx.classes: ''}" ref="component">`
+
+            if ((ctx.component.type === 'textarea' && ctx.component.editor && ctx.visible) ) {
                 template += `
                 <mat-fio-label standalone="true" required="${ctx.component.validate?.required}"label="${ctx.component.label}"></mat-fio-label>
-            `
+                `
             }
             if (ctx.visible) {
-                template += `${ctx.children}
-                `
+                template += `${ctx.children}`
+                if (!ctx.instance.isMaterial) {
+                    template += `<div ref="messageContainer" class="text-error"></div>`
+                }
             }
 
             template += '</div>'
@@ -340,49 +397,55 @@ Templates.current = {
                 template += `
                     <div class="component-btn-group bg-card rounded-lg shadow-md" data-noattach="true">
                         <mat-fio-icon iconButton="true"
-                            class="bg-primary text-on-primay"
+                            class="bg-primary text-on-primary"
                             aria-label="Remove button. Click to remove component from the form"
                             tabindex="-1"
                             classNames="formio-action-button"
                             ref="removeComponent"
+                            iconClasses="text-on-primary"
                             icon="heroicons_outline:trash">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
-                            class="bg-primary text-on-primay"
+                            class="bg-primary text-on-primary"
                             aria-label="Copy button. Click to copy component"
                             tabindex="-1"
                             classNames="formio-action-button"
                             ref="copyComponent"
+                            iconClasses="text-on-primary"
                             icon="feather:copy">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
-                            class="bg-primary text-on-primay"
+                            class="bg-primary text-on-primary"
                             aria-label="Paste below button. Click to paste component below the current component"
                             tabindex="-1"
                             classNames="formio-action-button"
                             ref="pasteComponent"
+                            iconClasses="text-on-primary"
                             icon="mat_outline:save">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
-                            class="bg-primary text-on-primay"
+                            class="bg-primary text-on-primary"
                             aria-label="Edit json button. Click to edit json of the current component"
                             tabindex="-1"
                             classNames="formio-action-button"
                             ref="editJson"
+                            iconClasses="text-on-primary"
                             icon="heroicons_outline:wrench-screwdriver">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
-                            class="bg-primary text-on-primay"
+                            class="bg-primary text-on-primary"
                             aria-label="Move button"
                             tabindex="-1"
+                            iconClasses="text-on-primary"
                             classNames="formio-action-button"
                             ref="moveComponent"
                             icon="feather:move">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
-                            class="bg-primary text-on-primay"
+                            class="bg-primary text-on-primary"
                             aria-label="Edit button. Click to open component settings modal window"
                             tabindex="-1"
+                            iconClasses="text-on-primary"
                             classNames="formio-action-button"
                             ref="editComponent"
                             icon="heroicons_outline:cog-8-tooth">
@@ -830,7 +893,7 @@ const registerMaterialComponents = (injector: Injector) => {
     registerCustomFormioComponent(EDITGRID_OPTIONS, MaterialEditGridComponent, injector)
     registerCustomFormioComponent(FIELDSET_OPTIONS, MaterialFieldsetComponent, injector)
     //registerCustomFormioComponent(FILE_OPTIONS, MaterialFileComponent, injector)
-    registerCustomFormioComponent(HTML_OPTIONS, MaterialHtmlComponent, injector)
+    //registerCustomFormioComponent(HTML_OPTIONS, MaterialHtmlComponent, injector)
     //registerCustomFormioComponent(MULTIVALUE_OPTIONS, MaterialMultiValueComponent, injector)
     //registerCustomFormioComponent(WIZARD_OPTIONS, MaterialWizardComponent, injector);
     registerCustomFormioComponent(PDF_OPTIONS, MaterialPdfComponent, injector);

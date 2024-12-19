@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 const enum AngularButtonsThemes {
     WARN = 'bg-error text-on-error',
-    PRIMARY = 'bg-primary text-on-tertiary',
+    PRIMARY = 'bg-primary text-on-primary',
     ACCENT = 'bg-secondary text-on-secondary'
 }
 
@@ -115,7 +115,7 @@ export class MaterialButtonComponent extends MaterialComponent {
 
     onClick(event: any) {
         this.clicked.set(true);
-        this.instance.onClick(event);
+        this.instance().onClick(event);
     }
 
     getValue() {
@@ -130,22 +130,22 @@ export class MaterialButtonComponent extends MaterialComponent {
 
     initialize() {
         this.disabled = this.component.shouldDisabled;
-        this.instance.on('submitButton', () => {
+        this.instance().on('submitButton', () => {
             this.event.set('submitButton');
 
             this.hasError.set(false);
             this.success.set(true);
             this.clicked.set(false);
         }, true);
-        this.instance.on('cancelSubmit', () => {
+        this.instance().on('cancelSubmit', () => {
             this.event.set('submitButton');
 
             this.hasError.set(false);
             this.success.set(false);
             this.clicked.set(false);
         }, true);
-        this.instance.on('submitDone', (message: any) => {
-            const resultMessage = _.isString(message) ? message : this.instance.t('complete');
+        this.instance().on('submitDone', (message: any) => {
+            const resultMessage = _.isString(message) ? message : this.instance().t('complete');
             this.event.set('submitDone');
 
             this.hasError.set(false);
@@ -153,8 +153,8 @@ export class MaterialButtonComponent extends MaterialComponent {
             this.message.set(resultMessage);
             this.clicked.set(false);
         }, true);
-        this.instance.on('submitError', (message: any) => {
-            const resultMessage = _.isString(message) ? this.instance.t(message) : this.instance.t(this.instance.errorMessage('submitError'));
+        this.instance().on('submitError', (message: any) => {
+            const resultMessage = _.isString(message) ? this.instance().t(message) : this.instance().t(this.instance().errorMessage('submitError'));
 
             this.hasError.set(true);
             this.success.set(false);
@@ -162,7 +162,7 @@ export class MaterialButtonComponent extends MaterialComponent {
             this.event.set('submitError');
             this.clicked.set(false);
         }, true);
-        this.instance.on('change', (value: any, flags: any) => {
+        this.instance().on('change', (value: any, flags: any) => {
             let isValid = value.isValid;
 
             this.hasError.set(false);
@@ -173,8 +173,8 @@ export class MaterialButtonComponent extends MaterialComponent {
     }
 
     messageClicked() {
-        if (this.error && this.instance.root && this.instance.root.alert) {
-            this.instance.scrollIntoView(this.instance.root.alert);
+        if (this.error && this.instance().root && this.instance().root.alert) {
+            this.instance().scrollIntoView(this.instance().root.alert);
         }
     }
 }

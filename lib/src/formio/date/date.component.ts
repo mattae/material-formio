@@ -119,7 +119,7 @@ export class MaterialDateComponent extends MaterialComponent {
     constructor() {
         super();
         effect(() => {
-            if (this.instance) {
+            if (this.instance()) {
                 this.initialize();
             }
         });
@@ -139,7 +139,7 @@ export class MaterialDateComponent extends MaterialComponent {
         this.twelvehour = _.get(this.component, 'timePicker.showMeridian', false);
         this.timeInterval = _.get(this.component, 'timePicker.minuteStep', 5);
 
-        if (!this.instance.defaultValue && this.component.defaultDate) {
+        if (!this.instance().defaultValue && this.component.defaultDate) {
             let defaultValue = Utils.getDateSetting(this.component.defaultDate);
             if (defaultValue) {
                 this.control.setValue(DateTime.fromJSDate(defaultValue));
@@ -165,8 +165,8 @@ export class MaterialDateComponent extends MaterialComponent {
             if (this.dateFilter(value, this.filterType) && this.checkMinMax(value)) {
                 value = this.formatValue(value);
                 this.control.setValue(value)
-                this.instance.dataValue = value;
-                this.instance.triggerChange({
+                this.instance().dataValue = value;
+                this.instance().triggerChange({
                     modified: true,
                 });
             }
@@ -205,8 +205,8 @@ export class MaterialDateComponent extends MaterialComponent {
         if (value) {
            value = this.formatValue(value);
            this.control.patchValue(value);
-           this.instance.dataValue = value;
-           this.instance.triggerChange({
+           this.instance().dataValue = value;
+           this.instance().triggerChange({
                 modified: true
            });
         }
@@ -278,7 +278,7 @@ export class MaterialDateComponent extends MaterialComponent {
     }
 
     get disableFunction() {
-        return (date) => this.instance.evaluate(`return ${_.get(this.component, 'datePicker.disableFunction')}`, {
+        return (date) => this.instance().evaluate(`return ${_.get(this.component, 'datePicker.disableFunction')}`, {
             date
         });
     }

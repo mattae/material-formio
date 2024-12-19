@@ -37,6 +37,7 @@ import { MaterialComponent } from '../material.component';
 
                     <input [formControl]="control"
                            [matChipInputFor]="chipList"
+                           
                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                            [matChipInputAddOnBlur]="true"
                            [placeholder]="component.placeholder"
@@ -73,7 +74,7 @@ export class MaterialTagsComponent extends MaterialComponent {
     add(event: MatChipInputEvent): void {
         const input = event.chipInput.inputElement;
         const value = event.value;
-        if (this.component.maxTags && this.component.maxTags > this.tags.length) {
+        if ((this.component.maxTags && this.component.maxTags > this.tags.length) || !this.component.maxTags) {
             if ((value || '').trim()) {
                 this.tags.push(value.trim());
                 this.control.setValue(this.tags);
@@ -94,10 +95,14 @@ export class MaterialTagsComponent extends MaterialComponent {
 
     setValue(value: any) {
         this.tags = []
-        if (this.component.storeas === 'string' && value) {
-            this.tags = value.split(this.component.delimiter || ',')
-        } else if (this.component.storeas !== 'string' && Array.isArray(value)) {
-            this.tags.push(...value)
+        try {
+            if (this.component.storeas === 'string' && value) {
+                this.tags = value.split(this.component.delimiter || ',')
+            } else if (this.component.storeas !== 'string' && Array.isArray(value)) {
+                this.tags.push(...value)
+            }
+        } catch (e) {
+            console.error('Error',e)
         }
     }
 

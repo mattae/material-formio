@@ -73,9 +73,9 @@ export const uniquify = (container, component) => {
                             </mat-form-field>
                             <mat-accordion>
                                 @for (groupOrder of groupOrders; track groupOrder) {
-                                    <mat-expansion-panel [expanded]="instance.groups[groupOrder].default">
+                                    <mat-expansion-panel [expanded]="instance().groups[groupOrder].default">
                                         <mat-expansion-panel-header>
-                                            {{ instance.groups[groupOrder].title | transloco }}
+                                            {{ instance().groups[groupOrder].title | transloco }}
                                         </mat-expansion-panel-header>
                                         <div [attr.ref]="'sidebar-container'" #sidebarContainer>
                                             @if (componentOrders[groupOrder].length) {
@@ -83,16 +83,16 @@ export const uniquify = (container, component) => {
                                                     <div class="pt-1.5 drag-copy"
                                                          #sidebarComponent
                                                          [attr.data-group]="groupOrder"
-                                                         [attr.data-key]="instance.groups[groupOrder].components[componentOrder].key"
-                                                         [attr.data-type]="instance.groups[groupOrder].components[componentOrder].schema.type"
-                                                         tabindex="{{instance.keyboardActionsEnabled ? 0 : -1}}">
+                                                         [attr.data-key]="instance().groups[groupOrder].components[componentOrder].key"
+                                                         [attr.data-type]="instance().groups[groupOrder].components[componentOrder].schema.type"
+                                                         tabindex="{{instance().keyboardActionsEnabled ? 0 : -1}}">
                                                         <div
                                                                 class="pl-2 space-x-0.5 flex items-center justify-items-end bg-primary shadow-lg rounded-md h-10">
                                                             <mat-icon class="text-on-primary icon-size-4"
-                                                                      [svgIcon]="instance.groups[groupOrder].components[componentOrder].icon ? iconClass('', instance.groups[groupOrder].components[componentOrder].icon) : 'feather:copy'">
+                                                                      [svgIcon]="instance().groups[groupOrder].components[componentOrder].icon ? iconClass('', instance().groups[groupOrder].components[componentOrder].icon) : 'feather:copy'">
                                                             </mat-icon>
                                                             <div class="ml-1.5 leading-5 mr-auto pl-1 text-on-primary">
-                                                                {{ instance.groups[groupOrder].components[componentOrder].title }}
+                                                                {{ instance().groups[groupOrder].components[componentOrder].title }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -141,8 +141,9 @@ export class MaterialWebBuilderComponent extends MaterialComponent {
 
     constructor() {
         super();
+
         effect(() => {
-            if (this.instance) {
+            if (this.instance()) {
                 this.initialize();
             }
         });
@@ -151,25 +152,25 @@ export class MaterialWebBuilderComponent extends MaterialComponent {
     initialize() {
         this.initializeSidebar();
 
-        this.instance.editComponent = (component, parent, isNew, isJsonEdit, original, flags = {}) => {
+        this.instance().editComponent = (component, parent, isNew, isJsonEdit, original, flags = {}) => {
             this.#dialog.open(MaterialComponentEditComponent, {
                 data: {
-                    instance: this.instance, component, parent, isNew, isJsonEdit, original, flags
+                    instance: this.instance(), component, parent, isNew, isJsonEdit, original, flags
                 },
                 height: 'calc(90% - 100px)',
                 width: 'calc(90% - 100px)',
                 maxWidth: '100%',
                 maxHeight: '100%'
             }).afterClosed().subscribe(_ => {
-                this.instance.editForm.destroy(true);
-                if (this.instance.preview) {
-                    this.instance.preview.destroy(true);
-                    this.instance.preview = null;
+                this.instance().editForm.destroy(true);
+                if (this.instance().preview) {
+                    this.instance().preview.destroy(true);
+                    this.instance().preview = null;
                 }
-                if (isNew && !this.instance.saved) {
-                    this.instance.removeComponent(component, parent, original);
+                if (isNew && !this.instance().saved) {
+                    this.instance().removeComponent(component, parent, original);
                 }
-                this.instance.highlightInvalidComponents();
+                this.instance().highlightInvalidComponents();
             })
         }
 
@@ -185,22 +186,22 @@ export class MaterialWebBuilderComponent extends MaterialComponent {
         if (this.sidebarComponent()) {
             Array.from(this.sidebarComponent()).forEach((cmp) => {
                 const component = cmp.nativeElement;
-                this.instance.addEventListener(component, 'keydown', (event) => {
+                this.instance().addEventListener(component, 'keydown', (event) => {
                     if (event.keyCode === 13) {
-                        this.instance.addNewComponent(component);
+                        this.instance().addNewComponent(component);
                     }
                 });
             })
         }
         if (this.form() && this.sidebarContainer()) {
-            this.form()!.nativeElement.innerHTML = this.instance.webform.render();
+            this.form()!.nativeElement.innerHTML = this.instance().webform.render();
 
-            this.instance.refs['sidebar-container'] = Array.from(this.sidebarContainer()).map((cmp) => cmp.nativeElement);
-            if (this.instance.dragDropEnabled) {
-                this.instance.initDragula();
+            this.instance().refs['sidebar-container'] = Array.from(this.sidebarContainer()).map((cmp) => cmp.nativeElement);
+            if (this.instance().dragDropEnabled) {
+                this.instance().initDragula();
             }
 
-            const drake = this.instance.dragula;
+            const drake = this.instance().dragula;
 
             autoScroll([window], {
                 margin: 20,
@@ -211,15 +212,15 @@ export class MaterialWebBuilderComponent extends MaterialComponent {
                 }
             });
 
-            this.instance.webform.attach(this.form()!.nativeElement);
+            this.instance().webform.attach(this.form()!.nativeElement);
         }
     }
 
     initializeSidebar() {
         if (!this.search() || !this.search()!.nativeElement.value) {
-            this.groupOrders = this.instance.groupOrder;
+            this.groupOrders = this.instance().groupOrder;
             this.groupOrders?.forEach(groupOrder => {
-                this.componentOrders[groupOrder] = this.instance.groups[groupOrder].componentOrder
+                this.componentOrders[groupOrder] = this.instance().groups[groupOrder].componentOrder
             });
         } else {
             this.groupOrders = this._groupOrders;
@@ -236,7 +237,7 @@ export class MaterialWebBuilderComponent extends MaterialComponent {
             const filteredComponents: any = [];
 
             for (const key in components) {
-                const isMatchedToTitle = this.instance.t(components[key].title).toLowerCase().match(searchValue);
+                const isMatchedToTitle = this.instance().t(components[key].title).toLowerCase().match(searchValue);
                 const isMatchedToKey = components[key].key.toLowerCase().match(searchValue);
 
                 if (isMatchedToTitle || isMatchedToKey) {
@@ -244,7 +245,7 @@ export class MaterialWebBuilderComponent extends MaterialComponent {
                 }
             }
 
-            this.instance.orderComponents(result, filteredComponents);
+            this.instance().orderComponents(result, filteredComponents);
             if (searchValue) {
                 result.default = true;
             }
@@ -256,7 +257,7 @@ export class MaterialWebBuilderComponent extends MaterialComponent {
 
         const filterGroupOrder = (groupOrder, searchValue) => {
             const result = _.cloneDeep(groupOrder);
-            return result.filter(key => filterGroupBy(this.instance.groups[key], searchValue));
+            return result.filter(key => filterGroupBy(this.instance().groups[key], searchValue));
         };
 
         const filterSubgroups = (groups, searchValue) => {
@@ -266,15 +267,15 @@ export class MaterialWebBuilderComponent extends MaterialComponent {
                 .filter(subgroup => !_.isNull(subgroup));
         };
 
-        this._groupOrders = filterGroupOrder(this.instance.groupOrder, searchValue);
+        this._groupOrders = filterGroupOrder(this.instance().groupOrder, searchValue);
         this._groupOrders.forEach(grp => {
-            this._componentOrders[grp] = filterGroupBy(this.instance.groups[grp], searchValue).componentOrder;
+            this._componentOrders[grp] = filterGroupBy(this.instance().groups[grp], searchValue).componentOrder;
         });
 
         this.initializeSidebar();
         /*const toTemplate = groupKey => {
             return {
-                group: filterGroupBy(this.instance.groups[groupKey], searchValue),
+                group: filterGroupBy(this.instance().groups[groupKey], searchValue),
                 groupKey,
                 groupId: sidebar.id || sidebarGroups.id,
                 subgroups: filterSubgroups(this.groups[groupKey].subgroups, searchValue)
