@@ -42,6 +42,7 @@ import { MaterialWizardBuilderComponent } from './wizard/wizard.builder.componen
 
 import iconClass from './module/icons/iconClass';
 import EventBus from 'js-event-bus';
+import { Formio } from '@formio/js';
 import { MaterialHtmlComponent } from './html/html.component';
 import _, { isArray } from 'lodash';
 // @ts-ignore
@@ -49,7 +50,10 @@ import EditFormUtils = Components.EditFormUtils;
 // @ts-ignore
 import baseEditForm = Components.baseEditForm;
 import { MaterialWizardComponent } from './wizard/wizard.component';
-
+Formio.setProjectUrl('http://localhost:13756')
+// @ts-ignore
+//window.formio.projectUrl = 'https://localhost:8080'
+console.log('Formio', Formio, window)
 const fixCustomConditional = (component) => {
     if (component.customConditional) {
         component.customConditional = function (){
@@ -162,7 +166,7 @@ const editForm = function (...extend) {
     };
 }
 
-Components.baseEditForm = editForm
+Components.baseEditForm = editForm as any;
 
 Templates.current.iconClass = iconClass;
 
@@ -183,7 +187,6 @@ Templates.current = {
                     template += `
                     <mat-fio-icon button="true"
                         label="${ctx.t('cancel')}"
-                        classNames="bg-secondary text-on-secondary"
                         ref="${ctx.wizardKey}-cancel"
                         aria-label="${ctx.t('cancelButtonAriaLabel')}"/>
                     </mat-fio-icon>
@@ -325,7 +328,7 @@ Templates.current = {
                         <mat-fio-icon button="true" ref="addButton"
                             classNames="text-primary"
                             label="${ctx.t(ctx.addAnother, {_userInput: true})}"
-                            icon="heroicons_outline:plus-circle">
+                            icon="formio:plus-circle">
                         </mat-fio-icon>
                     </div>
                 `
@@ -351,7 +354,7 @@ Templates.current = {
                     <td class="mat-mdc-cell mdc-data-table__cell cdk-cell">
                         <mat-fio-icon iconButton="true" ref="removeRow"
                                  iconClasses="text-error"
-                                 icon="heroicons_outline:trash"></mat-fio-icon>
+                                 icon="formio:trash"></mat-fio-icon>
                     </td>
                 `
             }
@@ -372,7 +375,7 @@ Templates.current = {
 
             if ((ctx.component.type === 'textarea' && ctx.component.editor && ctx.visible) ) {
                 template += `
-                <mat-fio-label standalone="true" required="${ctx.component.validate?.required}"label="${ctx.component.label}"></mat-fio-label>
+                <mat-fio-label standalone="true" required="${ctx.component.validate?.required}" label="${ctx.component.label}"></mat-fio-label>
                 `
             }
             if (ctx.visible) {
@@ -403,7 +406,7 @@ Templates.current = {
                             classNames="formio-action-button"
                             ref="removeComponent"
                             iconClasses="text-on-primary"
-                            icon="heroicons_outline:trash">
+                            icon="formio:trash">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
                             class="bg-primary text-on-primary"
@@ -412,7 +415,7 @@ Templates.current = {
                             classNames="formio-action-button"
                             ref="copyComponent"
                             iconClasses="text-on-primary"
-                            icon="feather:copy">
+                            icon="formio:copy">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
                             class="bg-primary text-on-primary"
@@ -421,7 +424,7 @@ Templates.current = {
                             classNames="formio-action-button"
                             ref="pasteComponent"
                             iconClasses="text-on-primary"
-                            icon="mat_outline:save">
+                            icon="formio:save">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
                             class="bg-primary text-on-primary"
@@ -430,7 +433,7 @@ Templates.current = {
                             classNames="formio-action-button"
                             ref="editJson"
                             iconClasses="text-on-primary"
-                            icon="heroicons_outline:wrench-screwdriver">
+                            icon="formio:wrench-screwdriver">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
                             class="bg-primary text-on-primary"
@@ -439,7 +442,7 @@ Templates.current = {
                             iconClasses="text-on-primary"
                             classNames="formio-action-button"
                             ref="moveComponent"
-                            icon="feather:move">
+                            icon="formio:move">
                         </mat-fio-icon>
                         <mat-fio-icon iconButton="true"
                             class="bg-primary text-on-primary"
@@ -448,7 +451,7 @@ Templates.current = {
                             iconClasses="text-on-primary"
                             classNames="formio-action-button"
                             ref="editComponent"
-                            icon="heroicons_outline:cog-8-tooth">
+                            icon="formio:cog-8-tooth">
                         </mat-fio-icon>
                     </div>
             `
@@ -481,7 +484,6 @@ const CHECKBOX_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-checkbox', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Checkbox', // Title of the component
     group: 'basic', // Build Group
-    icon: 'feather:check-square', // Icon
     baseType: 'checkbox',
     //template: 'field', // Optional: define a template for the element. Default: input
 //  changeEvent: 'valueChange', // Optional: define the changeEvent when the formio updates the value in the state. Default: 'valueChange',
@@ -499,7 +501,6 @@ const TEXTFIELD_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-textfield', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Text Field', // Title of the component
     group: 'basic', // Build Group
-    icon: 'feather:terminal', // Icon
     baseType: 'textfield',
     editForm: Components.components.textfield.editForm,
 };
@@ -509,7 +510,6 @@ const TEXTAREA_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-textarea', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Textarea', // Title of the component
     group: 'basic', // Build Group
-    icon: 'mat_outline:font_download', // Icon
     baseType: 'textarea',
     editForm: Components.components.textarea.editForm,
 };
@@ -519,7 +519,6 @@ const RADIO_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-radio', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Radio', // Title of the component
     group: 'basic', // Build Group
-    icon: 'heroicons_outline:check-circle', // Icon
     baseType: 'radio',
     editForm: Components.components.radio.editForm,
 };
@@ -529,7 +528,6 @@ const TAGS_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-tags', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Tags', // Title of the component
     group: 'advanced', // Build Group
-    icon: 'heroicons_outline:tag', // Icon
     baseType: 'tags',
     editForm: Components.components.tags.editForm,
 };
@@ -540,7 +538,6 @@ const SELECT_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-select', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Select', // Title of the component
     group: 'basic', // Build Group
-    icon: 'mat_outline:format_list_bulleted', // Icon
     baseType: 'select',
     editForm: Components.components.select.editForm,
 };
@@ -550,7 +547,6 @@ const SELECTBOXES_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-selectboxes', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Select Boxes', // Title of the component
     group: 'basic', // Build Group
-    icon: 'feather:plus-square', // Icon
     baseType: 'selectboxes',
     editForm: Components.components.selectboxes.editForm,
 };
@@ -560,7 +556,6 @@ const TIME_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-time', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Time', // Title of the component
     group: 'advance', // Build Group
-    icon: 'heroicons_outline:clock', // Icon
     baseType: 'time',
     editForm: Components.components.time.editForm,
 };
@@ -571,7 +566,6 @@ const DATETIME_OPTIONS: FormioCustomComponentInfo = {
     title: 'Date/Time', // Title of the component
     group: 'advanced', // Build Group
     baseType: 'datetime',
-    icon: 'heroicons_outline:calendar-days', // Icon
     editForm: Components.components.datetime.editForm,
 };
 
@@ -581,7 +575,6 @@ const DAY_OPTIONS: FormioCustomComponentInfo = {
     title: 'Day', // Title of the component
     group: 'advanced', // Build Group
     baseType: 'day',
-    icon: 'heroicons_outline:calendar-days', // Icon
     editForm: Components.components.day.editForm,
 };
 
@@ -590,7 +583,6 @@ const CURRENCY_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-currency', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Currency', // Title of the component
     group: 'advanced', // Build Group
-    icon: 'mat_outline:attach_money', // Icon
     baseType: 'currency',
     editForm: Components.components.currency.editForm,
 };
@@ -600,7 +592,6 @@ const NUMBER_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-number', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Number', // Title of the component
     group: 'basic', // Build Group
-    icon: 'heroicons_outline:hashtag', // Icon,
     baseType: 'number',
     editForm: Components.components.number.editForm,
 };
@@ -610,7 +601,6 @@ const PHONE_NUMBER_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-phonenumber', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Phone Number', // Title of the component
     group: 'advanced', // Build Group
-    icon: 'heroicons_outline:phone', // Icon
     baseType: 'phoneNumber',
     editForm: Components.components.phoneNumber.editForm,
 };
@@ -620,7 +610,6 @@ const PASSWORD_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-password', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Password', // Title of the component
     group: 'basic', // Build Group
-    icon: 'heroicons_outline:eye-slash', // Icon
     baseType: 'password',
     editForm: Components.components.password.editForm,
 };
@@ -631,7 +620,6 @@ const URL_OPTIONS: FormioCustomComponentInfo = {
     title: 'URL', // Title of the component
     group: 'advanced', // Build Group
     baseType: 'url',
-    icon: 'heroicons_outline:link', // Icon
     editForm: Components.components.url.editForm,
 };
 
@@ -640,7 +628,6 @@ const BUTTON_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-button', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Button', // Title of the component
     group: 'basic', // Build Group
-    icon: 'heroicons_outline:stop', // Icon
     baseType: 'button',
     editForm: Components.components.button.editForm,
 };
@@ -651,7 +638,6 @@ const EMAIL_OPTIONS: FormioCustomComponentInfo = {
     title: 'Email', // Title of the component
     group: 'advanced', // Build Group
     baseType: 'email',
-    icon: 'heroicons_outline:at-symbol', // Icon
     editForm: Components.components.email.editForm,
 };
 
@@ -660,7 +646,6 @@ const SURVEY_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-survey', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Survey', // Title of the component
     group: 'advanced', // Build Group
-    icon: 'mat_outline:format_list_bulleted', // Icon
     baseType: 'survey',
     editForm: Components.components.survey.editForm,
 };
@@ -670,7 +655,6 @@ const TABS_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-tabs', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Tabs', // Title of the component
     group: 'layout', // Build Group
-    icon: 'heroicons_outline:folder-open', // Icon
     baseType: 'tabs',
     editForm: Components.components.tabs.editForm
 };
@@ -680,7 +664,6 @@ const ADDRESS_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-address', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Address', // Title of the component
     group: 'advanced', // Build Group
-    icon: 'heroicons_outline:home', // Icon
     baseType: 'address',
     editForm: Components.components.address.editForm
 };
@@ -690,7 +673,6 @@ const PANEL_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-panel', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Panel', // Title of the component
     group: 'layout', // Build Group
-    icon: 'heroicons_outline:credit-card', // Icon
     baseType: 'panel',
     editForm: Components.components.panel.editForm
 };
@@ -700,7 +682,6 @@ const TABLE_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-table', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Table', // Title of the component
     group: 'advanced', // Build Group
-    icon: 'heroicons_outline:credit-card', // Icon
     baseType: 'table',
     editForm: Components.components.table.editForm
 };
@@ -709,7 +690,6 @@ const WIZARD_OPTIONS: FormioCustomComponentInfo = {
     type: 'wizard', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-wizard', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Wizard', // Title of the component
-    icon: 'heroicons_outline:credit-card', // Icon
     baseType: 'wizard',
     group: 'layout', //
 };
@@ -718,7 +698,6 @@ const PDF_OPTIONS: FormioCustomComponentInfo = {
     type: 'pdf', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-pdf', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'PDF', // Title of the component
-    icon: 'heroicons_outline:credit-card', // Icon
     baseType: 'pdf',
     group: 'layout', //
 };
@@ -727,7 +706,6 @@ const PDF_BUILDER_OPTIONS: FormioCustomComponentInfo = {
     type: 'pdf-builder', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-pdf-builder', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'PDF', // Title of the component
-    icon: 'heroicons_outline:credit-card', // Icon
     baseType: 'pdf-builder',
     group: 'layout', //
 };
@@ -736,7 +714,6 @@ const WEBFORM_BUILDER_OPTIONS: FormioCustomComponentInfo = {
     type: 'webform-builder', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-webform-builder', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Webform', // Title of the component
-    icon: 'heroicons_outline:credit-card', // Icon
     baseType: 'webform-builder',
     group: 'layout', //
 };
@@ -745,7 +722,6 @@ const WIZARD_BUILDER_OPTIONS: FormioCustomComponentInfo = {
     type: 'wizard-builder', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-wizard-builder', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Wizard', // Title of the component
-    icon: 'heroicons_outline:credit-card', // Icon
     baseType: 'wizard-builder',
     group: 'layout', //
 };
@@ -754,7 +730,6 @@ const WELLS_OPTIONS: FormioCustomComponentInfo = {
     type: 'well', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-well', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Well', // Title of the component
-    icon: 'heroicons_outline:bookmark-square', // Icon
     baseType: 'well',
     group: 'layout', //
     editForm: Components.components.well.editForm
@@ -764,7 +739,6 @@ const DATAGRID_OPTIONS: FormioCustomComponentInfo = {
     type: 'datagrid', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-datagrid', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Data Grid', // Title of the component
-    icon: 'heroicons_outline:table-cells', // Icon
     baseType: 'datagrid',
     group: 'data', //
     editForm: Components.components.datagrid.editForm
@@ -774,7 +748,6 @@ const DATAMAP_OPTIONS: FormioCustomComponentInfo = {
     type: 'datamap', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-datamap', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Data Map', // Title of the component
-    icon: 'heroicons_outline:table-cells', // Icon
     baseType: 'datamap',
     group: 'data', //
     editForm: Components.components.datagrid.editForm
@@ -784,7 +757,6 @@ const SIGNATURE_OPTIONS: FormioCustomComponentInfo = {
     type: 'signature', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-signature', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Signature', // Title of the component
-    icon: 'heroicons_outline:table-cells', // Icon
     baseType: 'signature',
     group: 'data', //
     editForm: Components.components.signature.editForm
@@ -794,7 +766,6 @@ const EDITGRID_OPTIONS: FormioCustomComponentInfo = {
     type: 'editgrid', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-editgrid', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Edit Grid', // Title of the component
-    icon: 'heroicons_outline:table-cells', // Icon
     baseType: 'editgrid',
     group: 'data', //
     editForm: Components.components.editgrid.editForm
@@ -804,7 +775,6 @@ const MULTIVALUE_OPTIONS: FormioCustomComponentInfo = {
     type: 'multivalue', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-multivalue', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Multivalue', // Title of the component
-    icon: 'heroicons_outline:table-cells', // Icon
     baseType: 'multivalue',
     group: 'data', //
     editForm: Components.components.editgrid.editForm
@@ -815,7 +785,6 @@ const FIELDSET_OPTIONS: FormioCustomComponentInfo = {
     selector: 'mat-fio-fieldset', // custom selector. Angular Elements will create a custom html tag with this selector
     title: 'Fieldset', // Title of the component
     group: 'layout', // Build Group
-    icon: 'heroicons_outline:hashtag', // Icon,
     baseType: 'fieldset',
     editForm: Components.components.fieldset.editForm,
 };
@@ -826,7 +795,6 @@ const FILE_OPTIONS: FormioCustomComponentInfo = {
     title: 'File', // Title of the component
     group: 'advanced', // Build Group
     baseType: 'file',
-    icon: 'mat_outline:attach_file', // Icon
     editForm: Components.components.file.editForm,
 };
 
@@ -836,7 +804,6 @@ const HTML_OPTIONS: FormioCustomComponentInfo = {
     title: 'HTML', // Title of the component
     group: 'layout', // Build Group
     baseType: 'htmlelement',
-    icon: 'mat_outline:attach_file', // Icon
     editForm: Components.components.htmlelement.editForm,
 };
 

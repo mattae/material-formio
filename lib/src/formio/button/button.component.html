@@ -10,13 +10,13 @@
             <mat-icon [svgIcon]="component.leftIcon"></mat-icon>
         }
         @if (done) {
-            <mat-icon svgIcon="mat_outline:done_all"></mat-icon>
+            <mat-icon svgIcon="formio:done_all"></mat-icon>
         }
         @if (error) {
-            <mat-icon svgIcon="mat_outline:error_outline"></mat-icon>
+            <mat-icon svgIcon="formio:error_outline"></mat-icon>
         }
         @if (loading) {
-            <mat-icon class="mat-icon-spin" svgIcon="heroicons_outline:arrow-path"></mat-icon>
+            <mat-icon class="mat-icon-spin" svgIcon="formio:arrow-path"></mat-icon>
         }
         <span [innerHTML]="component.label | transloco"></span>
         @if (component.rightIcon) {

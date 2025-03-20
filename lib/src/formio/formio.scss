@@ -68,6 +68,7 @@ a {
 
 .formio-loader {
     border-top: 6px solid var(--mdc-circular-progress-active-indicator-color) !important;
+    @apply w-26;
 }
 
 .formio-action-button {
@@ -234,7 +235,8 @@ mat-formio-form-field label, .mat-fio-label {
 }
 
 .pdf-component {
-    @apply border-2 border-primary bg-tertiary-container text-on-tertiary-container justify-center text-xl flex flex-row items-center;
+    //@apply border-2 border-primary bg-tertiary-container text-on-tertiary-container justify-center text-xl flex flex-row items-center;
+    @apply absolute inset-0 -m-6 border-4 border-primary bg-white rounded-lg shadow-lg;
 }
 
 .resize-handle {
@@ -245,4 +247,8 @@ mat-formio-form-field label, .mat-fio-label {
     bottom: 0;
     right: 0;
     cursor: se-resize;
+}
+
+:root {
+    --ngx-editor-background-color: red;
 }

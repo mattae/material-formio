@@ -13,7 +13,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatIconButton } from '@angular/material/button';
 import { map, Observable, of, startWith } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 
 Components.components.select.prototype.render = function (...args) {
     return Components.components.base.prototype.render.call(this, ...args);
@@ -48,7 +48,7 @@ Components.components.select.prototype.render = function (...args) {
                                     (removed)="remove(option)"
                             >
                                 <span [innerHTML]="option.label | transloco"></span>
-                                <mat-icon matChipRemove svgIcon="heroicons_outline:backspace"></mat-icon>
+                                <mat-icon matChipRemove svgIcon="formio:backspace"></mat-icon>
                             </mat-chip-option>
                         }
                         <input
@@ -112,6 +112,9 @@ Components.components.select.prototype.render = function (...args) {
                             width="24"
                             height="24"
                             class="text-primary"
+                            [ngClass]="{
+                                'rotate-180': opened()
+                            }"
                     >
                         <path d="M7 10l5 5 5-5H7z" />
                     </svg>
@@ -146,7 +149,8 @@ Components.components.select.prototype.render = function (...args) {
         MatIcon,
         MatCheckbox,
         MatIconButton,
-        AsyncPipe
+        AsyncPipe,
+        NgClass
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -158,6 +162,7 @@ export class MaterialSelectComponent extends MaterialComponent {
     selectedOptions = signal([]);
     filteredOptions$: Observable<any>;
     filterControl = new FormControl('');
+    opened = signal(false);
 
     constructor() {
         super();
@@ -231,6 +236,7 @@ export class MaterialSelectComponent extends MaterialComponent {
     optionClicked(event: Event, option: any) {
         event.stopPropagation();
         this.toggleSelection(option);
+        this.opened.set(false);
     }
 
     toggleSelection(option: any) {
@@ -254,10 +260,12 @@ export class MaterialSelectComponent extends MaterialComponent {
     optionSelected(option: any) {
         this.control.patchValue(option?.value);
         this.onChange();
+        this.opened.set(false);
     }
 
     openAuto() {
         this.matACTrigger().openPanel();
+        this.opened.set(true);
     }
 
     #syncSelectedOptions() {

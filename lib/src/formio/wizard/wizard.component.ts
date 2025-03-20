@@ -12,7 +12,6 @@ Wizard.prototype.render = function (...args) {
 }
 
 Wizard.prototype.attach = function (...args) {
-    console.log('Attach', args)
     return Components.components.base.prototype.attach.call(this, args);
 }
 

@@ -16,7 +16,7 @@ import { NgStyle } from '@angular/common';
                 @if (component.inPdf) {
                     <mat-checkbox
                             [ngStyle]="{
-                                zoom: '1.3'
+                                zoom: '1.6'
                             }"
                             value="{{ component.value }}"
                             [checked]="isCheckboxChecked(component.value)"

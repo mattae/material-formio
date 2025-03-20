@@ -21,10 +21,7 @@ export class MaterialHtmlComponent extends MaterialComponent {
         effect(() => {
             if (this.instance() && this.htmlBody()) {
                 this.instance().on('change', () => {
-                    console.log('this.instance().renderContent()', this.instance().renderContent())
                     this.htmlBody().nativeElement.innerHTML = this.instance().renderContent();
-
-                    console.log('this.htmlBody().nativeElement', this.htmlBody())
                 })
             }
         });

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, OnChanges, SimpleChanges } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -14,10 +14,10 @@ import _ from 'lodash';
 import { Formio } from '@formio/angular';
 
 const setInputMask = Components.components.textfield.prototype.setInputMask;
-Components.components.textfield.prototype.setInputMask = function (...args) {
+Components.components.textfield.prototype.setInputMask1 = function (...args) {
     try {
         setInputMask.call(this, args)
-    }catch (e) {
+    } catch (e) {
 
     }
 }
@@ -38,7 +38,11 @@ Components.components.textfield.prototype.addAce = function (element, settings, 
             delete settings.isUseWorkerDisabled;
             editor.setOptions(settings);
             editor.getSession().setMode(settings.mode);
-            editor.on('change', () => onChange(editor.getValue()));
+            if (this.root.isEditor){
+                editor.on('blur', () => onChange(editor.getValue()));
+            }else {
+                editor.on('change', () => onChange(editor.getValue()));
+            }
             if (settings.isUseWorkerDisabled) {
                 editor.session.setUseWorker(false);
             }
@@ -71,7 +75,7 @@ export const TEXTFIELD_TEMPLATE = `
                        [formControl]="control"
                        [placeholder]="component.placeholder | transloco"
                        (blur)="onChange()"
-                       (input)="onChange()"
+                       (input)="onInput()"
                        #input
                 >
                 @if (component.suffix) {
@@ -84,10 +88,10 @@ export const TEXTFIELD_TEMPLATE = `
                         matSuffix
                         type="button">
                         @if (input.type === 'password') {
-                            <mat-icon svgIcon="mat_outline:visibility"></mat-icon>
+                            <mat-icon svgIcon="formio:visibility"></mat-icon>
                         }
                         @if (input.type === 'text') {
-                            <mat-icon svgIcon="mat_outline:visibility_off"></mat-icon>
+                            <mat-icon svgIcon="formio:visibility_off"></mat-icon>
                         }
                     </button>
                 }
@@ -123,6 +127,12 @@ export const TEXTFIELD_TEMPLATE = `
 })
 export class MaterialTextfieldComponent extends MaterialComponent {
     public inputType = 'text';
+
+    onInput() {
+        if (!this.instance().root.isEditor) {
+            this.onChange();
+        }
+    }
 
     getHint() {
         if (!this.control.value && !this.component.description) {

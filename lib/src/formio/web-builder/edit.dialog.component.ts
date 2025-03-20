@@ -59,7 +59,7 @@ const Webform = Displays.getDisplay('webform');
                                 <div
                                         class="pl-1 space-x-0.5 flex items-center justify-items-end">
                                     <mat-icon class="text-primary icon-size-4 pt-0.5"
-                                              svgIcon="heroicons_outline:information-circle">
+                                              svgIcon="formio:information-circle">
                                     </mat-icon>
                                     <div class="ml-1.5 leading-5 mr-auto pl-1 text-primary">
                                         {{ instance().t('Help') }}
@@ -166,6 +166,13 @@ export class MaterialComponentEditComponent {
     }
 
     updateComponent(component, changed) {
+        if (this.preview()) {
+            this.preview()!.nativeElement.innerHTML = this.instance().preview.render();
+            this.instance().preview.attach(this.preview()!.nativeElement);
+
+            this.cdr.markForCheck();
+        }
+
         const sanitizeConfig = _.get(this.instance().webform, 'form.settings.sanitizeConfig') || _.get(this.instance().webform, 'form.globalSettings.sanitizeConfig');
         // Update the preview.
         if (this.instance().preview) {
@@ -183,12 +190,6 @@ export class MaterialComponentEditComponent {
             };
             const fieldsToRemoveDoubleQuotes = ['label', 'tooltip'];
             this.instance().preview.form.components.forEach(component => this.instance().replaceDoubleQuotes(component, fieldsToRemoveDoubleQuotes));
-            if (this.preview()) {
-                this.preview()!.nativeElement.innerHTML = this.instance().preview.render();
-                this.instance().preview.attach(this.preview()!.nativeElement);
-
-                this.cdr.markForCheck();
-            }
         }
         // Change the "default value" field to be reflective of this component.
         const defaultValueComponent = getComponent(this.instance().editForm.components, 'defaultValue', true);
@@ -255,7 +256,6 @@ export class MaterialComponentEditComponent {
     }
 
     initializeEditForm(): void {
-
         this.instance().saved = false;
         const componentCopy = Utils['fastCloneDeep'](this.component);
         let ComponentClass = Components.components[componentCopy.type];
@@ -295,6 +295,9 @@ export class MaterialComponentEditComponent {
                 },
             }
         );
+
+        //Added to enable text inputs to disable input event when editing; changes only propagated on blur
+        this.instance().editForm.isEditor = true;
 
         this.instance().hook('editFormProperties', parent);
 

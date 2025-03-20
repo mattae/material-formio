@@ -60,7 +60,7 @@ export interface ValidateOptions {
 export interface BuilderInfo {
     title: string;
     group: string;
-    icon: string;
+    icon?: string;
     documentation?: string;
     weight?: number;
     schema?: ExtendedComponentSchema;

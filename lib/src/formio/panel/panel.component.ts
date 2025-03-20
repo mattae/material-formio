@@ -4,9 +4,29 @@ import { MatCardModule } from '@angular/material/card';
 import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import { Components } from '@formio/js';
+import { isArray } from 'lodash';
 
 Components.components.panel.prototype.render = function (...args) {
     return Components.components.base.prototype.render.call(this, ...args);
+}
+
+Components.components.panel.prototype.addComponents = function (data: any, options: any) {
+    data = data || this.data;
+
+    //@ts-ignore
+    this.components = this.components || [];
+    options = options || this.options;
+    if (options.components) {
+        //@ts-ignore
+        this.components = options.components;
+    } else {
+        let components = this.hook('addComponents', this.componentComponents, this) || [];
+        if (components && !isArray(components)) {
+            components = [components];
+        }
+        //@ts-ignore
+        components.forEach((component) => this.addComponent(component, data));
+    }
 }
 
 @Component({
@@ -29,10 +49,10 @@ Components.components.panel.prototype.render = function (...args) {
             }
             @if (component.collapsible) {
                 <mat-expansion-panel
-                    [expanded]="!component.collapsed"
+                        [expanded]="!component.collapsed"
                 >
                     @if (component?.title) {
-                        <mat-expansion-panel-header >
+                        <mat-expansion-panel-header>
                             <mat-panel-title>
                                 {{ component.title | transloco }}
                             </mat-panel-title>

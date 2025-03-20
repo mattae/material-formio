@@ -208,7 +208,7 @@ export class MaterialDayComponent extends MaterialComponent {
 
         this.setDisabled(this.control.disabled);
 
-        const dateFormatInfo = getLocaleDateFormatInfo(this.instance().options.language);
+        const dateFormatInfo: any = getLocaleDateFormatInfo(this.instance().options.language);
         this.dayFirst = this.component.useLocaleSettings
             ? dateFormatInfo.dayFirst
             : this.component.dayFirst;

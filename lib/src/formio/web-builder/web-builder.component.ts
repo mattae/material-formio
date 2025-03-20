@@ -15,6 +15,8 @@ import { MaterialComponentEditComponent } from './edit.dialog.component';
 import { Utils } from '@formio/js';
 import eachComponent = Utils.eachComponent;
 import uniqueKey = Utils.uniqueKey;
+import { MatCard, MatCardContent } from '@angular/material/card';
+import iconClass from '../module/icons/iconClass';
 
 export const uniquify = (container, component) => {
     let changed = false;
@@ -59,52 +61,56 @@ export const uniquify = (container, component) => {
             <div class="flex flex-col">
                 <div class="flex flex-row">
                     <div class="w-2/12">
-                        <div>
-                            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'" [ngStyle]="{
-                            zoom: '0.7'
-                        }">
-                                <input matInput #search placeholder="Search field(s)">
-                                <button
-                                        mat-icon-button
-                                        matSuffix
-                                        type="button">
-                                    <mat-icon svgIcon="mat_outline:search"></mat-icon>
-                                </button>
-                            </mat-form-field>
-                            <mat-accordion>
-                                @for (groupOrder of groupOrders; track groupOrder) {
-                                    <mat-expansion-panel [expanded]="instance().groups[groupOrder].default">
-                                        <mat-expansion-panel-header>
-                                            {{ instance().groups[groupOrder].title | transloco }}
-                                        </mat-expansion-panel-header>
-                                        <div [attr.ref]="'sidebar-container'" #sidebarContainer>
-                                            @if (componentOrders[groupOrder].length) {
-                                                @for (componentOrder of componentOrders[groupOrder]; track componentOrder) {
-                                                    <div class="pt-1.5 drag-copy"
-                                                         #sidebarComponent
-                                                         [attr.data-group]="groupOrder"
-                                                         [attr.data-key]="instance().groups[groupOrder].components[componentOrder].key"
-                                                         [attr.data-type]="instance().groups[groupOrder].components[componentOrder].schema.type"
-                                                         tabindex="{{instance().keyboardActionsEnabled ? 0 : -1}}">
-                                                        <div
-                                                                class="pl-2 space-x-0.5 flex items-center justify-items-end bg-primary shadow-lg rounded-md h-10">
-                                                            <mat-icon class="text-on-primary icon-size-4"
-                                                                      [svgIcon]="instance().groups[groupOrder].components[componentOrder].icon ? iconClass('', instance().groups[groupOrder].components[componentOrder].icon) : 'feather:copy'">
-                                                            </mat-icon>
-                                                            <div class="ml-1.5 leading-5 mr-auto pl-1 text-on-primary">
-                                                                {{ instance().groups[groupOrder].components[componentOrder].title }}
+                        <mat-card appearance="outlined">
+                            <mat-card-content>
+                                <div>
+                                    <mat-form-field class="w-full" [subscriptSizing]="'dynamic'" [ngStyle]="{
+                                        zoom: '0.7'
+                                        }">
+                                        <input matInput #search placeholder="Search field(s)">
+                                        <button
+                                                mat-icon-button
+                                                matSuffix
+                                                type="button">
+                                            <mat-icon svgIcon="formio:search"></mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                    <mat-accordion>
+                                        @for (groupOrder of groupOrders; track groupOrder) {
+                                            <mat-expansion-panel [expanded]="instance().groups[groupOrder].default">
+                                                <mat-expansion-panel-header>
+                                                    {{ instance().groups[groupOrder].title | transloco }}
+                                                </mat-expansion-panel-header>
+                                                <div [attr.ref]="'sidebar-container'" #sidebarContainer>
+                                                    @if (componentOrders[groupOrder].length) {
+                                                        @for (componentOrder of componentOrders[groupOrder]; track componentOrder) {
+                                                            <div class="pt-1.5 drag-copy"
+                                                                 #sidebarComponent
+                                                                 [attr.data-group]="groupOrder"
+                                                                 [attr.data-key]="instance().groups[groupOrder].components[componentOrder].key"
+                                                                 [attr.data-type]="instance().groups[groupOrder].components[componentOrder].schema.type"
+                                                                 tabindex="{{instance().keyboardActionsEnabled ? 0 : -1}}">
+                                                                <div
+                                                                        class="pl-2 space-x-0.5 flex items-center justify-items-end bg-primary shadow-lg rounded-md h-10">
+                                                                    <mat-icon class="text-on-primary icon-size-4"
+                                                                              [svgIcon]="instance().groups[groupOrder].components[componentOrder].icon ? iconClass('', instance().groups[groupOrder].components[componentOrder].icon) : 'formio:copy'">
+                                                                    </mat-icon>
+                                                                    <div class="ml-1.5 leading-5 mr-auto pl-1 text-on-primary">
+                                                                        {{ instance().groups[groupOrder].components[componentOrder].title }}
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            } @else {
-                                                {{ 'No matches found' | transloco }}
-                                            }
-                                        </div>
-                                    </mat-expansion-panel>
-                                }
-                            </mat-accordion>
-                        </div>
+                                                        }
+                                                    } @else {
+                                                        {{ 'No matches found' | transloco }}
+                                                    }
+                                                </div>
+                                            </mat-expansion-panel>
+                                        }
+                                    </mat-accordion>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
                     </div>
                     <div class="w-10/12" [attr.ref]="'form'" #form>
 
@@ -123,7 +129,9 @@ export const uniquify = (container, component) => {
         MatIconButton,
         MatInput,
         TranslocoPipe,
-        NgStyle
+        NgStyle,
+        MatCard,
+        MatCardContent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

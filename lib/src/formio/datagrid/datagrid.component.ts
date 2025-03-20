@@ -31,116 +31,6 @@ Components.components.datagrid.prototype.focusOnNewRowElement = function (row) {
 
 export const DATA_GRID_TEMPLATE = `
     @if (component) {
-        <mat-formio-form-field [component]="component"
-                               [componentTemplate]="componentTemplate"
-                               [labelTemplate]="labelTemplate"
-        ></mat-formio-form-field>
-        <ng-template #componentTemplate let-hasLabel>
-            @if (hasLabel) {
-                <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
-            }
-            <mat-card class="w-full p-2" appearance="outlined">
-                @if (instance().builderMode && component.type === 'datagrid') {
-                    <div class="grid gap-4" #children [attr.style]="getColumns()"></div>
-                } @else {
-                    @if (instance().hasAddButton() && (instance().addAnotherPosition === 'both' || instance().addAnotherPosition === 'top') && !instance().builderMode) {
-                        <mat-card-actions
-                        >
-                            <button mat-raised-button class="bg-primary text-on-primary"  (click)="addAnother()">
-                                <mat-icon class="text-on-primary" svgIcon="heroicons_outline:plus-circle"></mat-icon>
-                                {{ component.addAnother || 'Add another' | transloco }}
-                            </button>
-                        </mat-card-actions>
-                    }
-                    <table
-                            mat-table
-                            [dataSource]="dataSource"
-                            class="mat-elevation-z2 w-full table-bordered"
-                            cdkDropList
-                            [cdkDropListData]="dataSource"
-                            (cdkDropListDropped)="dropTable($event)">
-                        >
-                        @for (column of formColumns;track column) {
-                            <ng-container [matColumnDef]="column">
-                                <th mat-header-cell *matHeaderCellDef>{{ getColumnLabel(columns[column]) }}</th>
-                                <td mat-cell *matCellDef="let i = index;" class="p-2">
-                                    <div #components></div>
-                                </td>
-                            </ng-container>
-                        }
-                        <ng-container matColumnDef="__removeRow">
-                            <th mat-header-cell *matHeaderCellDef></th>
-                            <td mat-cell *matCellDef="let i = index;">
-                                @if (instance().hasRemoveButtons()) {
-                                    <button mat-icon-button (click)="removeRow(i)">
-                                        <mat-icon svgIcon="heroicons_outline:trash" class="text-error" aria-label="Remove row"></mat-icon>
-                                    </button>
-                                }
-                            </td>
-                        </ng-container>
-                        @if (component.reorder) {
-                            <ng-container matColumnDef="position">
-                                <th mat-header-cell *matHeaderCellDef></th>
-                                <td mat-cell *matCellDef="let element">
-                                    <mat-icon cdkDragHandle svgIcon="heroicons_outline:adjustments-vertical"></mat-icon>
-                                </td>
-                            </ng-container>
-                        }
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        @if (component?.reorder) {
-                            <div>
-                                <tr class="datagrid-row" mat-row *matRowDef="let row; columns: displayedColumns;"
-                                    cdkDrag
-                                    [cdkDragData]="row"></tr>
-                            </div>
-                        }
-                        @if (!component?.reorder) {
-                            <div>
-                                <tr class="datagrid-row" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                            </div>
-                        }
-                        <!-- Group header -->
-                    <ng-container matColumnDef="groupHeader">
-                        <mat-cell class="w-full" *matCellDef="let group">
-                            @if (group.expanded) {
-                                <mat-icon>expand_less</mat-icon>
-                            } @else {
-                                <mat-icon>expand_more</mat-icon>
-                            }
-                            <strong>{{ group[groupByColumns[group.level - 1]] }}</strong>
-                        </mat-cell>
-                    </ng-container>
-
-                    <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
-                             (click)="groupHeaderClick(row)"></mat-row>
-                    </table>
-                    @if (instance().hasAddButton() && instance().addAnotherPosition !== 'top' && !instance().builderMode) {
-                        <mat-card-actions>
-                            <button mat-raised-button class="bg-primary text-on-primary" (click)="addAnother()">
-                                <mat-icon svgIcon="heroicons_outline:plus-circle" class="text-on-primary"></mat-icon>
-                                {{ (component.addAnother || 'Add another') | transloco }}
-                            </button>
-                        </mat-card-actions>
-                    }
-                    @if (isError()) {
-                        <mat-card-footer>
-                            <mat-error class="text-error">{{ getErrorMessage() }}</mat-error>
-                        </mat-card-footer>
-                    }
-                }
-            </mat-card>
-        </ng-template>
-
-        <ng-template #labelTemplate>
-            <label class="mat-label" [component]="component" matFormioLabel></label>
-        </ng-template> 
-    }
-`
-
-@Component({
-    selector: 'mat-formio-datagrid',
-    template: `
-        @if (component) {
             <mat-formio-form-field [component]="component"
                                    [componentTemplate]="componentTemplate"
                                    [labelTemplate]="labelTemplate"
@@ -156,11 +46,17 @@ export const DATA_GRID_TEMPLATE = `
                         @if (instance().hasAddButton() && (instance().addAnotherPosition === 'both' || instance().addAnotherPosition === 'top') && !instance().builderMode) {
                             <mat-card-actions
                             >
-                                <button mat-raised-button class="bg-primary text-on-primary" (click)="addAnother()">
-                                    <mat-icon class="text-on-primary"
-                                              svgIcon="heroicons_outline:plus-circle"></mat-icon>
-                                    {{ component.addAnother || 'Add another' | transloco }}
-                                </button>
+                                <div
+                                        class="group inline-flex items-center mt-2 -ml-4 py-2 px-4 rounded cursor-pointer"
+                                        (click)="addAnother()">
+                                    <mat-icon
+                                            class="icon-size-5 text-primary"
+                                            [svgIcon]="'formio:plus-circle'"></mat-icon>
+                                    <span
+                                            class="ml-2 font-medium text-primary group-hover:underline">
+                                    {{ instance().t(component.addAnother || 'Add Another', {_userInput: true}) }}
+                                </span>
+                                </div>
                             </mat-card-actions>
                         }
                         <table
@@ -184,7 +80,7 @@ export const DATA_GRID_TEMPLATE = `
                                 <td mat-cell *matCellDef="let i = index;">
                                     @if (instance().hasRemoveButtons()) {
                                         <button mat-icon-button (click)="removeRow(i)">
-                                            <mat-icon svgIcon="heroicons_outline:trash" class="text-error"
+                                            <mat-icon svgIcon="formio:trash" class="text-error"
                                                       aria-label="Remove row"></mat-icon>
                                         </button>
                                     }
@@ -195,7 +91,7 @@ export const DATA_GRID_TEMPLATE = `
                                     <th mat-header-cell *matHeaderCellDef></th>
                                     <td mat-cell *matCellDef="let element">
                                         <mat-icon cdkDragHandle
-                                                  svgIcon="heroicons_outline:adjustments-vertical"></mat-icon>
+                                                  svgIcon="formio:adjustments-vertical"></mat-icon>
                                     </td>
                                 </ng-container>
                             }
@@ -220,9 +116,9 @@ export const DATA_GRID_TEMPLATE = `
                                         <div class="pl-2 space-x-1.5 flex items-center justify-items-end">
                                             @if (component.groupToggle) {
                                                 @if (groups()[group[formColumns[0]]]) {
-                                                    <mat-icon class="icon-size-5 text-current" svgIcon="heroicons_outline:chevron-up"></mat-icon>
+                                                    <mat-icon class="icon-size-5 text-current" svgIcon="formio:chevron-up"></mat-icon>
                                                 } @else {
-                                                    <mat-icon class="icon-size-5 text-current" svgIcon="heroicons_outline:chevron-down"></mat-icon>
+                                                    <mat-icon class="icon-size-5 text-current" svgIcon="formio:chevron-down"></mat-icon>
                                                 }
                                             }
                                             <strong>{{ group[formColumns[0]] | transloco }}</strong>
@@ -236,11 +132,17 @@ export const DATA_GRID_TEMPLATE = `
                         </table>
                         @if (instance().hasAddButton() && instance().addAnotherPosition !== 'top' && !instance().builderMode) {
                             <mat-card-actions>
-                                <button mat-raised-button class="bg-primary text-on-primary" (click)="addAnother()">
-                                    <mat-icon svgIcon="heroicons_outline:plus-circle"
-                                              class="text-on-primary"></mat-icon>
-                                    {{ (component.addAnother || 'Add another') | transloco }}
-                                </button>
+                                <div
+                                        class="group inline-flex items-center mt-2 -ml-4 py-2 px-4 rounded cursor-pointer"
+                                        (click)="addAnother()">
+                                    <mat-icon
+                                            class="icon-size-5 text-primary"
+                                            [svgIcon]="'formio:plus-circle'"></mat-icon>
+                                    <span
+                                            class="ml-2 font-medium text-primary group-hover:underline">
+                                    {{ instance().t(component.addAnother || 'Add Another', {_userInput: true}) }}
+                                </span>
+                                </div>
                             </mat-card-actions>
                         }
                         @if (isError()) {
@@ -256,7 +158,11 @@ export const DATA_GRID_TEMPLATE = `
                 <label class="mat-label" [component]="component" matFormioLabel></label>
             </ng-template>
         }
-    `,
+`
+
+@Component({
+    selector: 'mat-formio-datagrid',
+    template: DATA_GRID_TEMPLATE,
     styles: [
         ':host { @apply p-0.5; }'
     ],
@@ -399,16 +305,18 @@ export class MaterialDataGridComponent extends MaterialComponent {
                 let rowIndex = 0;
                 rows.forEach((row) => {
                     const index = (columnIndex * columnLength) + rowIndex;
-                    const container = this.components()[index].nativeElement;
-                    container.innerHTML = rows[rowIndex][col.key];
-                    this.instance().attachComponents(
-                        container,
-                        [this.instance().rows[rowIndex][col.key]],
-                        this.instance().getComponentsContainer(),
-                    );
-                    this.cdr.markForCheck();
+                    if (index < this.components().length) {
+                        const container = this.components()[index].nativeElement;
+                        container.innerHTML = rows[rowIndex][col.key];
+                        this.instance().attachComponents(
+                            container,
+                            [this.instance().rows[rowIndex][col.key]],
+                            this.instance().getComponentsContainer(),
+                        );
+                        this.cdr.markForCheck();
 
-                    rowIndex++;
+                        rowIndex++;
+                    }
                 });
             });
         }

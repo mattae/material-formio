@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, HostListener, inject, viewChild } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    effect,
+    ElementRef,
+    HostListener,
+    inject,
+    signal,
+    viewChild
+} from '@angular/core';
 import { NgStyle } from '@angular/common';
 import { MatMiniFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -21,13 +30,13 @@ Displays.getDisplay('pdf').prototype.attach = function (element) {
                         <button mat-mini-fab class="bg-primary text-on-primary"
                                 (click)="zoom(true)"
                                 style="position:absolute;right:40px;top:30px;cursor:pointer;">
-                            <mat-icon svgIcon="feather:zoom-in" class="text-on-primary"></mat-icon>
+                            <mat-icon svgIcon="formio:zoom-in" class="text-on-primary"></mat-icon>
                         </button>
                         <button mat-mini-fab class="bg-primary text-on-primary"
                                 (click)="zoom()"
                                 [disabled]="containerZoom <= minContainerZoom"
                                 style="position:absolute;right:40px;top:80px;cursor:pointer;">
-                            <mat-icon svgIcon="feather:zoom-out" class="text-on-primary"></mat-icon>
+                            <mat-icon svgIcon="formio:zoom-out" class="text-on-primary"></mat-icon>
                         </button>
                         <div data-noattach="true" ref="iframeContainer"></div>
                     </div>
@@ -60,6 +69,7 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
     container = viewChild('container', {read: ElementRef});
     iframe = viewChild('iframe', {read: ElementRef});
     submitButton = viewChild('button', {read: ElementRef});
+    hasPdf = signal(true);
     http = inject(HttpClient);
     src: string;
     doc: any;
@@ -103,6 +113,8 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
                     this.pdfLoaded = true;
                 }
             });
+        } else {
+            this.hasPdf.set(false);
         }
 
         if (this.submitButton()) {
@@ -188,13 +200,13 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
                 const computedStyle = window.getComputedStyle(el);
                 container.setAttribute('style', `width: ${computedStyle.width}; margin: ${computedStyle.margin.replace('0px', 'auto')}; position: ${computedStyle.position};`);
             }
+
+            this.calculatePageParams();
+            this.cdr.markForCheck();
+
+            this.zoom(true);
+            this.renderComponents();
         }
-
-        this.calculatePageParams();
-        this.cdr.markForCheck();
-
-        this.zoom(true);
-        this.renderComponents();
     }
 
     scroll(event) {
@@ -209,7 +221,9 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
 
     @HostListener('window:resize', ['$event'])
     onResize(event: Event) {
-        this.renderComponents();
+        if (this.hasPdf()) {
+            this.renderComponents();
+        }
     }
 
     zoom(out?: boolean) {
@@ -224,7 +238,7 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
         const el = doc.querySelector(`body`);
         el.setAttribute('style', `zoom: ${this.containerZoom}`);
 
-        this.renderComponents();
+        //this.renderComponents();
     }
 
     calculatePageParams() {
@@ -271,8 +285,8 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
                     let width = 0;
                     let height = 0;
                     if (pageParams) {
-                        style += `top: ${top - 6}px;`;
-                        style += `left: ${left - 4}px;`;
+                        style += `top: ${top - 7}px;`;
+                        style += `left: ${left - 5}px;`;
 
                         if (overlay.width && ('string' == typeof overlay.width && overlay.width.endsWith('%') && (overlay.width = Number(overlay.width.replace('%', '')) / 100))) {
                             width = parseInt(overlay.width, 10)
@@ -286,10 +300,9 @@ export class MaterialPdfComponent extends MaterialWebBuilderComponent {
                             height = parseInt(overlay.height, 10);
                         }
                         style += `height: ${height}px;`;
-                        const defaultZoom = 0.9;
+                        const defaultZoom = 1;
 
                         if (overlay.height !== this.defaultHeight) {
-                            //const newZoom = this.containerZoom * overlay.height / this.defaultHeight;
                             const newZoom = overlay.height * defaultZoom / this.defaultHeight;
                             const zoom = Math.max(this.minComponentZoom, Math.min(newZoom, this.maxZoom));
                             style += `width: ${width / zoom}px;`;

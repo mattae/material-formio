@@ -31,13 +31,13 @@ import { MaterialComponent } from '../material.component';
                                 (removed)="remove(i)"
                         >
                             {{ tag | transloco }}
-                            <mat-icon matChipRemove svgIcon="heroicons_outline:backspace"></mat-icon>
+                            <mat-icon matChipRemove svgIcon="formio:backspace"></mat-icon>
                         </mat-chip-option>
                     }
 
                     <input [formControl]="control"
                            [matChipInputFor]="chipList"
-                           
+
                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                            [matChipInputAddOnBlur]="true"
                            [placeholder]="component.placeholder"

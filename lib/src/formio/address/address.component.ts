@@ -51,7 +51,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
                            #input
                     >
                     <button matIconSuffix (click)="input.value = ''">
-                        <mat-icon svgIcon="heroicons_outline:backspace"></mat-icon>
+                        <mat-icon svgIcon="formio:backspace"></mat-icon>
                     </button>
                     @if (component.description) {
                         <mat-hint>
@@ -64,7 +64,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
                 </mat-form-field>
             }
             @if (component.enableManualMode && !control.disabled && !instance().isMultiple) {
-                <fieldset class="border border-solid border-gray-300 p-3 rounded-lg">
+                <fieldset class="border border-solid p-3 rounded-lg">
                     @if (hasLabel && manualMode) {
                         <legend class="text-md">
                             <mat-label class="w-full">

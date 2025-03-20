@@ -219,6 +219,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 super(...args);
                 this.isMaterial = true;
             }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -313,6 +314,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 super(...args);
                 this.isMaterial = true;
             }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -366,6 +368,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 super(...args);
                 this.isMaterial = true;
             }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -419,6 +422,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 super(...args);
                 this.isMaterial = true;
             }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -471,6 +475,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 super(...args);
                 this.isMaterial = true;
             }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -529,6 +534,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 super(...args);
                 this.isMaterial = true;
             }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -582,6 +588,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 super(...args);
                 this.isMaterial = true;
             }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -633,6 +640,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 super(...args);
                 this.isMaterial = true;
             }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -684,6 +692,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 super(...args);
                 this.isMaterial = true;
             }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -737,6 +746,7 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 super(...args);
                 this.isMaterial = true;
             }
+
             get inputInfo() {
                 return {
                     id: this.key,
@@ -1066,12 +1076,12 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'radio') {
         return class MatRadioComponent extends Components.components.radio {
+            static editForm = customComponentOptions.editForm || Components.components.radio.editForm;
+
             constructor(...args) {
                 super(...args);
                 this.isMaterial = true;
             }
-
-            static editForm = customComponentOptions.editForm || Components.components.radio.editForm;
 
             get inputInfo() {
                 return {
@@ -1122,12 +1132,12 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
     }
     if (customComponentOptions.baseType === 'select') {
         return class MatSelectComponent extends Components.components.select {
+            editForm = Components.components.select.editForm;
+
             constructor(...args) {
                 super(...args);
                 this.isMaterial = true;
             }
-
-            editForm = Components.components.select.editForm;
 
             get inputInfo() {
                 return {
@@ -1257,8 +1267,8 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                     `
                        <div>
                             ${this.renderTemplate(customComponentOptions.template || 'input', {
-                            input: info
-                        }) }
+                        input: info
+                    })}
                        </div>
                     `
                 );

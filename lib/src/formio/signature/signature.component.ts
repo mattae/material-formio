@@ -43,7 +43,7 @@ import { MatCard } from '@angular/material/card';
                             </canvas>
                             <div class="signature-pad-refresh absolute top-0 left-0 z-9999">
                                 <button mat-icon-button [attr.ref]="'refresh'">
-                                    <mat-icon svgIcon="mat_outline:refresh"></mat-icon>
+                                    <mat-icon svgIcon="formio:refresh"></mat-icon>
                                 </button>
                             </div>
                             <img style="width: 100%; display: inherit;" [attr.ref]="'signatureImage'">
@@ -155,7 +155,7 @@ export class SignatureOverlay {
                                 <img style="width: 100%; display: inherit;" [attr.ref]="'signatureImage'">
                                 <div class="signature-pad-refresh absolute top-0 left-0 z-99" #refresh>
                                     <button mat-icon-button [attr.ref]="'refresh'">
-                                        <mat-icon svgIcon="mat_outline:refresh"></mat-icon>
+                                        <mat-icon svgIcon="formio:refresh"></mat-icon>
                                     </button>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@ export class SignatureOverlay {
             .sign {
                 background-color: var(--mdc-filled-text-field-container-color);
             }
-            
+
             :host {
                 display: block;
                 width: 100%;

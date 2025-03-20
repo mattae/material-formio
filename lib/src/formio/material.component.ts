@@ -5,7 +5,8 @@ import {
     ElementRef,
     inject,
     Input,
-    output, signal,
+    output,
+    signal,
     Signal,
     viewChild
 } from '@angular/core';
@@ -13,7 +14,6 @@ import { TranslocoService } from '@jsverse/transloco';
 import { eventBus } from './formio.service';
 import _, { get } from 'lodash';
 import { FormioControl } from './FormioControl';
-import { Components } from '@formio/js';
 
 @Component({
     selector: 'material-component',
@@ -30,7 +30,7 @@ export class MaterialComponent {
     readonly formioEvent = output();
     component: any;
 
-    instance  = signal(null);
+    instance = signal(null);
     labelIsHidden: boolean;
     readonly valueChange = output();
 
@@ -101,7 +101,7 @@ export class MaterialComponent {
 
         this.instance().setPristine(false);
         // @ts-ignore
-       /* const validationResult = Components.components.form.checkComponent(
+        /*const validationResult = Components.components.form.checkComponent(
             this.instance,
             {[key]: validationValue},
             {[key]: validationValue}

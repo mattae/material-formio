@@ -278,7 +278,7 @@ export class MaterialDateComponent extends MaterialComponent {
     }
 
     get disableFunction() {
-        return (date) => this.instance().evaluate(`return ${_.get(this.component, 'datePicker.disableFunction')}`, {
+        return (date: any) => this.instance().evaluate(`return ${_.get(this.component, 'datePicker.disableFunction')}`, {
             date
         });
     }
