@@ -6,7 +6,6 @@ import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
 import { LabelComponent } from '../label/label.component';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { Components } from '@formio/js';
 
 // @ts-ignore
@@ -34,11 +33,11 @@ Components.components.selectboxes.prototype.setSelectedClasses = function () {};
                             [(ngModel)]="values[option.value]"
                             [disabled]="control.disabled"
                         >
-                            {{ option.label | transloco }}
+                            {{ t(option.label) }}
                         </mat-checkbox>
                     }
-                    @if (instance().error) {
-                        <mat-error class="text-error">{{ instance().error.message | transloco }}</mat-error>
+                    @if (getErrorMessage()) {
+                        <mat-error class="text-error">{{ getErrorMessage() }}</mat-error>
                     }
                 </div>
             </div>
@@ -50,8 +49,7 @@ Components.components.selectboxes.prototype.setSelectedClasses = function () {};
         MatCheckboxModule,
         LabelComponent,
         NgClass,
-        FormsModule,
-        TranslocoPipe
+        FormsModule
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

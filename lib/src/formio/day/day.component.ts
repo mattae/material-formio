@@ -6,7 +6,6 @@ import { LabelComponent } from '../label/label.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MaterialComponent } from '../material.component';
 import { Components, Utils } from '@formio/js';
-import { TranslocoPipe } from '@jsverse/transloco';
 import getLocaleDateFormatInfo = Utils.getLocaleDateFormatInfo;
 
 Components.components.day.prototype.render = function (...args) {
@@ -38,7 +37,7 @@ Components.components.day.prototype.render = function (...args) {
                             }
                         </mat-select>
                         @if (dayFirst && isError()) {
-                            <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                            <mat-error>{{ getErrorMessage() }}</mat-error>
                         }
                     </mat-form-field>
                 }
@@ -71,7 +70,7 @@ Components.components.day.prototype.render = function (...args) {
                             }
                         </mat-select>
                         @if (!dayFirst && isError()) {
-                            <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                            <mat-error>{{ getErrorMessage()  }}</mat-error>
                         }
                     </mat-form-field>
                 }
@@ -98,10 +97,7 @@ Components.components.day.prototype.render = function (...args) {
         MatFormFieldModule,
         LabelComponent,
         MatSelectModule,
-        ReactiveFormsModule,
-        LabelComponent,
-        FormioFormFieldComponent,
-        TranslocoPipe,
+        ReactiveFormsModule
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -3,7 +3,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LabelComponent } from '../label/label.component';
-import { TranslocoModule } from '@jsverse/transloco';
 import { DATETIME_TEMPLATE, MaterialDateComponent } from '../date/date.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,8 +27,7 @@ import { provideLuxonDatetimeAdapter } from '@ng-matero/extensions-luxon-adapter
         MatInputModule,
         MtxDatetimepicker,
         MtxDatetimepickerInput,
-        MtxDatetimepickerToggle,
-        TranslocoModule
+        MtxDatetimepickerToggle
     ],
     providers: [
         provideLuxonDatetimeAdapter({

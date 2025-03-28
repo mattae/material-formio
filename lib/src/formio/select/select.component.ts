@@ -3,7 +3,6 @@ import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field
 import { MatSelectModule } from '@angular/material/select';
 import { LabelComponent } from '../label/label.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import { Components } from '@formio/js';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -36,7 +35,7 @@ Components.components.select.prototype.render = function (...args) {
 
                 @if (component.prefix) {
                     <span matPrefix>
-                        {{ component.prefix }}&nbsp;
+                        {{ t(component.prefix) }}&nbsp;
                     </span>
                 }
                 @if (component.multiple) {
@@ -47,7 +46,7 @@ Components.components.select.prototype.render = function (...args) {
                                     [removable]="!control.disabled"
                                     (removed)="remove(option)"
                             >
-                                <span [innerHTML]="option.label | transloco"></span>
+                                <span [innerHTML]="t(option.label)"></span>
                                 <mat-icon matChipRemove svgIcon="formio:backspace"></mat-icon>
                             </mat-chip-option>
                         }
@@ -85,7 +84,7 @@ Components.components.select.prototype.render = function (...args) {
                                             (click)="$event.stopPropagation()"
                                     >
                                     <span
-                                            [innerHTML]="option.label | transloco"
+                                            [innerHTML]="t(option.label)"
                                     ></span>
                                     </mat-checkbox>
                                 </div>
@@ -96,7 +95,7 @@ Components.components.select.prototype.render = function (...args) {
                                     (click)="optionSelected(option)"
                             >
                                 <span
-                                        [innerHTML]="option.label | transloco"
+                                        [innerHTML]="t(option.label)"
                                 ></span>
                             </mat-option>
                         }
@@ -122,12 +121,12 @@ Components.components.select.prototype.render = function (...args) {
                 </button>
                 @if (component.description) {
                     <mat-hint>
-                        <span [innerHTML]="component.description | transloco"></span>
+                        <span [innerHTML]="t(component.description)"></span>
                     </mat-hint>
                 }
                 @if (isError()) {
                     <mat-error>
-                        {{ getErrorMessage() | transloco }}
+                        {{ getErrorMessage() }}
                     </mat-error>
                 }
             </mat-form-field>
@@ -138,7 +137,6 @@ Components.components.select.prototype.render = function (...args) {
         MatSelectModule,
         LabelComponent,
         ReactiveFormsModule,
-        TranslocoModule,
         MatAutocompleteTrigger,
         MatAutocomplete,
         MatInput,

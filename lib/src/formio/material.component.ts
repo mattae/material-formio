@@ -10,10 +10,19 @@ import {
     Signal,
     viewChild
 } from '@angular/core';
-import { TranslocoService } from '@jsverse/transloco';
 import { eventBus } from './formio.service';
 import _, { get } from 'lodash';
 import { FormioControl } from './FormioControl';
+import {Components} from "formiojs";
+
+// @ts-ignore
+const updateValueAt = Components.components.base.prototype.updateValueAt;
+
+// @ts-ignore
+Components.components.base.prototype.updateValueAt = function (...args) {
+    console.log('Update Value At', args)
+    return updateValueAt(args)
+}
 
 @Component({
     selector: 'material-component',
@@ -21,10 +30,10 @@ import { FormioControl } from './FormioControl';
     standalone: true
 })
 export class MaterialComponent {
-    translocoService = inject(TranslocoService);
     element = inject(ElementRef);
     cdr = inject(ChangeDetectorRef)
     control: FormioControl = new FormioControl();
+    t: (text: string, params?: any) => string;
     // @ts-ignore
     input: Signal<ElementRef> = viewChild('input');
     readonly formioEvent = output();
@@ -39,6 +48,7 @@ export class MaterialComponent {
             if (id === this._id || this._id === `${id}-${instance.component.key}`) {
                 instance.isMaterial = true;
                 this.instance.set(instance);
+                this.t = instance.t;
                 this.instanceInitialized(instance);
             }
         });
@@ -86,7 +96,9 @@ export class MaterialComponent {
         }
 
         this.instance().updateValue(value, {modified: true});
-        this.instance().triggerChange();
+        this.instance().triggerChange({
+            modified: true
+        });
 
         this.cdr.markForCheck();
     }
@@ -100,19 +112,6 @@ export class MaterialComponent {
         }
 
         this.instance().setPristine(false);
-        // @ts-ignore
-        /*const validationResult = Components.components.form.checkComponent(
-            this.instance,
-            {[key]: validationValue},
-            {[key]: validationValue}
-        );
-
-        if (validationResult.length) {
-            this.instance().setCustomValidity(validationResult, false);
-            if (!!validationValue) {
-                this.control.markAsTouched();
-            }
-        }*/
     }
 
     getValue() {
@@ -148,13 +147,16 @@ export class MaterialComponent {
                 value = value[index];
             }
         } catch (e) {
-            console.log('Error', this, e)
         }
         if (value) {
             this.control.patchValue(value);
         }
 
         this.cdr.markForCheck();
+    }
+
+    updateValueAt(value, flags, index) {
+        console.log('Update value at', value, index)
     }
 
     storeFormData() {
@@ -194,10 +196,12 @@ export class MaterialComponent {
         if (this.instance().errors) {
             for (const msg of this.instance().errors) {
                 if (msg.context && (this.control.hasError(msg.context.ruleName) || msg.context.processor)) {
-                    return msg.message;
+                    return this.t(msg.message);
                 }
             }
         }
+
+        return '';
     }
 
     instanceInitialized(instance: any) {

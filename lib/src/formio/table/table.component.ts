@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, ElementRef, viewChildren } from '@angular/core';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import {
     MatCell, MatCellDef,
@@ -41,7 +40,7 @@ Components.components.table.prototype.render = function (...args) {
                     @for (column of displayedColumns; let i = $index; track column) {
                         <ng-container [matColumnDef]="column">
                             @if (component.headers && component.headers.length) {
-                                <th mat-header-cell *matHeaderCellDef>{{ component.headers[i] | transloco }}</th>
+                                <th mat-header-cell *matHeaderCellDef>{{ t(component.headers[i]) }}</th>
                             }
                             <td mat-cell *matCellDef="let element" class="p-1">
                                 <div #components></div>
@@ -62,7 +61,6 @@ Components.components.table.prototype.render = function (...args) {
     `,
     imports: [
         NgClass,
-        TranslocoModule,
         MatCell,
         MatColumnDef,
         MatHeaderCell,

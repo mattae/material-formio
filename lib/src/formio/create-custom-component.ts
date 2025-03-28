@@ -8,7 +8,6 @@ const InputComponent = Components.components.input;
 const TextfieldComponent = Components.components.textfield;
 
 const PDF = Displays.getDisplay('pdf');
-const WizardComponent = Displays.getDisplay('wizard');
 const PDFBuilder = Builders.getBuilder('pdf');
 const WebformBuilder = Builders.getBuilder('webform');
 const WizardBuilder = Builders.getBuilder('wizard');
@@ -338,10 +337,6 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                     value,
                     index
                 });
-            }
-
-            checkInputMaskValue(inputMask) {
-
             }
 
             attach(element: HTMLElement) {
@@ -927,13 +922,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 const info = this.inputInfo;
                 return super.render(
                     `
-                       <div>
+                        <div>
                             ${this.renderTemplate(customComponentOptions.template || 'input', {
-                            input: info
-                        }
-                    )
-                    }
-                       </div>
+                                input: info})
+                            }
+                        </div>
                     `
                 );
             }
@@ -985,13 +978,11 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 const info = this.inputInfo;
                 return super.render(
                     `
-                       <div>
+                        <div>
                             ${this.renderTemplate(customComponentOptions.template || 'input', {
-                            input: info
-                        }
-                    )
-                    }
-                       </div>
+                                input: info})
+                            }
+                        </div>
                     `
                 );
             }
@@ -1265,11 +1256,10 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 const info = this.inputInfo;
                 return super.render(
                     `
-                       <div>
+                        <div>
                             ${this.renderTemplate(customComponentOptions.template || 'input', {
-                        input: info
-                    })}
-                       </div>
+                                input: info})}
+                        </div>
                     `
                 );
             }
@@ -1396,57 +1386,6 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 return superAttach;
             }
         }
-    }
-    if (customComponentOptions.baseType === 'wizard') {
-        const cls = class MatWizardComponent extends WizardComponent {
-            get inputInfo() {
-                return {
-                    id: this.key,
-                    ...this.elementInfo()
-                };
-            }
-
-            elementInfo() {
-                const info = super.elementInfo();
-                info.type = customComponentOptions.selector;
-                info.changeEvent = customComponentOptions.changeEvent || 'valueChange';
-                info.attr = {
-                    ...info.attr,
-                    class: info.attr.class.replace('form-control', 'form-control-custom-field') // remove the form-control class as the custom angular component may look different
-                };
-                return info;
-            }
-
-            render(): any {
-                const info = this.inputInfo;
-                return super.render(
-                    `
-                       <div>
-                            ${this.renderTemplate(customComponentOptions.template || 'input', {input: info})}
-                       </div>
-                    `
-                );
-            }
-
-            attach(element: HTMLElement) {
-                let superAttach = super.attach(element);
-
-                this._customAngularElement = element.querySelector(customComponentOptions.selector);
-
-                if (this._customAngularElement) {
-                    this._customAngularElement.setAttribute('id', this.component.id);
-                    eventBus.emit('setInstance', null, this.component.id, this);
-
-                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
-                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
-                        this.restoreValue();
-                    }
-                }
-                return superAttach;
-            }
-        }
-        Displays.addDisplay('wizard', cls);
-        return cls;
     }
     if (customComponentOptions.baseType === 'pdf') {
         const cls = class MatPdfComponent extends PDF {
@@ -1958,50 +1897,6 @@ export function createCustomFormioComponent(customComponentOptions: FormioCustom
                 }
 
                 return superAttach;
-            }
-        };
-    }
-    if (customComponentOptions.baseType === 'multivalue') {
-        return class MatMultivalueComponent extends Components.components.multivalue {
-            get inputInfo() {
-                return {
-                    id: this.key,
-                    ...this.elementInfo()
-                };
-            }
-
-            elementInfo() {
-                const info = super.elementInfo();
-                info.type = customComponentOptions.selector;
-                info.changeEvent = customComponentOptions.changeEvent || 'valueChange';
-                return info;
-            }
-
-            render(): any {
-                const info = this.inputInfo;
-                return super.render(
-                    `
-                       <div>
-                            ${this.renderTemplate(customComponentOptions.template || 'input', {input: info})}
-                       </div>
-                    `
-                );
-            }
-
-            attach(element: HTMLElement) {
-                this._customAngularElement = element.querySelector(customComponentOptions.selector);
-
-                if (this._customAngularElement) {
-                    this._customAngularElement.setAttribute('id', this.component.id);
-                    eventBus.emit('setInstance', null, this.component.id, this);
-
-                    // Ensure we bind the value (if it isn't a multiple-value component with no wrapper)
-                    if (!this._customAngularElement.value && !this.component.disableMultiValueWrapper) {
-                        this.restoreValue();
-                    }
-                }
-
-                //return superAttach;
             }
         };
     }

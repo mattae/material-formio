@@ -32,13 +32,13 @@
                                                 (click)="saveRow(row, i)">{{ instance().t(component.saveRow || 'Save', {_userInput: true}) }}
                                         </button>
                                         <button mat-stroked-button
-                                                (click)="cancelRow(i)">{{ 'CORE.BUTTONS.CANCEL' | transloco }}
+                                                (click)="cancelRow(i)">{{ t('Cancel') }}
                                         </button>
                                         <button
                                                 class="w-8 h-8 min-h-8"
                                                 mat-icon-button
                                                 (click)="removeRow(i)"
-                                                matTooltip="{{'CORE.BUTTONS.DELETE' | transloco}}">
+                                                matTooltip="{{t('Delete')}}">
                                             <mat-icon
                                                     class="icon-size-5 text-error"
                                                     [svgIcon]="'formio:trash'"></mat-icon>
@@ -66,7 +66,7 @@
                                         [svgIcon]="'formio:plus-circle'"></mat-icon>
                                 <span
                                         class="ml-2 font-medium text-primary group-hover:underline">
-                                    {{ instance().t(component.addAnother || 'Add Another', {_userInput: true}) }}
+                                    {{ t(component.addAnother || 'Add Another') }}
                                 </span>
                             </div>
                         </mat-card-actions>

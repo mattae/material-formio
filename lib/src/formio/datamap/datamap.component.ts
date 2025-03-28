@@ -8,7 +8,6 @@ import { CdkDrag, CdkDragHandle, CdkDropList } from '@angular/cdk/drag-drop';
 import { MatTableModule } from '@angular/material/table';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
-import { TranslocoModule } from '@jsverse/transloco';
 import { MatError } from '@angular/material/form-field';
 import { Utils } from '@formio/js';
 import iterateKey = Utils.iterateKey;
@@ -39,7 +38,6 @@ Utils.uniqueKey = function uniqueKey(map, base) {
         CdkDropList,
         NgTemplateOutlet,
         FormioFormFieldComponent,
-        TranslocoModule,
         CdkDragHandle,
         MatError
     ],

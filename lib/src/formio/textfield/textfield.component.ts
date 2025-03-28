@@ -1,26 +1,16 @@
-import { ChangeDetectionStrategy, Component, effect, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { TranslocoModule } from '@jsverse/transloco';
 import { MatIconModule } from '@angular/material/icon';
-import { LabelComponent } from '../label/label.component';
-import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 import { MaterialComponent } from '../material.component';
-import { NgClass } from "@angular/common";
-import { MatIconButton } from '@angular/material/button';
 import { Components } from '@formio/js';
 import _ from 'lodash';
 import { Formio } from '@formio/angular';
-
-const setInputMask = Components.components.textfield.prototype.setInputMask;
-Components.components.textfield.prototype.setInputMask1 = function (...args) {
-    try {
-        setInputMask.call(this, args)
-    } catch (e) {
-
-    }
-}
+import { LabelComponent } from '../label/label.component';
+import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
+import { NgClass } from '@angular/common';
+import { MatIconButton } from '@angular/material/button';
 
 Components.components.textfield.prototype.addAce = function (element, settings, onChange) {
     if (!settings || (settings.theme === 'snow')) {
@@ -38,9 +28,9 @@ Components.components.textfield.prototype.addAce = function (element, settings, 
             delete settings.isUseWorkerDisabled;
             editor.setOptions(settings);
             editor.getSession().setMode(settings.mode);
-            if (this.root.isEditor){
+            if (this.root.isEditor) {
                 editor.on('blur', () => onChange(editor.getValue()));
-            }else {
+            } else {
                 editor.on('change', () => onChange(editor.getValue()));
             }
             if (settings.isUseWorkerDisabled) {
@@ -67,19 +57,19 @@ export const TEXTFIELD_TEMPLATE = `
                     <span
                         matPrefix
                     >
-                        {{ component.prefix | transloco}}&nbsp;
+                        {{ t(component.prefix) }}&nbsp;
                     </span>
                 }
                 <input matInput
                        type="{{ inputType }}"
                        [formControl]="control"
-                       [placeholder]="component.placeholder | transloco"
+                       [placeholder]="t(component.placeholder)"
                        (blur)="onChange()"
                        (input)="onInput()"
                        #input
                 >
                 @if (component.suffix) {
-                    <span matSuffix>{{ component.suffix | transloco }}</span>
+                    <span matSuffix>{{ t(component.suffix) }}</span>
                 }
                 @if ( component.type === 'password') {
                     <button
@@ -96,12 +86,12 @@ export const TEXTFIELD_TEMPLATE = `
                     </button>
                 }
                 @if (component.showWordCount || component.showCharCount || component.description) {
-                    <mat-hint>
-                        <span [innerHTML]="getHint() | transloco"></span>
+                    <mat-hint #hint>
+                        <span [innerHTML]="t(getHint())"></span>
                     </mat-hint>
                 }
                 @if (isError()) {
-                    <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                    <mat-error>{{ getErrorMessage() }}</mat-error>
                 }
             </mat-form-field>
         </ng-template>
@@ -115,7 +105,6 @@ export const TEXTFIELD_TEMPLATE = `
         MatFormFieldModule,
         ReactiveFormsModule,
         MatInputModule,
-        TranslocoModule,
         MatIconModule,
         LabelComponent,
         FormioFormFieldComponent,
@@ -139,29 +128,35 @@ export class MaterialTextfieldComponent extends MaterialComponent {
             return '';
         }
 
-        const {showWordCount, showCharCount} = this.component;
-
-        if (this.component.description) {
-            return this.translocoService.translate(this.component.description)
+        if (_.get(this.component, 'showWordCount', false)) {
+            const maxWords = _.parseInt(_.get(this.component, 'validate.maxWords', 0), 10);
+            return this.getCounter(this.t('words'), this.getWordCount(), maxWords);
         }
-        if (showWordCount && showCharCount) {
-            return this.translocoService.translate('CORE.FORMIO.TEXTFIELD.WORDS_CHARACTERS_COUNT', {
-                words: this.getWordsCount(),
-                characters: this.control.value.length
-            });
-        } else if (showWordCount) {
-            return this.translocoService.translate('CORE.FORMIO.TEXTFIELD.WORDS_COUNT', {
-                words: this.getWordsCount()
-            });
-        } else {
-            return this.translocoService.translate('CORE.FORMIO.TEXTFIELD.CHARACTERS_COUNT', {
-                characters: this.control.value.length
-            });
+        if (_.get(this.component, 'showCharCount', false)) {
+            const maxChars = _.parseInt(_.get(this.component, 'validate.maxLength', 0), 10);
+            return this.getCounter(this.t('characters'), (this.control.value ?? '').length, maxChars);
         }
+        return this.component.description;
     }
 
-    getWordsCount() {
+    getWordCount() {
         const matches = this.control.value ? this.control.value.match(/[\w\d’'-]+/gi) : [];
         return matches ? matches.length : 0;
+    }
+
+    getCounter(type: string, count: number, max: number) {
+        if (max) {
+            const remaining = max - count;
+
+            return this.t(`typeRemaining`, {
+                remaining: remaining,
+                type: type
+            });
+        } else {
+            return this.t(`typeCount`, {
+                count: count,
+                type: type
+            });
+        }
     }
 }

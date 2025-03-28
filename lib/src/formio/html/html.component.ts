@@ -1,10 +1,8 @@
-import { Component, effect, ElementRef, viewChild } from '@angular/core';
-import { MaterialComponent } from '../material.component';
+import {Component, effect, ElementRef, viewChild} from '@angular/core';
+import {MaterialComponent} from '../material.component';
 import _ from 'lodash';
 import showdown from 'showdown';
-import { marked } from 'marked';
-import { Utils } from '@formio/js';
-import Evaluator = Utils.Evaluator;
+import {Utils} from '@formio/js';
 
 @Component({
     selector: 'mat-formio-html',

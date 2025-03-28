@@ -2,7 +2,6 @@ import { Component, Input, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslocoModule } from '@jsverse/transloco';
 import { NgClass } from '@angular/common';
 import { MtxTooltip } from "@ng-matero/extensions/tooltip";
 
@@ -14,7 +13,6 @@ import { MtxTooltip } from "@ng-matero/extensions/tooltip";
         MatIconModule,
         MatFormFieldModule,
         MatTooltipModule,
-        TranslocoModule,
         NgClass,
         MtxTooltip,
     ],

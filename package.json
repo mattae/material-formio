@@ -16,7 +16,6 @@
         "@angular/elements": "^19.0.1",
         "@angular/material": ">=19.0.0",
         "@formio/angular": "^8.0.0-rc.11",
-        "@jsverse/transloco": "^6.5.0",
         "@ng-matero/extensions": "^18.3.4",
         "js-event-bus": "^1.1.1"
     },
@@ -40,8 +39,6 @@
         "@formio/angular": "^8.0.0-rc.11",
         "@formio/deprecated-types": "^0.1.0",
         "@formio/js": "^5.0.0-rc.48",
-        "@jsverse/transloco": "^7.5.0",
-        "@mattae/angular-shared": "^1.0.8",
         "@ng-matero/extensions": "^18.3.4",
         "@ng-matero/extensions-luxon-adapter": "^18.0.0",
         "@tailwindcss/typography": "^0.5.15",

@@ -6,14 +6,12 @@ import { MatIconButton, MatMiniFabButton } from '@angular/material/button';
 import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material/expansion';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { TranslocoPipe } from '@jsverse/transloco';
 import _ from 'lodash';
 import { Utils } from '@formio/js';
 import autoScroll from 'dom-autoscroller';
 import { uniquify } from '../web-builder/web-builder.component';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { FileHandle } from '@mattae/angular-shared/shared/util/drag-and-drop.directive';
-import { DragUploadDirective } from '../drag-and-drop.directive';
+import {DragUploadDirective, FileHandle} from '../drag-and-drop.directive';
 
 @Component({
     selector: 'mat-formio-pdf-builder',
@@ -39,7 +37,7 @@ import { DragUploadDirective } from '../drag-and-drop.directive';
                                     @for (groupOrder of groupOrders; track groupOrder) {
                                         <mat-expansion-panel [expanded]="instance().groups[groupOrder].default">
                                             <mat-expansion-panel-header>
-                                                {{ instance().groups[groupOrder].title | transloco }}
+                                                {{ t(instance().groups[groupOrder].title) }}
                                             </mat-expansion-panel-header>
                                             @for (componentOrder of componentOrders[groupOrder]; track componentOrder) {
                                                 <div class="pt-1.5 drag-copy"
@@ -141,7 +139,6 @@ import { DragUploadDirective } from '../drag-and-drop.directive';
         MatAccordion,
         MatExpansionPanel,
         MatExpansionPanelHeader,
-        TranslocoPipe,
         MatFormField,
         MatInput,
         MatIconButton,

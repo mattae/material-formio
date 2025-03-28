@@ -8,7 +8,6 @@ import { MatCardModule } from '@angular/material/card';
 import { LabelComponent } from '../label/label.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormioComponent, FormioModule } from '@formio/angular';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import { Components } from '@formio/js';
 import _ from 'lodash';
@@ -94,7 +93,6 @@ enum EditRowState {
 }
 
 // Do nothing to createRowComponents, let formio handle it.
-/* tslint:disable only-arrow-functions */
 // @ts-ignore
 Components.components.editgrid.prototype.createRowComponents = function () {
     return [];
@@ -141,7 +139,7 @@ const DEFAULT_ROW_TEMPLATE = `
         MatIconModule,
         MatCardModule,
         MatTooltipModule,
-        FormioModule, TranslocoPipe,
+        FormioModule,
         LabelComponent
     ],
     standalone: true,

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, ElementRef, viewChildren } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { TranslocoModule } from '@jsverse/transloco';
 import { NgStyle } from '@angular/common';
 import { MaterialComponent } from '../material.component';
 import { Components } from '@formio/js';
@@ -13,7 +12,6 @@ Components.components.tabs.prototype.render = function (...args) {
     selector: 'mat-formio-tabs',
     imports: [
         MatTabsModule,
-        TranslocoModule,
         NgStyle
     ],
     template: `
@@ -24,7 +22,7 @@ Components.components.tabs.prototype.render = function (...args) {
                 @for (tab of component.components; track tab) {
                     <mat-tab>
                         <ng-template mat-tab-label>
-                            <div #labels>{{ tab.label | transloco }}</div>
+                            <div #labels>{{ t(tab.label) }}</div>
                         </ng-template>
                     </mat-tab>
                 }

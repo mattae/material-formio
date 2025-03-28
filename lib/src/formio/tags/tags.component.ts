@@ -6,7 +6,6 @@ import { LabelComponent } from '../label/label.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 
 @Component({
@@ -23,14 +22,14 @@ import { MaterialComponent } from '../material.component';
                     </mat-label>
                 }
 
-                <mat-chip-grid #chipList [attr.aria-label]="component.label | transloco">
+                <mat-chip-grid #chipList [attr.aria-label]="t(component.label)">
                     @for (tag of tags; track tag; let i = $index) {
                         <mat-chip-option
                                 [selectable]="true"
                                 [removable]="!control.disabled"
                                 (removed)="remove(i)"
                         >
-                            {{ tag | transloco }}
+                            {{ t(tag) }}
                             <mat-icon matChipRemove svgIcon="formio:backspace"></mat-icon>
                         </mat-chip-option>
                     }
@@ -46,11 +45,11 @@ import { MaterialComponent } from '../material.component';
                 </mat-chip-grid>
                 @if (component.maxTags || component.description) {
                     <mat-hint>
-                        <span [innerHTML]="getHint() | transloco"></span>
+                        <span [innerHTML]="t(getHint())"></span>
                     </mat-hint>
                 }
                 @if (isError()) {
-                    <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                    <mat-error>{{ getErrorMessage() }}</mat-error>
                 }
             </mat-form-field>
         </ng-template>
@@ -62,8 +61,7 @@ import { MaterialComponent } from '../material.component';
         LabelComponent,
         MatIconModule,
         ReactiveFormsModule,
-        MatFormFieldModule,
-        TranslocoModule
+        MatFormFieldModule
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -117,7 +115,7 @@ export class MaterialTagsComponent extends MaterialComponent {
 
         const {maxTags} = this.component;
         if (this.component.description) {
-            return this.translocoService.translate(this.component.description)
+            return this.t(this.component.description)
         }
         if (maxTags) {
             return `Maximum of ${this.component.maxTags} entries permitted`;

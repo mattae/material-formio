@@ -1,18 +1,16 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MaterialWebBuilderComponent } from '../web-builder/web-builder.component';
-import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material/expansion';
-import { MatFormField } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
-import { MatIconButton } from '@angular/material/button';
-import { MatInput } from '@angular/material/input';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { NgClass, NgStyle } from '@angular/common';
-import { MatChipAvatar, MatChipOption, MatChipSet } from '@angular/material/chips';
-import { Displays } from '@formio/js';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {MaterialWebBuilderComponent} from '../web-builder/web-builder.component';
+import {MatAccordion, MatExpansionPanel, MatExpansionPanelHeader} from '@angular/material/expansion';
+import {MatFormField} from '@angular/material/form-field';
+import {MatIcon} from '@angular/material/icon';
+import {MatIconButton} from '@angular/material/button';
+import {MatInput} from '@angular/material/input';
+import {NgClass, NgStyle} from '@angular/common';
+import {MatChipAvatar, MatChipOption, MatChipSet} from '@angular/material/chips';
+import {Displays, Utils} from '@formio/js';
 import _ from 'lodash';
-import { Utils } from 'formiojs';
+import {MatCard, MatCardContent} from '@angular/material/card';
 import uniqueKey = Utils.uniqueKey;
-import { MatCard, MatCardContent } from '@angular/material/card';
 
 const Wizard = Displays.getDisplay('wizard');
 
@@ -53,13 +51,13 @@ Wizard.prototype.setComponentSchema = function () {
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [
         `
-          @use '@angular/material' as mat;
+            @use '@angular/material' as mat;
 
-          .active-page {
-            @include mat.chips-overrides((
-                    label-text-color: var(--color-on-primary-container)
-            ));
-          }
+            .active-page {
+                @include mat.chips-overrides((
+                label-text-color: var(--color-on-primary-container)
+                ));
+            }
         `
     ],
     imports: [
@@ -70,7 +68,6 @@ Wizard.prototype.setComponentSchema = function () {
         MatIcon,
         MatIconButton,
         MatInput,
-        TranslocoPipe,
         NgStyle,
         NgClass,
         MatChipOption,
@@ -102,7 +99,7 @@ Wizard.prototype.setComponentSchema = function () {
                                         @for (groupOrder of groupOrders; track groupOrder) {
                                             <mat-expansion-panel [expanded]="instance().groups[groupOrder].default">
                                                 <mat-expansion-panel-header>
-                                                    {{ instance().groups[groupOrder].title | transloco }}
+                                                    {{ t(instance().groups[groupOrder].title) }}
                                                 </mat-expansion-panel-header>
                                                 <div [attr.ref]="'sidebar-container'" #sidebarContainer>
                                                     @if (componentOrders[groupOrder].length) {
@@ -125,7 +122,7 @@ Wizard.prototype.setComponentSchema = function () {
                                                             </div>
                                                         }
                                                     } @else {
-                                                        {{ 'No matches found' | transloco }}
+                                                        {{ t('No matches found') }}
                                                     }
                                                 </div>
                                             </mat-expansion-panel>

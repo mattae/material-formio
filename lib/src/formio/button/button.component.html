@@ -18,7 +18,7 @@
         @if (loading) {
             <mat-icon class="mat-icon-spin" svgIcon="formio:arrow-path"></mat-icon>
         }
-        <span [innerHTML]="component.label | transloco"></span>
+        <span [innerHTML]="t(component.label)"></span>
         @if (component.rightIcon) {
             <mat-icon [svgIcon]="component.rightIcon"></mat-icon>
         }
@@ -26,7 +26,7 @@
     @if (success() || hasError()) {
         <div #messageContainer class="mt-2" (click)="messageClicked()"
         >
-            <span [innerHTML]="resultMessage() | transloco"  class="rounded p-1" [ngClass]="{
+            <span [innerHTML]="t(resultMessage())"  class="rounded p-1" [ngClass]="{
                     'bg-green-600 text-on-green': success(),
                     'bg-error text-on-error ': hasError()
                 }"

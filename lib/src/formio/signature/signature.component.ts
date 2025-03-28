@@ -14,7 +14,6 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { CommonModule, NgStyle } from '@angular/common';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 import { LabelComponent } from '../label/label.component';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import { PopoverService } from '@mattae/angular-shared';
 import { eventBus } from '../formio.service';
@@ -55,11 +54,11 @@ import { MatCard } from '@angular/material/card';
                     <div class="w-1/3"></div>
                     @if (instance.component.footer) {
                         <div class="signature-pad-footer w-1/3">
-                            {{ instance.component.footer | transloco }}
+                            {{ instance.t(instance.component.footer) }}
                         </div>
                     }
                     <div class="flex flex-row justify-end ml-auto">
-                        <button mat-raised-button color="primary" (click)="close()">Close</button>
+                        <button mat-raised-button color="primary" (click)="close()">{{instance.t('Close')}}</button>
                     </div>
                 </div>
             </div>
@@ -70,7 +69,6 @@ import { MatCard } from '@angular/material/card';
         NgStyle,
         MatIcon,
         MatIconButton,
-        TranslocoPipe,
         MatButton,
         MatCard
     ],
@@ -163,7 +161,7 @@ export class SignatureOverlay {
 
                         @if (instance().component.footer) {
                             <div class="signature-pad-footer">
-                                {{ instance().component.footer | transloco }}
+                                {{ t(instance().component.footer) }}
                             </div>
                         }
                     </ng-template>
@@ -179,8 +177,7 @@ export class SignatureOverlay {
         MatButtonModule,
         MatIconModule,
         FormioFormFieldComponent,
-        LabelComponent,
-        TranslocoPipe
+        LabelComponent
     ],
     styles: [
         `

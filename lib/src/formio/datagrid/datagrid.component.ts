@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
-import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import { Components } from '@formio/js';
 import { MatError } from '@angular/material/form-field';
@@ -54,7 +53,7 @@ export const DATA_GRID_TEMPLATE = `
                                             [svgIcon]="'formio:plus-circle'"></mat-icon>
                                     <span
                                             class="ml-2 font-medium text-primary group-hover:underline">
-                                    {{ instance().t(component.addAnother || 'Add Another', {_userInput: true}) }}
+                                    {{ t(component.addAnother || 'Add Another') }}
                                 </span>
                                 </div>
                             </mat-card-actions>
@@ -121,7 +120,7 @@ export const DATA_GRID_TEMPLATE = `
                                                     <mat-icon class="icon-size-5 text-current" svgIcon="formio:chevron-down"></mat-icon>
                                                 }
                                             }
-                                            <strong>{{ group[formColumns[0]] | transloco }}</strong>
+                                            <strong>{{ t(group[formColumns[0]]) }}</strong>
                                         </div>
                                     </td>
                                 </ng-container>
@@ -140,7 +139,7 @@ export const DATA_GRID_TEMPLATE = `
                                             [svgIcon]="'formio:plus-circle'"></mat-icon>
                                     <span
                                             class="ml-2 font-medium text-primary group-hover:underline">
-                                    {{ instance().t(component.addAnother || 'Add Another', {_userInput: true}) }}
+                                    {{ t(component.addAnother || 'Add Another') }}
                                 </span>
                                 </div>
                             </mat-card-actions>
@@ -176,7 +175,6 @@ export const DATA_GRID_TEMPLATE = `
         CdkDropList,
         NgTemplateOutlet,
         FormioFormFieldComponent,
-        TranslocoModule,
         CdkDragHandle,
         MatError
     ],
@@ -246,7 +244,7 @@ export class MaterialDataGridComponent extends MaterialComponent {
 
                     this.groups.update((prevValues) => ({
                         ...prevValues,
-                        [this.translocoService.translate(group.label.trim())]: true,
+                        [this.t(group.label.trim())]: true,
                     }));
 
                     for (let i = 0; i < group.numberOfRows; i++) {

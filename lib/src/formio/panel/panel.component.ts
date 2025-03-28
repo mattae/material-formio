@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, ElementRef, viewChild } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
-import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import { Components } from '@formio/js';
 import { isArray } from 'lodash';
@@ -38,7 +37,7 @@ Components.components.panel.prototype.addComponents = function (data: any, optio
                     @if (component?.title) {
                         <mat-card-header>
                             <mat-card-title>
-                                {{ component.title | transloco }}
+                                {{ t(component.title) }}
                             </mat-card-title>
                         </mat-card-header>
                     }
@@ -54,7 +53,7 @@ Components.components.panel.prototype.addComponents = function (data: any, optio
                     @if (component?.title) {
                         <mat-expansion-panel-header>
                             <mat-panel-title>
-                                {{ component.title | transloco }}
+                                {{ t(component.title) }}
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                     }
@@ -68,8 +67,7 @@ Components.components.panel.prototype.addComponents = function (data: any, optio
     ],
     imports: [
         MatExpansionModule,
-        MatCardModule,
-        TranslocoModule
+        MatCardModule
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

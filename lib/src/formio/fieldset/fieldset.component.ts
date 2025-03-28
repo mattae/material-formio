@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialPanelComponent } from '../panel/panel.component';
 
 @Component({
@@ -11,7 +10,7 @@ import { MaterialPanelComponent } from '../panel/panel.component';
         @if (component) {
             <fieldset class="border border-solid border-gray-300 p-3 rounded-lg">
                 <legend class="text-lg">
-                    {{ component.legend | transloco}}
+                    {{ t(component.legend)}}
                 </legend>
                 <div class="flex flex-col" #content>
                 </div>
@@ -22,8 +21,7 @@ import { MaterialPanelComponent } from '../panel/panel.component';
     imports: [
         MatIconModule,
         MatFormFieldModule,
-        MatTooltipModule,
-        TranslocoModule,
+        MatTooltipModule
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

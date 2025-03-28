@@ -5,7 +5,6 @@ import { MatError, MatFormField, MatHint, MatLabel, MatSuffix } from '@angular/m
 import { LabelComponent } from '../label/label.component';
 import { MatInput } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { MatIcon } from '@angular/material/icon';
 import autocompleter from 'autocompleter';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -19,7 +18,6 @@ import { MatCheckbox } from '@angular/material/checkbox';
         LabelComponent,
         MatInput,
         ReactiveFormsModule,
-        TranslocoPipe,
         MatIcon,
         MatError,
         MatHint,
@@ -42,12 +40,12 @@ import { MatCheckbox } from '@angular/material/checkbox';
                         <span
                                 matPrefix
                         >
-                        {{ component.prefix | transloco }}&nbsp;
+                        {{ t(component.prefix) }}&nbsp;
                     </span>
                     }
                     <input matInput
                            [disabled]="control.disabled"
-                           [placeholder]="component.placeholder | transloco"
+                           [placeholder]="t(component.placeholder)"
                            #input
                     >
                     <button matIconSuffix (click)="input.value = ''">
@@ -55,11 +53,11 @@ import { MatCheckbox } from '@angular/material/checkbox';
                     </button>
                     @if (component.description) {
                         <mat-hint>
-                            <span [innerHTML]="component.description | transloco"></span>
+                            <span [innerHTML]="t(component.description)"></span>
                         </mat-hint>
                     }
                     @if (isError()) {
-                        <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                        <mat-error>{{ getErrorMessage() }}</mat-error>
                     }
                 </mat-form-field>
             }

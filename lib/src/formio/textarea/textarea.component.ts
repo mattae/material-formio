@@ -4,7 +4,6 @@ import { MatInputModule } from '@angular/material/input';
 import { NgClass } from '@angular/common';
 import { LabelComponent } from '../label/label.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialTextfieldComponent } from '../textfield/textfield.component';
 import { Components } from '@formio/js';
 
@@ -30,7 +29,7 @@ Components.components.textarea.prototype.render = function (...args) {
                         </mat-label>
                     }
                     @if (component.prefix) {
-                        <span matPrefix>{{ component.prefix | transloco }}&nbsp;</span>
+                        <span matPrefix>{{ t(component.prefix) }}&nbsp;</span>
                     }
                     <textarea matInput
                               class="w-full"
@@ -42,15 +41,15 @@ Components.components.textarea.prototype.render = function (...args) {
                     >
                     </textarea>
                     @if (component.suffix) {
-                        <span matSuffix>{{ component.suffix | transloco }}</span>
+                        <span matSuffix>{{ t(component.suffix) }}</span>
                     }
                     @if ( component.description) {
                         <mat-hint>
-                            <span [innerHTML]="component.description | transloco"></span>
+                            <span [innerHTML]="t(component.description)"></span>
                         </mat-hint>
                     }
                     @if (isError()) {
-                        <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                        <mat-error>{{ getErrorMessage() }}</mat-error>
                     }
                 </mat-form-field>
             </ng-template>
@@ -61,8 +60,7 @@ Components.components.textarea.prototype.render = function (...args) {
         MatInputModule,
         LabelComponent,
         NgClass,
-        ReactiveFormsModule,
-        TranslocoModule
+        ReactiveFormsModule
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

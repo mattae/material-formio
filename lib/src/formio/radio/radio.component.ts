@@ -5,7 +5,6 @@ import { NgClass } from '@angular/common';
 import { LabelComponent } from '../label/label.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import { Components } from '@formio/js';
 
@@ -47,11 +46,11 @@ Components.components.radio.prototype.render1 = function () {
                     }
                     @if ( component.description) {
                         <mat-hint>
-                            <span [innerHTML]="component.description | transloco"></span>
+                            <span [innerHTML]="t(component.description)"></span>
                         </mat-hint>
                     }
                     @if (isError()) {
-                        <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
+                        <mat-error class="text-sm">{{ getErrorMessage() }}</mat-error>
                     }
                 </mat-radio-group>
             </div>
@@ -63,8 +62,7 @@ Components.components.radio.prototype.render1 = function () {
         LabelComponent,
         MatRadioModule,
         ReactiveFormsModule,
-        NgClass,
-        TranslocoPipe
+        NgClass
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

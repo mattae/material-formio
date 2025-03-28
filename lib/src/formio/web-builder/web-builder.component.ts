@@ -6,7 +6,6 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { NgStyle } from '@angular/common';
 import autoScroll from 'dom-autoscroller';
 import _ from 'lodash';
@@ -79,7 +78,7 @@ export const uniquify = (container, component) => {
                                         @for (groupOrder of groupOrders; track groupOrder) {
                                             <mat-expansion-panel [expanded]="instance().groups[groupOrder].default">
                                                 <mat-expansion-panel-header>
-                                                    {{ instance().groups[groupOrder].title | transloco }}
+                                                    {{ t(instance().groups[groupOrder].title) }}
                                                 </mat-expansion-panel-header>
                                                 <div [attr.ref]="'sidebar-container'" #sidebarContainer>
                                                     @if (componentOrders[groupOrder].length) {
@@ -102,7 +101,7 @@ export const uniquify = (container, component) => {
                                                             </div>
                                                         }
                                                     } @else {
-                                                        {{ 'No matches found' | transloco }}
+                                                        {{ t('No matches found') }}
                                                     }
                                                 </div>
                                             </mat-expansion-panel>
@@ -128,7 +127,6 @@ export const uniquify = (container, component) => {
         MatIcon,
         MatIconButton,
         MatInput,
-        TranslocoPipe,
         NgStyle,
         MatCard,
         MatCardContent

@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
     selector: 'mat-formio-form-field',
@@ -20,8 +19,7 @@ import { TranslocoModule } from '@jsverse/transloco';
     styleUrls: ['./formio-form-field.component.css'],
     imports: [
         NgTemplateOutlet,
-        MatFormFieldModule,
-        TranslocoModule
+        MatFormFieldModule
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

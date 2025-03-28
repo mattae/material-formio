@@ -17,7 +17,6 @@ import {
 } from '@ng-matero/extensions/datetimepicker';
 import { DateTime } from 'luxon';
 import { provideLuxonDatetimeAdapter } from '@ng-matero/extensions-luxon-adapter';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import _ from 'lodash';
 import { Utils } from '@formio/js';
@@ -54,11 +53,11 @@ export const DATETIME_TEMPLATE = `
                     <mtx-datetimepicker-toggle [for]="datetimePicker" matSuffix></mtx-datetimepicker-toggle>
                     @if (component.description) {
                         <mat-hint>
-                            <span [innerHTML]="component.description | transloco"></span>
+                            <span [innerHTML]="t(component.description)"></span>
                         </mat-hint>
                     }
                     @if (isError()) {
-                        <mat-error>{{ getErrorMessage() | transloco }}</mat-error>
+                        <mat-error>{{ getErrorMessage() }}</mat-error>
                     }
                 </mat-form-field>
             </ng-template>
@@ -78,8 +77,7 @@ export const DATETIME_TEMPLATE = `
         MatInputModule,
         MtxDatetimepicker,
         MtxDatetimepickerInput,
-        MtxDatetimepickerToggle,
-        TranslocoPipe
+        MtxDatetimepickerToggle
     ],
     providers: [
         provideLuxonDatetimeAdapter({

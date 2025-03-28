@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, signa
 import { NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslocoModule } from '@jsverse/transloco';
 import { MaterialComponent } from '../material.component';
 import _ from 'lodash';
 
@@ -29,8 +28,7 @@ const enum ButtonsThemes {
     imports: [
         NgClass,
         MatButtonModule,
-        MatIconModule,
-        TranslocoModule
+        MatIconModule
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

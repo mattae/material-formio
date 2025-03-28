@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 import { LabelComponent } from '../label/label.component';
-import { TranslocoModule } from '@jsverse/transloco'
 import { MatIconModule } from '@angular/material/icon';
 import { NgClass } from "@angular/common";
 import { MatIconButton } from '@angular/material/button';
@@ -20,7 +19,6 @@ import { MatIconButton } from '@angular/material/button';
         MatInputModule,
         FormioFormFieldComponent,
         LabelComponent,
-        TranslocoModule,
         MatIconModule,
         NgClass,
         MatIconButton

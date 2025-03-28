@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { TranslocoModule } from '@jsverse/transloco';
 import { MatError, MatHint } from '@angular/material/form-field';
 import { LabelComponent } from '../label/label.component';
 import { MatRadioButton } from '@angular/material/radio';
@@ -23,7 +22,7 @@ import { NgStyle } from '@angular/common';
                             (click)="clicked()"
                     >
                         @if (!component.labelIsHidden) {
-                            {{ component.label }}
+                            {{ t(component.label) }}
                         }
                     </mat-checkbox>
                 } @else {
@@ -35,14 +34,14 @@ import { NgStyle } from '@angular/common';
                                 (click)="clicked()"
                         >
                             @if (!component.labelIsHidden) {
-                                {{ component.label }}
+                                {{ t(component.label) }}
                             }
                         </mat-radio-button>
                         <mat-hint>
-                            <span [innerHtml]="component.description | transloco"></span>
+                            <span [innerHtml]="t(component.description)"></span>
                         </mat-hint>
                         @if (isError()) {
-                            <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
+                            <mat-error class="text-sm">{{ getErrorMessage() }}</mat-error>
                         }
                     </div>
                 }
@@ -57,10 +56,10 @@ import { NgStyle } from '@angular/common';
                         }
                     </mat-checkbox>
                     <mat-hint>
-                        <span [innerHtml]="component.description | transloco"></span>
+                        <span [innerHtml]="t(component.description)"></span>
                     </mat-hint>
                     @if (isError()) {
-                        <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
+                        <mat-error class="text-sm">{{ getErrorMessage() }}</mat-error>
                     }
                 </div>
             }
@@ -68,7 +67,6 @@ import { NgStyle } from '@angular/common';
     `,
     imports: [
         MatCheckboxModule,
-        TranslocoModule,
         MatError,
         MatHint,
         LabelComponent,

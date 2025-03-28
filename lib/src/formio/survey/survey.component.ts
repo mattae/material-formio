@@ -4,7 +4,6 @@ import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field
 import { LabelComponent } from '../label/label.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { TranslocoModule } from '@jsverse/transloco';
 import { NgClass } from '@angular/common';
 import { MaterialComponent } from "../material.component";
 
@@ -27,7 +26,7 @@ import { MaterialComponent } from "../material.component";
                                 <th class="border border-slate-400"></th>
                                 @for (value of component.values; track value) {
                                     <th class="text-on-primary-container font-semibold p-4 bg-primary-container">
-                                        {{ value.label | transloco }}
+                                        {{ t(value.label) }}
                                     </th>
                                 }
                             </tr>
@@ -35,7 +34,7 @@ import { MaterialComponent } from "../material.component";
                         <tbody>
                             @for (question of component.questions; track question; let i = $index, e = $even) {
                                 <tr [ngClass]="{'bg-tertiary-container text-on-tertiary-container': e, 'text-primary': !e}">
-                                    <td class="border border-slate-400 pl-1.5 ">{{ question.label | transloco }}</td>
+                                    <td class="border border-slate-400 pl-1.5 ">{{ t(question.label) }}</td>
                                     @for (value of component.values; track value; let j = $index) {
                                         <td class="border border-slate-400"
                                         >
@@ -55,11 +54,11 @@ import { MaterialComponent } from "../material.component";
                         <tfoot>
                             @if (component.description) {
                                 <mat-hint>
-                                    <span [innerHTML]="component.description | transloco"></span>
+                                    <span [innerHTML]="t(component.description)"></span>
                                 </mat-hint>
                             }
                             @if (isError()) {
-                                <mat-error class="text-sm">{{ getErrorMessage() | transloco }}</mat-error>
+                                <mat-error class="text-sm">{{ getErrorMessage() }}</mat-error>
                             }
                         </tfoot>
                     </table>
@@ -73,7 +72,6 @@ import { MaterialComponent } from "../material.component";
         MatRadioModule,
         ReactiveFormsModule,
         MatFormFieldModule,
-        TranslocoModule,
         NgClass
     ],
     standalone: true,

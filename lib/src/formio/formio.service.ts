@@ -42,18 +42,12 @@ import { MaterialWizardBuilderComponent } from './wizard/wizard.builder.componen
 
 import iconClass from './module/icons/iconClass';
 import EventBus from 'js-event-bus';
-import { Formio } from '@formio/js';
-import { MaterialHtmlComponent } from './html/html.component';
 import _, { isArray } from 'lodash';
 // @ts-ignore
 import EditFormUtils = Components.EditFormUtils;
 // @ts-ignore
 import baseEditForm = Components.baseEditForm;
-import { MaterialWizardComponent } from './wizard/wizard.component';
-Formio.setProjectUrl('http://localhost:13756')
-// @ts-ignore
-//window.formio.projectUrl = 'https://localhost:8080'
-console.log('Formio', Formio, window)
+
 const fixCustomConditional = (component) => {
     if (component.customConditional) {
         component.customConditional = function (){
@@ -485,15 +479,8 @@ const CHECKBOX_OPTIONS: FormioCustomComponentInfo = {
     title: 'Checkbox', // Title of the component
     group: 'basic', // Build Group
     baseType: 'checkbox',
-    //template: 'field', // Optional: define a template for the element. Default: input
-//  changeEvent: 'valueChange', // Optional: define the changeEvent when the formio updates the value in the state. Default: 'valueChange',
-    editForm: Components.components.checkbox.editForm, // Optional: define the editForm of the field. Default: the editForm of a textfield
-//  documentation: '', // Optional: define the documentation of the field
-//  weight: 0, // Optional: define the weight in the builder group
-//  schema: {}, // Optional: define extra default schema for the field
-//  extraValidators: [], // Optional: define extra validators  for the field
+    editForm: Components.components.checkbox.editForm,
     emptyValue: null, // Optional: the emptyValue of the field
-    //fieldOptions: ['visible'], // Optional: explicit field options to get as `Input` from the schema (may edited by the editForm)
 };
 
 const TEXTFIELD_OPTIONS: FormioCustomComponentInfo = {
@@ -686,14 +673,6 @@ const TABLE_OPTIONS: FormioCustomComponentInfo = {
     editForm: Components.components.table.editForm
 };
 
-const WIZARD_OPTIONS: FormioCustomComponentInfo = {
-    type: 'wizard', // custom type. Formio will identify the field with this type.
-    selector: 'mat-fio-wizard', // custom selector. Angular Elements will create a custom html tag with this selector
-    title: 'Wizard', // Title of the component
-    baseType: 'wizard',
-    group: 'layout', //
-};
-
 const PDF_OPTIONS: FormioCustomComponentInfo = {
     type: 'pdf', // custom type. Formio will identify the field with this type.
     selector: 'mat-fio-pdf', // custom selector. Angular Elements will create a custom html tag with this selector
@@ -789,24 +768,6 @@ const FIELDSET_OPTIONS: FormioCustomComponentInfo = {
     editForm: Components.components.fieldset.editForm,
 };
 
-const FILE_OPTIONS: FormioCustomComponentInfo = {
-    type: 'file', // custom type. Formio will identify the field with this type.
-    selector: 'mat-fio-file', // custom selector. Angular Elements will create a custom html tag with this selector
-    title: 'File', // Title of the component
-    group: 'advanced', // Build Group
-    baseType: 'file',
-    editForm: Components.components.file.editForm,
-};
-
-const HTML_OPTIONS: FormioCustomComponentInfo = {
-    type: 'htmlelement', // custom type. Formio will identify the field with this type.
-    selector: 'mat-fio-htmlelement', // custom selector. Angular Elements will create a custom html tag with this selector
-    title: 'HTML', // Title of the component
-    group: 'layout', // Build Group
-    baseType: 'htmlelement',
-    editForm: Components.components.htmlelement.editForm,
-};
-
 const LABEL_OPTIONS: FormioCustomTag = {
     selector: 'mat-fio-label'
 };
@@ -859,10 +820,6 @@ const registerMaterialComponents = (injector: Injector) => {
     registerCustomFormioComponent(DATAMAP_OPTIONS, MaterialDatamapComponent, injector)
     registerCustomFormioComponent(EDITGRID_OPTIONS, MaterialEditGridComponent, injector)
     registerCustomFormioComponent(FIELDSET_OPTIONS, MaterialFieldsetComponent, injector)
-    //registerCustomFormioComponent(FILE_OPTIONS, MaterialFileComponent, injector)
-    //registerCustomFormioComponent(HTML_OPTIONS, MaterialHtmlComponent, injector)
-    //registerCustomFormioComponent(MULTIVALUE_OPTIONS, MaterialMultiValueComponent, injector)
-    //registerCustomFormioComponent(WIZARD_OPTIONS, MaterialWizardComponent, injector);
     registerCustomFormioComponent(PDF_OPTIONS, MaterialPdfComponent, injector);
     registerCustomFormioComponent(PDF_BUILDER_OPTIONS, MaterialPdfBuilderComponent, injector);
     registerCustomFormioComponent(WEBFORM_BUILDER_OPTIONS, MaterialWebBuilderComponent, injector);
