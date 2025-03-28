@@ -13,16 +13,6 @@ import {
 import { eventBus } from './formio.service';
 import _, { get } from 'lodash';
 import { FormioControl } from './FormioControl';
-import {Components} from "formiojs";
-
-// @ts-ignore
-const updateValueAt = Components.components.base.prototype.updateValueAt;
-
-// @ts-ignore
-Components.components.base.prototype.updateValueAt = function (...args) {
-    console.log('Update Value At', args)
-    return updateValueAt(args)
-}
 
 @Component({
     selector: 'material-component',
@@ -153,10 +143,6 @@ export class MaterialComponent {
         }
 
         this.cdr.markForCheck();
-    }
-
-    updateValueAt(value, flags, index) {
-        console.log('Update value at', value, index)
     }
 
     storeFormData() {
