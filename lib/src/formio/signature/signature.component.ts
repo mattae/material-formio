@@ -5,6 +5,7 @@ import {
     effect,
     ElementRef,
     inject,
+    input,
     TemplateRef,
     viewChild
 } from '@angular/core';
@@ -15,15 +16,21 @@ import { CommonModule, NgStyle } from '@angular/common';
 import { FormioFormFieldComponent } from '../formio-form-field/formio-form-field.component';
 import { LabelComponent } from '../label/label.component';
 import { MaterialComponent } from '../material.component';
-import { PopoverService } from '@mattae/angular-shared';
 import { eventBus } from '../formio.service';
 import { MatCard } from '@angular/material/card';
+import {
+    MtxPopover,
+    MtxPopoverContent,
+    MtxPopoverPositionEnd,
+    MtxPopoverPositionStart,
+    MtxPopoverTrigger
+} from '@ng-matero/extensions/popover';
 
 @Component({
     selector: 'signature-overlay',
     template: `
-        @if (instance) {
-            <div class="flex flex-col bg-card w-180 p-0.5">
+        @if (instance()) {
+            <div class="flex flex-col w-180">
                 <div class="">
                     <div class="w-full">
                         <div
@@ -52,13 +59,13 @@ import { MatCard } from '@angular/material/card';
                 </div>
                 <div class="flex flex-row">
                     <div class="w-1/3"></div>
-                    @if (instance.component.footer) {
+                    @if (instance().component.footer) {
                         <div class="signature-pad-footer w-1/3">
-                            {{ instance.t(instance.component.footer) }}
+                            {{ instance().t(instance().component.footer) }}
                         </div>
                     }
                     <div class="flex flex-row justify-end ml-auto">
-                        <button mat-raised-button color="primary" (click)="close()">{{instance.t('Close')}}</button>
+                        <button mat-raised-button color="primary" (click)="close()">{{ instance().t('Close') }}</button>
                     </div>
                 </div>
             </div>
@@ -80,25 +87,15 @@ export class SignatureOverlay {
     element = inject(ElementRef)
     canvas = viewChild('canvas', {read: ElementRef});
     component: any;
-    instance: any;
-    #id = Math.random().toString(36).substring(7, 9);
+    instance = input.required<any>();
 
     constructor() {
-
-        eventBus.on('setSignatureInstance', (id, instance) => {
-            if (id === this.#id) {
-                this.instance = instance;
-                this.component = instance.component;
-
-                this.cdr.markForCheck()
-            }
-        });
-
-        eventBus.emit('instanceInitialized', null, this.#id);
-
         effect(() => {
-            if (this.instance && this.canvas()) {
-                this.instance.attach(this.element.nativeElement);
+            if (this.instance()) {
+                this.component = this.instance().component;
+                if (this.canvas()) {
+                    this.instance().attach(this.element.nativeElement);
+                }
             }
         });
     }
@@ -113,6 +110,10 @@ export class SignatureOverlay {
     template: `
         @if (component) {
             @if (component.inPdf) {
+                <div #popoverTrigger="mtxPopoverTrigger"
+                     [mtxPopoverTriggerFor]="popover"
+                     [mtxPopoverTriggerData]="{instance: instance()}"
+                     mtxPopoverTriggerOn="click"></div>
                 <div class="justify-center text-2xl flex flex-row items-center" (click)="padClicked()"
                      [ngClass]="{
                         'sign h-full': !instance().dataValue
@@ -125,6 +126,22 @@ export class SignatureOverlay {
                         <img style="width: 100%; display: inherit;" #img>
                     }
                 </div>
+                <mtx-popover #popover="mtxPopover"
+                             [enterDelay]="enterDelay"
+                             [leaveDelay]="leaveDelay"
+                             [position]="[positionStart, positionEnd]"
+                             [xOffset]="xOffset"
+                             [yOffset]="yOffset"
+                             [closeOnPanelClick]="false"
+                             [closeOnBackdropClick]="false"
+                             [focusTrapEnabled]="true"
+                             [hasBackdrop]="true">
+                    <ng-template mtxPopoverContent let-instance="instance">
+                        <div>
+                            <signature-overlay [instance]="instance"/>
+                        </div>
+                    </ng-template>
+                </mtx-popover>
             } @else {
                 <div>
                     <mat-formio-form-field [component]="component"
@@ -177,7 +194,11 @@ export class SignatureOverlay {
         MatButtonModule,
         MatIconModule,
         FormioFormFieldComponent,
-        LabelComponent
+        LabelComponent,
+        MtxPopover,
+        MtxPopoverContent,
+        SignatureOverlay,
+        MtxPopoverTrigger
     ],
     styles: [
         `
@@ -197,7 +218,14 @@ export class MaterialSignatureComponent extends MaterialComponent {
     img = viewChild('img', {read: ElementRef});
     refresh = viewChild('refresh', {read: ElementRef})
     template = viewChild(TemplateRef);
-    popover = inject(PopoverService);
+    popoverTrigger = viewChild<MtxPopoverTrigger>('popoverTrigger');
+    enterDelay = 100;
+    leaveDelay = 100;
+    xOffset = -10;
+    yOffset = -10;
+
+    positionStart: MtxPopoverPositionStart = 'below';
+    positionEnd: MtxPopoverPositionEnd = 'after';
 
     constructor() {
         super();
@@ -221,37 +249,14 @@ export class MaterialSignatureComponent extends MaterialComponent {
 
     padClicked() {
         if (!this.isReadOnly) {
-            const popoverRef = this.popover.open({
-                content: SignatureOverlay,
-                origin: this.element.nativeElement,
-                offsetY: 20,
-                position: [
-                    {
-                        originX: 'start',
-                        originY: 'center',
-                        overlayX: 'start',
-                        overlayY: 'center'
-                    },
-                    {
-                        originX: 'end',
-                        originY: 'bottom',
-                        overlayX: 'end',
-                        overlayY: 'center'
-                    }
-                ]
-            });
-            popoverRef.afterClosed$.subscribe(_ => {
-                if (this.img()) {
-                    this.img()!.nativeElement.src = this.instance().dataValue;
-                }
-            });
-            eventBus.on('instanceInitialized', (id) => {
-                eventBus.emit('setSignatureInstance', null, id, this.instance());
-            });
+            this.popoverTrigger().openPopover();
 
             eventBus.on('instanceClosed', (id) => {
                 if (id === this.component.id) {
-                    popoverRef.close();
+                    this.popoverTrigger().closePopover();
+                    if (this.img()) {
+                        this.img()!.nativeElement.src = this.instance().dataValue;
+                    }
                 }
             });
         }
